@@ -2,6 +2,11 @@ import 'package:flutter/material.dart';
 import 'screen/test.dart';
 import 'screen/splashscreen.dart';
 
+import 'admin/adminregister.dart';
+import 'admin/workerregister.dart';
+import 'screen/adminlogin.dart';
+import 'screen/workerlogin.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -33,6 +38,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
+      //home: workerregister(),
       home: SplashScreen(),
     );
   }

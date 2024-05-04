@@ -1,14 +1,16 @@
+import 'package:flow_suksesmotor/admin/adminregister.dart';
+import 'package:flow_suksesmotor/admin/workerregister.dart';
 import 'package:flutter/material.dart';
-import 'workerlogin.dart';
-import 'adminlogin.dart';
-import 'logintest.dart';
 
-class InitialScreen extends StatelessWidget {
+
+class RegisterScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Initial Screen'),
+        
+        title: Text('Register Screen'),
+        
       ),
       body: Center(
         child: Column(
@@ -31,7 +33,7 @@ class InitialScreen extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => LoginAdmin()),
+                        builder: (context) => adminregister()),
                   );
                 },
                 child: Text('Admin'),
@@ -47,7 +49,7 @@ class InitialScreen extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => LoginWorker()),
+                        builder: (context) => workerregister()),
                   );
                 },
                 child: Text('Worker'),
