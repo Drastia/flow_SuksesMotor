@@ -1,3 +1,5 @@
+import 'package:flow_suksesmotor/admin/add_item.dart';
+import 'package:flow_suksesmotor/admin/list_item.dart';
 import 'package:flow_suksesmotor/screen/initialscreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flow_suksesmotor/admin/registerScreen.dart';
@@ -33,12 +35,33 @@ class AdminDashboard extends StatelessWidget {
       logo: Icon(Icons.logout, size: 100),
       name: 'Logout',
       onTap: (BuildContext context) {
-        Navigator.pushReplacement(
+        Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => InitialScreen()),
         );
       },
     ),
+    GridItemData(
+      logo: Image.asset('images/add_item.png', width: 100),
+      name: 'Add Item',
+      onTap: (BuildContext context) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => AddItem()),
+        );
+      },
+    ),
+    GridItemData(
+      logo: Image.asset('images/list_item.png', width: 100),
+      name: 'Item List',
+      onTap: (BuildContext context) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => ListItem()),
+        );
+      },
+    ),
+   
     // Add more GridItemData objects for additional grid items
   ];
 

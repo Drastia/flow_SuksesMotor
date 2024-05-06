@@ -1,0 +1,159 @@
+//tampilan list_item.dart yang lama berbentuk tabel data
+
+
+import 'package:flow_suksesmotor/services/globals.dart';
+import 'package:flutter/material.dart';
+import 'package:flow_suksesmotor/services/item_services.dart';
+
+
+class ListItem extends StatefulWidget {
+  @override
+  _ListItemState createState() => _ListItemState();
+}
+
+class _ListItemState extends State<ListItem> {
+  final ItemServices _itemServices = ItemServices();
+  List<Map<String, dynamic>> selectedRows = [];
+  bool isItemSelected = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Item List'),
+      ),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Expanded(
+            child: FutureBuilder(
+              future: _itemServices.fetchItems(),
+              builder: (BuildContext context, AsyncSnapshot<List<dynamic>> snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Center(child: CircularProgressIndicator());
+                } else if (snapshot.hasError) {
+                  return Center(child: Text('Error: ${snapshot.error}'));
+                } else {
+                  List<dynamic> items = snapshot.data!;
+                  return SingleChildScrollView(
+                    scrollDirection: Axis.vertical,
+                    child: SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: DataTable(
+                        columnSpacing: 20,
+                        columns: [
+                          DataColumn(label: Text('Custom ID')),
+                          DataColumn(label: Text('Name')),
+                          DataColumn(label: Text('Brand')),
+                        ],
+                        rows: items
+                            .map(
+                              (item) => DataRow(
+                                cells: [
+                                  DataCell(
+                                    InkWell(
+                                      onTap: () {
+                                        _handleRowSelection(item);
+                                      },
+                                      child: Text('${item['custom_id']}'),
+                                    ),
+                                  ),
+                                  DataCell(
+                                    InkWell(
+                                      onTap: () {
+                                        _handleRowSelection(item);
+                                      },
+                                      child: Text('${item['name']}'),
+                                    ),
+                                  ),
+                                  DataCell(
+                                    InkWell(
+                                      onTap: () {
+                                        _handleRowSelection(item);
+                                      },
+                                      child: Text('${item['brand']}'),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            )
+                            .toList(),
+                      ),
+                    ),
+                  );
+                }
+              },
+            ),
+          ),
+          // Gunakan tombol-tombol ini untuk membatasi akses ke tombol edit dan delete saat tidak ada item yang dipilih
+          ButtonBar(
+            alignment: MainAxisAlignment.center,
+            children: [
+              ElevatedButton(
+                onPressed: isItemSelected ? () {
+                  // Logic untuk tombol Edit
+                } : null,
+                child: Text('Edit', style: TextStyle(color: Colors.white)),
+                style: isItemSelected
+                    ? ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all<Color>(Colors.blue),
+                      )
+                    : ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all<Color>(Colors.blue.withOpacity(0.5)),
+                      ),
+              ),
+              ElevatedButton(
+                onPressed: isItemSelected ? () {
+                  _deleteSelectedItems();
+                } : null,
+                child: Text('Delete', style: TextStyle(color: Colors.white)),
+                style: isItemSelected
+                    ? ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all<Color>(Colors.red),
+                      )
+                    : ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all<Color>(Colors.red.withOpacity(0.5)),
+                      ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _handleRowSelection(Map<String, dynamic> item) {
+    setState(() {
+      if (selectedRows.contains(item)) {
+        selectedRows.remove(item);
+      } else {
+        selectedRows.clear();
+        selectedRows.add(item);
+      }
+      isItemSelected = selectedRows.isNotEmpty;
+    });
+  }
+
+  Future<void> _deleteSelectedItems() async {
+  List<String> deletedCustomIDs = []; // Store custom IDs of deleted items
+
+  // Menghapus item-item yang dipilih
+  for (var item in selectedRows) {
+    // Mengambil ID item untuk dihapus
+    var itemId = item['id']; // Ganti 'id' dengan kunci yang sesuai untuk ID item di API Anda
+    // Menyimpan custom ID sebelum menghapus item
+    deletedCustomIDs.add(item['custom_id']);
+    // Memanggil fungsi deleteItem dari ItemServices untuk menghapus item dengan ID tertentu
+    await _itemServices.deleteItem(itemId);
+  }
+
+  // Menampilkan pesan sukses setelah menghapus item
+  successSnackBar(context, 'Item dengan ID ${deletedCustomIDs.join(', ')} berhasil dihapus!');
+
+  // Mengosongkan daftar item yang dipilih setelah dihapus
+  setState(() {
+    selectedRows.clear();
+    isItemSelected = false;
+  });
+}
+}
