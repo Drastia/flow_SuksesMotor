@@ -39,7 +39,7 @@ class AuthController extends Controller
         //validate
         $rules=[
             'worker_name' =>'required|string',
-            'worker_username'=>'required|string|unique:worker_table',
+            'worker_username'=>'required|string|unique:workers',
             'worker_password'=>'required|string|min:6'
         ];
         $validator = Validator::make($req->all(), $rules);
