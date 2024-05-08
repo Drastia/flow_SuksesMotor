@@ -1,4 +1,5 @@
 import 'package:flow_suksesmotor/admin/add_item.dart';
+import 'package:flow_suksesmotor/admin/checking_history.dart';
 import 'package:flow_suksesmotor/admin/list_item.dart';
 import 'package:flow_suksesmotor/screen/initialscreen.dart';
 import 'package:flutter/material.dart';
@@ -69,7 +70,7 @@ class AdminDashboard extends StatelessWidget {
       onTap: (BuildContext context) {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => AddItem()),
+          MaterialPageRoute(builder: (context) => OrderItem()),
         );
       },
     ),
@@ -89,7 +90,7 @@ class AdminDashboard extends StatelessWidget {
       onTap: (BuildContext context) {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => AddItem()),
+          MaterialPageRoute(builder: (context) => CheckingHistory()),
         );
       },
     ),
