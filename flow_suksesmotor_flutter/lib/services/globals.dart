@@ -12,7 +12,7 @@ import 'package:flutter/material.dart';
 //then on cmd in laptop type ipconfig and look for ipv4 ip address on the wifi IP
 //copy it and paste on this baseURL variable then type "php artisan serve --host 0.0.0.0" on this terminal 
 //DONT CHANGE THE :8000/api/ 
-const String baseURL = "http://192.168.1.3:8000/api/";
+const String baseURL = "http://127.0.0.1:8000/api/";
 const Map<String, String> headers = {"Content-Type" : "application/json", 'Accept' : 'application/json'};
 
 errorSnackBar(BuildContext context, String text){
