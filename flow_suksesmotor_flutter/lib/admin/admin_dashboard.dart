@@ -83,6 +83,16 @@ class AdminDashboard extends StatelessWidget {
         );
       },
     ),
+    GridItemData(
+      logo: Image.asset('', width: 100),
+      name: 'History Check',
+      onTap: (BuildContext context) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => AddItem()),
+        );
+      },
+    ),
    
     // Add more GridItemData objects for additional grid items
   ];
