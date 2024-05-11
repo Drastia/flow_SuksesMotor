@@ -1,8 +1,11 @@
 import 'package:flow_suksesmotor/admin/add_item.dart';
+import 'package:flow_suksesmotor/admin/checking_history.dart';
 import 'package:flow_suksesmotor/admin/list_item.dart';
 import 'package:flow_suksesmotor/screen/initialscreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flow_suksesmotor/admin/registerScreen.dart';
+import 'package:flow_suksesmotor/admin/order_item.dart';
+
 
 class GridItemData {
   final Widget logo;
@@ -58,6 +61,36 @@ class AdminDashboard extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => ListItem()),
+        );
+      },
+    ),
+    GridItemData(
+      logo: Image.asset('', width: 100),
+      name: 'Order Item',
+      onTap: (BuildContext context) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => OrderItem()),
+        );
+      },
+    ),
+    GridItemData(
+      logo: Image.asset('', width: 100),
+      name: 'Order List',
+      onTap: (BuildContext context) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => ListItem()),
+        );
+      },
+    ),
+    GridItemData(
+      logo: Image.asset('', width: 100),
+      name: 'History Check',
+      onTap: (BuildContext context) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => CheckingHistory()),
         );
       },
     ),
