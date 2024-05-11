@@ -22,7 +22,7 @@ class WorkerDashboard extends StatelessWidget {
   final List<GridItemData> gridItems = [
     GridItemData(
       logo: FlutterLogo(size: 100),
-      name: 'Register User',
+      name: 'Scan Barang',
       onTap: (BuildContext context) {
         Navigator.push(
           context,
@@ -32,7 +32,7 @@ class WorkerDashboard extends StatelessWidget {
     ),
     GridItemData(
       logo: Icon(Icons.logout, size: 100),
-      name: 'Logout',
+      name: 'Check Order',
       onTap: (BuildContext context) {
         Navigator.pushReplacement(
           context,

@@ -46,44 +46,56 @@ class _AddItemState extends State<AddItem> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Add Item'),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            TextField(
-              controller: customIdController,
-              decoration: InputDecoration(
-                  labelText: 'ID barang', hintText: 'min 6 huruf/angka'),
-              onChanged: (value) {
-                // Convert the value to uppercase and set it back to the controller
-                customIdController.value = customIdController.value.copyWith(
-                  text: value.toUpperCase(), // Convert value to uppercase
-                  selection: TextSelection.collapsed( 
-                      offset: value.length), // Maintain cursor position
-                );
-              },
-            ),
-            TextField(
-              controller: nameController,
-              decoration: InputDecoration(
-                  labelText: 'Nama barang', hintText: 'min 6 huruf/angka'),
-            ),
-            TextField(
-              controller: brandController,
-              decoration: InputDecoration(
-                  labelText: 'merk barang', hintText: 'harus diisi'),
-            ),
-            SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: addItem,
-              child: Text('Add Item'),
-            ),
-          ],
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(
+          title: Text('Add Item'),
+        ),
+        body: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              TextField(
+                controller: customIdController,
+                decoration: InputDecoration(
+                    labelText: 'ID barang', hintText: 'min 6 huruf/angka'),
+                onChanged: (value) {
+                  // Convert the value to uppercase and set it back to the controller
+                  customIdController.value = customIdController.value.copyWith(
+                    text: value.toUpperCase(), // Convert value to uppercase
+                    selection: TextSelection.collapsed(offset: value.length), // Maintain cursor position
+                  );
+                },
+              ),
+              TextField(
+                controller: nameController,
+                decoration: InputDecoration(
+                    labelText: 'Nama barang', hintText: 'min 6 huruf/angka'),
+              ),
+              TextField(
+                controller: brandController,
+                decoration: InputDecoration(
+                    labelText: 'Merk barang', hintText: 'harus diisi'),
+              ),
+              SizedBox(height: 20),
+              Center(  // Centering the button
+                child: ElevatedButton(
+                  onPressed: addItem,
+                  child: Text('Add Item'),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.blue,  // Sets the background color of the button
+                    foregroundColor: Colors.white, // Sets the text color of the button
+                    padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20), // Padding inside the button
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10), // Rounded corners
+                    ),
+                    elevation: 5, // Shadow elevation
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
