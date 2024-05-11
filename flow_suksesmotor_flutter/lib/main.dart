@@ -1,3 +1,5 @@
+import 'package:flow_suksesmotor/admin/add_order.dart';
+import 'package:flow_suksesmotor/admin/choose_order_item.dart';
 import 'package:flutter/material.dart';
 import 'screen/test.dart';
 import 'screen/splashscreen.dart';
@@ -38,8 +40,8 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      //home: workerregister(),
-      home: SplashScreen(),
+      //home: SplashScreen(),
+      home: AddOrder(),
     );
   }
 }

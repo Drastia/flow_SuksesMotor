@@ -64,7 +64,9 @@ class OrderController extends Controller
                 'custom_id' => $item['custom_id'],
                 'name' => $item['name'],
                 'brand' => $item['brand'],
-                'Quantity' => $item['Quantity'],
+                'Quantity_ordered' => $item['Quantity_ordered'],
+                'Incoming_Quantity' => 0,
+
             ]);
         }
 

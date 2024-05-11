@@ -1,6 +1,6 @@
 <?php
 
-namespace Database\Seeders;
+namespace database\seeders;
 
 // AdminSeeder.php
 use Illuminate\Database\Seeder;

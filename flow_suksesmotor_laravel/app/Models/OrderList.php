@@ -13,5 +13,5 @@ class OrderList extends Model
 
     protected $table = 'order_list';
     protected $primaryKey = 'id';
-    protected $fillable = ['ID_pemesanan', 'custom_id', 'name', 'brand', 'Quantity'];
+    protected $fillable = ['ID_pemesanan', 'custom_id', 'name', 'brand', 'Quantity_ordered','Incoming_Quantity'];
 }

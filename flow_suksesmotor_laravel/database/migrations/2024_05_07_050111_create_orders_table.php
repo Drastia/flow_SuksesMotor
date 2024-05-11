@@ -27,7 +27,8 @@ return new class extends Migration
             $table->string('custom_id');
             $table->string('name');
             $table->string('brand');
-            $table->integer('Quantity');
+            $table->integer('Quantity_ordered');
+            $table->integer('Incoming_Quantity');
             $table->timestamps();
         });
     }
