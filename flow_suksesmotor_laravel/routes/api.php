@@ -7,11 +7,18 @@ use App\Http\Controllers\ItemController;
 use App\Http\Controllers\OrderController;
 
 
-Route::post('/registerworker', [AuthController::class, 'registerworker']);
-Route::post('/registeradmin', [AuthController::class, 'registeradmin']);
 
-Route::post('/loginworker', [AuthController::class, 'loginworker']);
+Route::post('/registeradmin', [AuthController::class, 'registeradmin']);
 Route::post('/loginadmin', [AuthController::class, 'loginadmin']);
+Route::get('/admin', [AuthController::class, 'indexAdmin']);
+Route::put('/updateadmin/{id}', [AuthController::class, 'updateAdmin']);
+Route::delete('/deleteadmin/{id}', [AuthController::class, 'destroyAdmin']);
+
+Route::post('/registerworker', [AuthController::class, 'registerworker']);
+Route::post('/loginworker', [AuthController::class, 'loginworker']);
+Route::get('/worker', [AuthController::class, 'indexWorker']);
+Route::put('/updateworker/{id}', [AuthController::class, 'updateWorker']);
+Route::delete('/deleteworker/{id}', [AuthController::class, 'destroyWorker']);
 
 Route::get('/getitems', [ItemController::class, 'index']); // GET /items
 Route::post('/storeitems', [ItemController::class, 'store']); // POST /items
@@ -26,8 +33,10 @@ Route::prefix('orders')->group(function () {
     Route::get('/list/{id}', [OrderController::class, 'indexOrderList']);
     Route::get('/{id}', [OrderController::class, 'show']);
     Route::put('/{id}', [OrderController::class, 'updateOrder']);
-    Route::put('/{id}/items', [OrderController::class, 'updateOrderListItems']);
+    //Route::put('/{id}/items', [OrderController::class, 'updateOrderListItems']);
     Route::delete('/{id}', [OrderController::class, 'destroy']);
+    Route::delete('/{id}/items', [OrderController::class, 'destroyItem']);
+    
 });
 
 

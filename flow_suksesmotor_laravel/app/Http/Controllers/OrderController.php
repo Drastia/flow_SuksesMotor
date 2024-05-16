@@ -66,6 +66,7 @@ class OrderController extends Controller
                 'brand' => $item['brand'],
                 'Quantity_ordered' => $item['Quantity_ordered'],
                 'Incoming_Quantity' => 0,
+                'checker_barang' => 'hello',
 
             ]);
         }
@@ -101,49 +102,58 @@ class OrderController extends Controller
 
     // Method to update a specific order
     // Method to update all order list items for a specific order
-public function updateOrderListItems(Request $request, $id): JsonResponse
-{
-    // Validate the incoming request data for order list items
-    $request->validate([
-        'items.*.custom_id' => [
-            'required',
-            function ($attribute, $value, $fail) {
-                // Check if the item with the specified ID exists in the items table
-                $itemExists = Item::where('custom_id', $value)->exists();
-                if (!$itemExists) {
-                    $fail("The $attribute does not exist in the items table.");
-                }
-            },
-        ],
-        'items.*.name' => 'required',
-        'items.*.brand' => 'required',
-        'items.*.Quantity' => 'required|numeric|min:1',
-    ]);
-
-    /// Find the order
-    $order = Order::findOrFail($id);
-
-    // Update order list items
-    foreach ($request->items as $item) {
-        // Find the specific order list item to update
-        $orderListItem = OrderList::where([
-            'ID_pemesanan' => $order->ID_pemesanan,
-            'custom_id' => $item['custom_id'],
-        ])->first();
-
-        // Update the order list item if found
-        if ($orderListItem) {
-            $orderListItem->update([
-                'name' => $item['name'],
-                'brand' => $item['brand'],
-                'Quantity' => $item['Quantity']
-            ]);
+    public function updateOrderListItems(Request $request, $id): JsonResponse
+    {
+        // Validate the incoming request data for order list items
+        $request->validate([
+            'items.*.custom_id' => [
+                'required',
+                function ($attribute, $value, $fail) {
+                    // Check if the item with the specified ID exists in the items table
+                    $itemExists = Item::where('custom_id', $value)->exists();
+                    if (!$itemExists) {
+                        $fail("The $attribute does not exist in the items table.");
+                    }
+                },
+            ],
+            'items.*.name' => 'required',
+            'items.*.brand' => 'required',
+            'items.*.Quantity_ordered' => 'required|numeric|min:1',
+        ]);
+    
+        // Find the order
+        $order = Order::findOrFail($id);
+    
+        // Update or add order list items
+        foreach ($request->items as $item) {
+            // Find the specific order list item to update
+            $orderListItem = OrderList::where([
+                'ID_pemesanan' => $order->ID_pemesanan,
+                'custom_id' => $item['custom_id'],
+            ])->first();
+    
+            // Update the order list item if found, otherwise create a new one
+            if ($orderListItem) {
+                $orderListItem->update([
+                    'name' => $item['name'],
+                    'brand' => $item['brand'],
+                    'Quantity_ordered' => $item['Quantity_ordered']
+                ]);
+            } else {
+                OrderList::create([
+                    'ID_pemesanan' => $order->ID_pemesanan,
+                    'custom_id' => $item['custom_id'],
+                    'name' => $item['name'],
+                    'brand' => $item['brand'],
+                    'Quantity_ordered' => $item['Quantity_ordered']
+                ]);
+            }
         }
+    
+        // Return a JSON response
+        return response()->json(['message' => 'Order list items updated successfully.'], 200);
     }
-
-    // Return a JSON response
-    return response()->json(['message' => 'Order list items updated successfully.'], 200);
-}
+    
 
 
     // Method to delete a specific order
@@ -156,6 +166,17 @@ public function updateOrderListItems(Request $request, $id): JsonResponse
         // Return a JSON response
         return response()->json(['message' => 'Order list deleted successfully.'], 204);
     }
+
+    public function destroyItem($id): JsonResponse
+{
+    // Find the order list item and delete it
+    $orderListItem = OrderList::findOrFail($id);
+    $orderListItem->delete();
+
+    // Return a JSON response
+    return response()->json(['message' => 'Order list item deleted successfully.'], 204);
+}
+
 }
 
 

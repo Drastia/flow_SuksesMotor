@@ -38,4 +38,20 @@ class AuthServices{
   print(response.body);
   return response;
   }
+
+    Future<http.Response> updateWorker(int workerId, Map<String, dynamic> data) async {
+  var result = await http.put(Uri.parse(baseURL + 'updateworker/$workerId'),
+      headers: headers, body: json.encode(data));
+  return result;
+}
+  
+  Future<http.Response> deleteWorker(int workerId) async {
+    var result = await http.delete(Uri.parse(baseURL+'deleteworker/$workerId'), headers: headers);
+    return result;
+  } 
+
+   Future<List<dynamic>> fetchWorker() async {
+    var result = await http.get(Uri.parse(baseURL+'worker'));
+    return json.decode(result.body);
+  }
 }

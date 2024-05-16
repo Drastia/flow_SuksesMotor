@@ -1,6 +1,9 @@
 import 'package:flow_suksesmotor/admin/add_item.dart';
+import 'package:flow_suksesmotor/admin/add_order.dart';
 import 'package:flow_suksesmotor/admin/checking_history.dart';
+import 'package:flow_suksesmotor/admin/initial_accountlist.dart';
 import 'package:flow_suksesmotor/admin/list_item.dart';
+import 'package:flow_suksesmotor/admin/list_order.dart';
 import 'package:flow_suksesmotor/screen/initialscreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flow_suksesmotor/admin/registerScreen.dart';
@@ -25,7 +28,7 @@ class AdminDashboard extends StatelessWidget {
 
   final List<GridItemData> gridItems = [
     GridItemData(
-      logo: FlutterLogo(size: 100),
+      logo: Image.asset('images/add_user.png', width: 100),
       name: 'Register User',
       onTap: (BuildContext context) {
         Navigator.push(
@@ -35,15 +38,16 @@ class AdminDashboard extends StatelessWidget {
       },
     ),
     GridItemData(
-      logo: Icon(Icons.logout, size: 100),
-      name: 'Logout',
+      logo: Image.asset('images/list_user.png', width: 100),
+      name: 'list User',
       onTap: (BuildContext context) {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => InitialScreen()),
+          MaterialPageRoute(builder: (context) => InitialAccountList()),
         );
       },
     ),
+    
     GridItemData(
       logo: Image.asset('images/add_item.png', width: 100),
       name: 'Add Item',
@@ -65,35 +69,36 @@ class AdminDashboard extends StatelessWidget {
       },
     ),
     GridItemData(
-      logo: Image.asset('', width: 100),
-      name: 'Order Item',
+      logo: Image.asset('images/add_order.png', width: 100),
+      name: 'Add Order',
       onTap: (BuildContext context) {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => OrderItem()),
+          MaterialPageRoute(builder: (context) => AddOrder()),
         );
       },
     ),
     GridItemData(
-      logo: Image.asset('', width: 100),
-      name: 'Order List',
+      logo: Image.asset('images/list_order.png', width: 100),
+      name: 'List Order',
       onTap: (BuildContext context) {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => ListItem()),
+          MaterialPageRoute(builder: (context) => ListOrders()),
         );
       },
     ),
     GridItemData(
-      logo: Image.asset('', width: 100),
-      name: 'History Check',
+      logo: Icon(Icons.logout, size: 100),
+      name: 'Logout',
       onTap: (BuildContext context) {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => CheckingHistory()),
+          MaterialPageRoute(builder: (context) => InitialScreen()),
         );
       },
     ),
+    
    
     // Add more GridItemData objects for additional grid items
   ];

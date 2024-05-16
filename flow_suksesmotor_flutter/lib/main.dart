@@ -1,9 +1,13 @@
 import 'package:flow_suksesmotor/admin/add_order.dart';
 import 'package:flow_suksesmotor/admin/choose_order_item.dart';
+import 'package:flow_suksesmotor/admin/initial_accountlist.dart';
+import 'package:flow_suksesmotor/admin/list_item.dart';
+import 'package:flow_suksesmotor/admin/list_order.dart';
+import 'package:flow_suksesmotor/admin/registerScreen.dart';
+import 'package:flow_suksesmotor/admin/worker_accountlist.dart';
 import 'package:flutter/material.dart';
 import 'screen/test.dart';
 import 'screen/splashscreen.dart';
-
 import 'admin/adminregister.dart';
 import 'admin/workerregister.dart';
 import 'screen/adminlogin.dart';
@@ -40,8 +44,11 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      //home: SplashScreen(),
-      home: AddOrder(),
+      home: SplashScreen(),
+      //home: ListOrders(),
+      //home: ListWorker(),
+      //home: InitialAccountList(),
+      //home: RegisterScreen(),
     );
   }
 }

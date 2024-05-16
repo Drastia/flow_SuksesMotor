@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('orders', function (Blueprint $table) {
-            $table->id();
+            $table->bigIncrements('ID_pemesanan');
             $table->date('tanggal_pemesanan');
             $table->date('tanggal_sampai');
             $table->string('nama_vendor');
@@ -23,13 +23,14 @@ return new class extends Migration
         Schema::create('order_list', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('ID_pemesanan');
-            $table->foreign('ID_pemesanan')->references('id')->on('orders')->onDelete('cascade');
+            $table->foreign('ID_pemesanan')->references('ID_pemesanan')->on('orders')->onDelete('cascade');
             $table->string('custom_id');
             $table->string('name');
             $table->string('brand');
 
             $table->integer('Quantity_ordered');
-            $table->integer('Incoming_Quantity');
+            $table->integer('Incoming_Quantity')->default(0);
+            $table->string('checker_barang')->default('');
 
             $table->timestamps();
         });

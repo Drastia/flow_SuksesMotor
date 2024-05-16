@@ -13,5 +13,11 @@ class OrderList extends Model
 
     protected $table = 'order_list';
     protected $primaryKey = 'id';
-    protected $fillable = ['ID_pemesanan', 'custom_id', 'name', 'brand', 'Quantity_ordered','Incoming_Quantity'];
+    protected $fillable = ['ID_pemesanan', 'custom_id', 'name', 'brand', 'Quantity_ordered','Incoming_Quantity'.'checker_barang'];
+
+    public function order()
+    {
+        return $this->belongsTo(Order::class, 'ID_pemesanan', 'ID_pemesanan');
+    }
+
 }

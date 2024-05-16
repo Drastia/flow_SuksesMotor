@@ -11,6 +11,60 @@ class AuthController extends Controller
 {
 
     //
+    public function indexAdmin()
+    {
+        $admin = Admin::all();
+        return response()->json($admin);
+    }
+    public function indexWorker()
+    {
+        $Worker = Worker::all();
+        return response()->json($Worker);
+    }
+
+
+    public function updateAdmin(Request $request, $id)
+    {
+        
+        $admin = Admin::find($id);
+        $admin->update($request->all());
+        return response()->json($admin, 200);
+    }
+
+    public function updateWorker(Request $request, $id)
+    {
+        
+        $worker = Worker::find($id);
+        $worker->update($request->all());
+        return response()->json($worker, 200);
+    }
+
+    public function destroyAdmin($id)
+    {
+        $admin = Admin::find($id);
+    
+        if (!$admin) {
+            return response()->json(['message' => 'Item not found.'], 404);
+        }
+    
+        $admin->delete();
+    
+        return response()->json(null, 204);
+    }
+
+    public function destroyWorker($id)
+    {
+        $worker = Worker::find($id);
+    
+        if (!$worker) {
+            return response()->json(['message' => 'Item not found.'], 404);
+        }
+    
+        $worker->delete();
+    
+        return response()->json(null, 204);
+    }
+
     public function registeradmin(Request $req)
     {
         //validate
