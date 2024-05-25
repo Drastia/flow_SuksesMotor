@@ -56,6 +56,7 @@ class _ListItemState extends State<ListItem> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Item List'),
+        backgroundColor: Color(0xFF52E9AA),
         actions: [
           IconButton(
             icon: Icon(Icons.refresh),
