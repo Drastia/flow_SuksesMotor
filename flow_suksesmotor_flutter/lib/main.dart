@@ -55,8 +55,8 @@ class MyApp extends StatelessWidget {
       //home: ListWorker(),
       //home: InitialAccountList(),
       //home: RegisterScreen(),
-      //home:AdminDashboard(adminName: 'Rivaldo')
-      home: WorkerDashboard(workerName: 'Demo11')
+      home:AdminDashboard(adminName: 'Rivaldo')
+      //home: WorkerDashboard(workerName: 'Demo11')
       //home: WorkerOrderList(workerName: 'Demo11')
       
     );
