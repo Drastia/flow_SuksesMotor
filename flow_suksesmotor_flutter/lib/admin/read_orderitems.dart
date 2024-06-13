@@ -16,6 +16,45 @@ class ReadOrderItems extends StatefulWidget {
 
 class _ReadOrderItemsState extends State<ReadOrderItems> {
   List<Map<String, dynamic>> items = [];
+  List<Map<String, dynamic>> serverItems = [];
+TextEditingController _searchController = TextEditingController();
+  
+  @override
+  void initState() {
+    super.initState();
+    fetchItems();
+    _searchController.addListener(_onSearchChanged);
+  }
+
+  @override
+  void dispose() {
+    _searchController.removeListener(_onSearchChanged);
+    _searchController.dispose();
+    super.dispose();
+  }
+
+  void _onSearchChanged() async {
+    
+      try {
+        var searchedOrderItem = await OrderServices().searchOrderItem(widget.orderId,_searchController.text);
+
+        setState(() {
+          serverItems = searchedOrderItem;
+        });
+      } catch (error) {
+        print('Error searching items: $error');
+      }
+    
+  }
+
+  Future<void> fetchItems() async {
+    var existingItems = await OrderServices().fetchOrderItems(widget.orderId);
+    setState(() {
+      serverItems = existingItems.cast<Map<String, dynamic>>();
+    });
+  }
+
+  
 
   Future<void> refreshItems() async {
     setState(() {});
@@ -42,10 +81,8 @@ class _ReadOrderItemsState extends State<ReadOrderItems> {
   Future<void> updateItems() async {
     List<Map<String, dynamic>> allItems = [];
 
-    // Fetch existing items from the order
-    var existingItems = await OrderServices().fetchOrderItems(widget.orderId);
-    // Cast the existingItems to List<Map<String, dynamic>>
-    allItems.addAll(existingItems.cast<Map<String, dynamic>>());
+    // Add existing server items
+    allItems.addAll(serverItems);
 
     // Add new items
     allItems.addAll(items);
@@ -61,6 +98,7 @@ class _ReadOrderItemsState extends State<ReadOrderItems> {
       );
       setState(() {
         items.clear();
+        fetchItems();
       });
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -75,7 +113,7 @@ class _ReadOrderItemsState extends State<ReadOrderItems> {
       // Order item deleted successfully
       setState(() {
         // Remove the deleted item from the local list
-        items.removeWhere((item) => item['id'] == orderItemId);
+        serverItems.removeWhere((item) => item['id'] == orderItemId);
       });
       successSnackBar(context, 'Delete is successful');
       // Refresh items after deletion
@@ -100,33 +138,39 @@ class _ReadOrderItemsState extends State<ReadOrderItems> {
           ),
           IconButton(
             icon: Icon(Icons.refresh),
-            onPressed: refreshItems,
+            onPressed: fetchItems,
           ),
         ],
       ),
       body: Column(
-        children: [
+        children: [ Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(15.0),
+                color: Colors.grey[200],
+              ),
+              child: TextField(
+                controller: _searchController,
+                decoration: InputDecoration(
+                  labelText: 'Search',
+                  border: InputBorder.none,
+                  prefixIcon: Icon(Icons.search),
+                  contentPadding:
+                      EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
+                ),
+              ),
+            ),
+          ),
           Expanded(
-            child: FutureBuilder(
-              future: OrderServices().fetchOrderItems(
-                  widget.orderId), // Fetch order items for the orderId
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(child: CircularProgressIndicator());
-                } else if (snapshot.hasError) {
-                  return Center(child: Text('Error: ${snapshot.error}'));
-                } else if (!snapshot.hasData ||
-                    (snapshot.data as List).isEmpty) {
-                  return Center(child: Text('No items found.'));
-                } else {
-                  // Display order items
-                  List<dynamic> orderItems = snapshot.data as List<dynamic>;
-                  return ListView.builder(
-                    itemCount: orderItems.length + items.length,
+            child: serverItems.isEmpty && items.isEmpty
+                ? Center(child: Text('No items found.'))
+                : ListView.builder(
+                    itemCount: serverItems.length + items.length,
                     itemBuilder: (context, index) {
-                      if (index < orderItems.length) {
+                      if (index < serverItems.length) {
                         // Display items fetched from the server
-                        var orderItem = orderItems[index];
+                        var orderItem = serverItems[index];
                         return Card(
                           margin: EdgeInsets.all(8),
                           child: ListTile(
@@ -136,12 +180,6 @@ class _ReadOrderItemsState extends State<ReadOrderItems> {
                             trailing: Row(
                               mainAxisSize: MainAxisSize.min,
                               children: [
-                                // IconButton(
-                                //   icon: Icon(Icons.edit),
-                                //   onPressed: () {
-                                //     // Implement edit functionality here
-                                //   },
-                                // ),
                                 IconButton(
                                   icon: Icon(Icons.delete),
                                   onPressed: () {
@@ -154,11 +192,10 @@ class _ReadOrderItemsState extends State<ReadOrderItems> {
                         );
                       } else {
                         // Display items added locally
-                        var newItem = items[index - orderItems.length];
+                        var newItem = items[index - serverItems.length];
                         return Card(
                           margin: EdgeInsets.all(8),
-                          color: Colors.lightGreen[
-                              100], // Set the card color to light green
+                          color: Colors.lightGreen[100], // Set the card color to light green
                           child: ListTile(
                             title: Text('Item: ${newItem['name']}'),
                             subtitle: Text(
@@ -166,13 +203,13 @@ class _ReadOrderItemsState extends State<ReadOrderItems> {
                             trailing: Row(
                               mainAxisSize: MainAxisSize.min,
                               children: [
-                                // IconButton(
-                                //   icon: Icon(Icons.edit),
-                                //   onPressed: null, // Disable edit button
-                                // ),
                                 IconButton(
                                   icon: Icon(Icons.delete),
-                                  onPressed: null, // Disable delete button
+                                  onPressed: () {
+                                    setState(() {
+                                      items.removeAt(index - serverItems.length);
+                                    });
+                                  },
                                 ),
                               ],
                             ),
@@ -180,10 +217,7 @@ class _ReadOrderItemsState extends State<ReadOrderItems> {
                         );
                       }
                     },
-                  );
-                }
-              },
-            ),
+                  ),
           ),
           Padding(
             padding: const EdgeInsets.all(16.0),
@@ -191,11 +225,9 @@ class _ReadOrderItemsState extends State<ReadOrderItems> {
               onPressed: updateItems,
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.green,
-                minimumSize: Size(double.infinity,
-                    50), // Make button full-width and height 50
+                minimumSize: Size(double.infinity, 50), // Make button full-width and height 50
               ),
-              child:
-                  Text('Update Items', style: TextStyle(color: Colors.white)),
+              child: Text('Update Items', style: TextStyle(color: Colors.white)),
             ),
           ),
         ],

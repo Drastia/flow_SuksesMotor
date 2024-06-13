@@ -24,7 +24,7 @@ class _LoginWorkerState extends State<LoginWorker> {
       Map responseMap = jsonDecode(response.body);
       if(response.statusCode==200){
         String workerName = responseMap['worker']['worker_name'];
-        Navigator.push(
+        Navigator.pushReplacement(
                  context, 
                    MaterialPageRoute(
                      builder: (BuildContext context) => WorkerDashboard(workerName : workerName),

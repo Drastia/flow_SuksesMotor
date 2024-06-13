@@ -25,7 +25,7 @@ class _LoginAdminState extends State<LoginAdmin> {
       Map responseMap = jsonDecode(response.body);
       if(response.statusCode==200){
         String adminName = responseMap['admin']['admin_name'];
-        Navigator.push(
+        Navigator.pushReplacement(
                  context, 
                    MaterialPageRoute(
                      builder: (BuildContext context) =>  AdminDashboard(adminName: adminName),

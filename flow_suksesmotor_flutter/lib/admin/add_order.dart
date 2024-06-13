@@ -10,32 +10,29 @@ class AddOrder extends StatefulWidget {
   _AddOrderState createState() => _AddOrderState();
 }
 
-
-
-
 class _AddOrderState extends State<AddOrder> {
   final TextEditingController tanggalPemesananController =
       TextEditingController();
-  final TextEditingController tanggalSampaiController =
-      TextEditingController();
+  final TextEditingController tanggalSampaiController = TextEditingController();
   final TextEditingController namaVendorController = TextEditingController();
   final TextEditingController namaPemesanController = TextEditingController();
   OrderServices _OrderServices = OrderServices();
   List<Map<String, dynamic>> items = [];
 
-  Future<void> _selectDate(BuildContext context, TextEditingController controller) async {
+  Future<void> _selectDate(
+      BuildContext context, TextEditingController controller) async {
     final DateTime? picked = await showDatePicker(
-    context: context,
-    initialDate: DateTime.now(),
-    firstDate: DateTime(2024),
-    lastDate: DateTime(2030),
-  );
-  if (picked != null) {
-    // Update the text field with the selected date
-    setState(() {
-      controller.text = DateFormat('yyyy-MM-dd').format(picked);
-    });
-  }
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2024),
+      lastDate: DateTime(2030),
+    );
+    if (picked != null) {
+      // Update the text field with the selected date
+      setState(() {
+        controller.text = DateFormat('yyyy-MM-dd').format(picked);
+      });
+    }
     if (picked != null && picked != controller.text) {
       // Update the text field with the selected date
       setState(() {
@@ -59,11 +56,21 @@ class _AddOrderState extends State<AddOrder> {
     'Nama_Pemesan': namaPemesanController.text,
     'items': items,
   };
+
+  // Check if orderData is empty or items list is empty
+  if (orderData.values.any((element) => element == null || element.toString().isEmpty) || items.isEmpty) {
+    print('All fields must be filled and there must be an item');
+    errorSnackBar(context, 'All fields must be filled and there must be an item');
+    return;
+  }
+
   print(orderData);
+  
+  // Make the API call if the data is valid
   var response = await _OrderServices.createOrder(orderData);
   print("Response status code: ${response.statusCode}");
   print("Response body: ${response.body}");
-  
+
   if (response.statusCode == 201) {
     // Item added successfully
     print('Item added successfully');
@@ -90,8 +97,6 @@ class _AddOrderState extends State<AddOrder> {
     // You can add code here to show an error message or handle the failure
   }
 }
-
-
   void openItemSelectionScreen() async {
     final newItem = await Navigator.push(
       context,
@@ -99,12 +104,10 @@ class _AddOrderState extends State<AddOrder> {
         builder: (context) => ChooseItemOrder(),
       ),
     );
-    if (newItem != null) { 
+    if (newItem != null) {
       addItem(newItem as Map<String, dynamic>);
     }
   }
-
-  
 
   @override
   Widget build(BuildContext context) {
@@ -118,13 +121,14 @@ class _AddOrderState extends State<AddOrder> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-               TextField(
+              TextField(
                 controller: tanggalPemesananController,
                 decoration: InputDecoration(
                   labelText: "Tanggal Pemesanan",
                   suffixIcon: IconButton(
                     icon: Icon(Icons.calendar_today),
-                    onPressed: () => _selectDate(context, tanggalPemesananController),
+                    onPressed: () =>
+                        _selectDate(context, tanggalPemesananController),
                   ),
                 ),
               ),
@@ -134,7 +138,8 @@ class _AddOrderState extends State<AddOrder> {
                   labelText: "Tanggal Sampai",
                   suffixIcon: IconButton(
                     icon: Icon(Icons.calendar_today),
-                    onPressed: () => _selectDate(context, tanggalSampaiController),
+                    onPressed: () =>
+                        _selectDate(context, tanggalSampaiController),
                   ),
                 ),
               ),
@@ -152,34 +157,34 @@ class _AddOrderState extends State<AddOrder> {
               Container(
                 height: 200.0,
                 child: ListView.builder(
-  itemCount: items.length,
-  itemBuilder: (context, index) {
-    final item = items[index];
-    return Card(
-      child: ListTile(
-        title: Text(item['name']),
-        subtitle: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text('Custom ID: ${item['custom_id']}'),
-            Text('Brand: ${item['brand']}'),
-            Text('Quantity Ordered: ${item['Quantity_ordered']}'),
-          ],
-        ),
-        trailing: IconButton(
-          icon: Icon(Icons.delete, color: Colors.red),
-          onPressed: () {
-            // Remove item from the list
-            setState(() {
-              items.removeAt(index);
-            });
-          },
-        ),
-      ),
-    );
-  },
-),
-
+                  itemCount: items.length,
+                  itemBuilder: (context, index) {
+                    final item = items[index];
+                    return Card(
+                      child: ListTile(
+                        title: Text(item['name']),
+                        subtitle: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text('Custom ID: ${item['custom_id']}'),
+                            Text('Brand: ${item['brand']}'),
+                            Text(
+                                'Quantity Ordered: ${item['Quantity_ordered']}'),
+                          ],
+                        ),
+                        trailing: IconButton(
+                          icon: Icon(Icons.delete, color: Colors.red),
+                          onPressed: () {
+                            // Remove item from the list
+                            setState(() {
+                              items.removeAt(index);
+                            });
+                          },
+                        ),
+                      ),
+                    );
+                  },
+                ),
               ),
               SizedBox(height: 8.0),
               TextButton(
@@ -196,6 +201,5 @@ class _AddOrderState extends State<AddOrder> {
         ),
       ),
     );
-    
   }
 }

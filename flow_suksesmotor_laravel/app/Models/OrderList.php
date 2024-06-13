@@ -13,7 +13,7 @@ class OrderList extends Model
 
     protected $table = 'order_list';
     protected $primaryKey = 'id';
-    protected $fillable = ['ID_pemesanan', 'custom_id', 'name', 'brand', 'Quantity_ordered','Incoming_Quantity'.'checker_barang'];
+    protected $fillable = ['ID_pemesanan', 'custom_id', 'name', 'brand', 'Quantity_ordered','Incoming_Quantity','checker_barang','ismatch'];
 
     public function order()
     {

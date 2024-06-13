@@ -46,10 +46,10 @@ class _AddItemState extends State<AddItem> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
+    return  Scaffold(
         appBar: AppBar(
           title: Text('Add Item'),
+          automaticallyImplyLeading: true,
         ),
         body: Padding(
           padding: const EdgeInsets.all(16.0),
@@ -97,7 +97,7 @@ class _AddItemState extends State<AddItem> {
             ],
           ),
         ),
-      ),
-    );
+      );
+  
   }
 }

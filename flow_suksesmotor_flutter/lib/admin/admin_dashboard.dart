@@ -1,6 +1,7 @@
 import 'package:flow_suksesmotor/admin/add_item.dart';
 import 'package:flow_suksesmotor/admin/add_order.dart';
 import 'package:flow_suksesmotor/admin/checking_history.dart';
+import 'package:flow_suksesmotor/admin/history_order.dart';
 import 'package:flow_suksesmotor/admin/initial_accountlist.dart';
 import 'package:flow_suksesmotor/admin/list_item.dart';
 import 'package:flow_suksesmotor/admin/list_order.dart';
@@ -85,6 +86,16 @@ class AdminDashboard extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => ListOrders()),
+        );
+      },
+    ),
+    GridItemData(
+      logo: Image.asset('images/order_history.png', width: 100),
+      name: 'History Order',
+      onTap: (BuildContext context) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => HistoryOrders()),
         );
       },
     ),

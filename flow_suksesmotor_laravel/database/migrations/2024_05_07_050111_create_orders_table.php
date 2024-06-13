@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Carbon\Carbon;
 
 return new class extends Migration
 {
@@ -17,6 +18,7 @@ return new class extends Migration
             $table->date('tanggal_sampai');
             $table->string('nama_vendor');
             $table->string('nama_pemesan');
+            $table->string('checked')->default('');
             $table->timestamps();
         });
 
@@ -31,6 +33,7 @@ return new class extends Migration
             $table->integer('Quantity_ordered');
             $table->integer('Incoming_Quantity')->default(0);
             $table->string('checker_barang')->default('');
+            $table->string('ismatch')->default('');
 
             $table->timestamps();
         });

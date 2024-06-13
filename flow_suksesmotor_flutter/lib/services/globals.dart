@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 //const String baseURL = "http://127.0.0.1:8000/api/";
 
 //for android emulator
-//const String baseURL = "http://10.0.2.2:8000/api/";
+const String baseURL = "http://10.0.2.2:8000/api/";
 
 //baseURL with physical handphone this api is using wifi IP
 //the IP must connected to the same wifi api first
@@ -14,7 +14,7 @@ import 'package:flutter/material.dart';
 //DONT CHANGE THE :8000/api/ 
 
 //api wifi rumah
-const String baseURL = "http://192.168.1.3:8000/api/";
+//const String baseURL = "http://192.168.1.3:8000/api/";
 
 
 //MDP gedung B

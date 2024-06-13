@@ -14,7 +14,7 @@ class Order extends Model
 
     protected $table = 'orders';
     protected $primaryKey = 'ID_pemesanan';
-    protected $fillable = ['Tanggal_pemesanan', 'Tanggal_sampai', 'Nama_Vendor', 'Nama_Pemesan'];
+    protected $fillable = ['Tanggal_pemesanan', 'Tanggal_sampai', 'Nama_Vendor', 'Nama_Pemesan', 'checked'];
 
     public function orderList()
     {

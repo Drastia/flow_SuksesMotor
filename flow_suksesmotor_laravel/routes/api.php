@@ -28,15 +28,19 @@ Route::put('/updateitems/{id}', [ItemController::class, 'update']); // PUT /item
 Route::delete('/deleteitems/{id}', [ItemController::class, 'destroy']); // DELETE /items/{id}
 
 Route::prefix('orders')->group(function () {
-    Route::get('/', [OrderController::class, 'index']);
+    Route::get('/IndexAftertoday', [OrderController::class, 'IndexAftertoday']);
+    Route::get('/IndexBeforetoday', [OrderController::class, 'IndexBeforetoday']);
     Route::post('/', [OrderController::class, 'store']);
     Route::get('/list/{id}', [OrderController::class, 'indexOrderList']);
-    Route::get('/{id}', [OrderController::class, 'show']);
+    Route::get('/searchOrder/{order}', [OrderController::class, 'searchOrder']);
+    Route::get('/searchOrderHistory/{order}', [OrderController::class, 'searchOrderHistory']);
+    Route::get('/searchOrderItem/{id}/{orderitem}', [OrderController::class, 'searchOrderItem']);
     Route::put('/{id}', [OrderController::class, 'updateOrder']);
-    //Route::put('/{id}/items', [OrderController::class, 'updateOrderListItems']);
+    Route::put('/{id}/items', [OrderController::class, 'updateOrderListItems']);
+    Route::put('/{id}/quantity-item', [OrderController::class, 'updateQuantityArrived']);
     Route::delete('/{id}', [OrderController::class, 'destroy']);
     Route::delete('/{id}/items', [OrderController::class, 'destroyItem']);
-    
+
 });
 
 

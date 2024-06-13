@@ -1,10 +1,14 @@
 import 'package:flow_suksesmotor/admin/add_order.dart';
+import 'package:flow_suksesmotor/admin/admin_dashboard.dart';
 import 'package:flow_suksesmotor/admin/choose_order_item.dart';
 import 'package:flow_suksesmotor/admin/initial_accountlist.dart';
 import 'package:flow_suksesmotor/admin/list_item.dart';
 import 'package:flow_suksesmotor/admin/list_order.dart';
+import 'package:flow_suksesmotor/admin/order_item.dart';
 import 'package:flow_suksesmotor/admin/registerScreen.dart';
 import 'package:flow_suksesmotor/admin/worker_accountlist.dart';
+import 'package:flow_suksesmotor/worker/worker_dashboard.dart';
+import 'package:flow_suksesmotor/worker/worker_order_list.dart';
 import 'package:flutter/material.dart';
 import 'screen/test.dart';
 import 'screen/splashscreen.dart';
@@ -44,11 +48,16 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: SplashScreen(),
+      //home: SplashScreen(),
       //home: ListOrders(),
+      //home: OrderItem(),
       //home: ListWorker(),
       //home: InitialAccountList(),
       //home: RegisterScreen(),
+      //home:AdminDashboard(adminName: 'Rivaldo')
+      home: WorkerDashboard(workerName: 'Demo11')
+      //home: WorkerOrderList(workerName: 'Demo11')
+      
     );
   }
 }
