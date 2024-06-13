@@ -28,6 +28,7 @@ class _AddOrderState extends State<AddOrder> {
       lastDate: DateTime(2030),
     );
     if (picked != null) {
+
       // Update the text field with the selected date
       setState(() {
         controller.text = DateFormat('yyyy-MM-dd').format(picked);
@@ -35,6 +36,7 @@ class _AddOrderState extends State<AddOrder> {
     }
     if (picked != null && picked != controller.text) {
       // Update the text field with the selected date
+
       setState(() {
         controller.text = DateFormat('yyyy-MM-dd').format(picked);
       });
@@ -48,6 +50,7 @@ class _AddOrderState extends State<AddOrder> {
   }
 
   void createOrder() async {
+
   // Prepare the order data
   Map<String, dynamic> orderData = {
     'Tanggal_pemesanan': tanggalPemesananController.text,
@@ -97,6 +100,7 @@ class _AddOrderState extends State<AddOrder> {
     // You can add code here to show an error message or handle the failure
   }
 }
+
   void openItemSelectionScreen() async {
     final newItem = await Navigator.push(
       context,
@@ -114,6 +118,8 @@ class _AddOrderState extends State<AddOrder> {
     return Scaffold(
       appBar: AppBar(
         title: Text("Order Form"),
+        backgroundColor: Color(0xFF52E9AA),
+        elevation: 0,
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -125,34 +131,72 @@ class _AddOrderState extends State<AddOrder> {
                 controller: tanggalPemesananController,
                 decoration: InputDecoration(
                   labelText: "Tanggal Pemesanan",
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.black),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.black, width: 2.0),
+                  ),
                   suffixIcon: IconButton(
-                    icon: Icon(Icons.calendar_today),
-                    onPressed: () =>
-                        _selectDate(context, tanggalPemesananController),
+                    icon: Icon(Icons.calendar_today, color: Color(0xFF52E9AA)),
+                    onPressed: () => _selectDate(context, tanggalPemesananController),
+
                   ),
                 ),
               ),
+              SizedBox(height: 16.0),
               TextField(
                 controller: tanggalSampaiController,
                 decoration: InputDecoration(
                   labelText: "Tanggal Sampai",
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.black),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.black, width: 2.0),
+                  ),
                   suffixIcon: IconButton(
-                    icon: Icon(Icons.calendar_today),
-                    onPressed: () =>
-                        _selectDate(context, tanggalSampaiController),
+
+                    icon: Icon(Icons.calendar_today, color: Color(0xFF52E9AA)),
+                    onPressed: () => _selectDate(context, tanggalSampaiController),
+
                   ),
                 ),
               ),
+              SizedBox(height: 16.0),
               TextField(
                 controller: namaVendorController,
-                decoration: InputDecoration(labelText: "Nama Vendor"),
-              ),
-              TextField(
-                controller: namaPemesanController,
-                decoration: InputDecoration(labelText: "Nama Pemesan"),
+                decoration: InputDecoration(
+                  labelText: "Nama Vendor",
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.black),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.black, width: 2.0),
+                  ),
+                ),
               ),
               SizedBox(height: 16.0),
-              Text("Items"),
+              TextField(
+                controller: namaPemesanController,
+                decoration: InputDecoration(
+                  labelText: "Nama Pemesan",
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.black),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.black, width: 2.0),
+                  ),
+                ),
+              ),
+              SizedBox(height: 16.0),
+              Text(
+                "Items",
+                style: TextStyle(
+                  fontSize: 16.0,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
               SizedBox(height: 8.0),
               Container(
                 height: 200.0,
@@ -168,14 +212,15 @@ class _AddOrderState extends State<AddOrder> {
                           children: [
                             Text('Custom ID: ${item['custom_id']}'),
                             Text('Brand: ${item['brand']}'),
+
                             Text(
                                 'Quantity Ordered: ${item['Quantity_ordered']}'),
+
                           ],
                         ),
                         trailing: IconButton(
                           icon: Icon(Icons.delete, color: Colors.red),
                           onPressed: () {
-                            // Remove item from the list
                             setState(() {
                               items.removeAt(index);
                             });
@@ -189,12 +234,26 @@ class _AddOrderState extends State<AddOrder> {
               SizedBox(height: 8.0),
               TextButton(
                 onPressed: openItemSelectionScreen,
-                child: Text("Add Item"),
+                style: TextButton.styleFrom(
+                  backgroundColor: Colors.blue,
+                  padding: EdgeInsets.symmetric(vertical: 16.0),
+                ),
+                child: Text(
+                  "Add Item",
+                  style: TextStyle(color: Colors.white),
+                ),
               ),
               SizedBox(height: 16.0),
               ElevatedButton(
-                onPressed: createOrder,
-                child: Text("Create Order"),
+                onPressed: items.isEmpty ? null : createOrder,
+                style: ElevatedButton.styleFrom(
+                  padding: EdgeInsets.symmetric(vertical: 16.0),
+                  backgroundColor: items.isEmpty ? Colors.grey : Colors.green,
+                ),
+                child: Text(
+                  "Create Order",
+                  style: TextStyle(color: Colors.white),
+                ),
               ),
             ],
           ),

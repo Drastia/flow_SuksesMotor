@@ -27,20 +27,16 @@ class _AddItemState extends State<AddItem> {
     if (response.statusCode == 201) {
       // Item added successfully
       print('Item added successfully');
-      // You can add code here to show a success message or navigate to another screen
       successSnackBar(context, 'Item added successfully');
     } else if (customIdController.text.isEmpty ||
         nameController.text.isEmpty ||
         brandController.text.isEmpty) {
-      // Show error snack bar if any field is empty
       errorSnackBar(context, 'Please fill in all fields');
       return;
     } else {
-      // Error adding item
       print('Error adding item: ${response.statusCode}');
       errorSnackBar(context,
           'Item sudah ada karena terdapat kesamaan ID item atau Nama item, ${response.statusCode}');
-      // You can add code here to show an error message
     }
   }
 
@@ -49,7 +45,12 @@ class _AddItemState extends State<AddItem> {
     return  Scaffold(
         appBar: AppBar(
           title: Text('Add Item'),
+
           automaticallyImplyLeading: true,
+
+          backgroundColor: Color(0xFF52E9AA),
+          elevation: 0,
+
         ),
         body: Padding(
           padding: const EdgeInsets.all(16.0),
@@ -59,38 +60,85 @@ class _AddItemState extends State<AddItem> {
               TextField(
                 controller: customIdController,
                 decoration: InputDecoration(
-                    labelText: 'ID barang', hintText: 'min 6 huruf/angka'),
+                  labelText: 'ID barang',
+                  hintText: 'min 6 huruf/angka',
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  filled: true,
+                  fillColor: Colors.grey[200],
+                  contentPadding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 15.0),
+                ),
                 onChanged: (value) {
-                  // Convert the value to uppercase and set it back to the controller
                   customIdController.value = customIdController.value.copyWith(
-                    text: value.toUpperCase(), // Convert value to uppercase
-                    selection: TextSelection.collapsed(offset: value.length), // Maintain cursor position
+                    text: value.toUpperCase(),
+                    selection: TextSelection.collapsed(offset: value.length),
                   );
                 },
               ),
+              SizedBox(height: 10),
               TextField(
                 controller: nameController,
                 decoration: InputDecoration(
-                    labelText: 'Nama barang', hintText: 'min 6 huruf/angka'),
+                  labelText: 'Nama barang',
+                  hintText: 'min 6 huruf/angka',
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  filled: true,
+                  fillColor: Colors.grey[200],
+                  contentPadding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 15.0),
+                ),
               ),
+              SizedBox(height: 10),
               TextField(
                 controller: brandController,
                 decoration: InputDecoration(
-                    labelText: 'Merk barang', hintText: 'harus diisi'),
+                  labelText: 'Merk barang',
+                  hintText: 'harus diisi',
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  filled: true,
+                  fillColor: Colors.grey[200],
+                  contentPadding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 15.0),
+                ),
               ),
               SizedBox(height: 20),
-              Center(  // Centering the button
-                child: ElevatedButton(
-                  onPressed: addItem,
-                  child: Text('Add Item'),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.blue,  // Sets the background color of the button
-                    foregroundColor: Colors.white, // Sets the text color of the button
-                    padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20), // Padding inside the button
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10), // Rounded corners
+              Center(
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(30.0),
+                    gradient: LinearGradient(
+                      colors: [Colors.blue, Colors.blueAccent],
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
                     ),
-                    elevation: 5, // Shadow elevation
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.blueAccent.withOpacity(0.5),
+                        spreadRadius: 5,
+                        blurRadius: 10,
+                        offset: Offset(0, 3),
+                      ),
+                    ],
+                  ),
+                  child: ElevatedButton(
+                    onPressed: addItem,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.transparent,
+                      shadowColor: Colors.transparent,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30.0),
+                      ),
+                      padding: const EdgeInsets.symmetric(horizontal: 40.0, vertical: 20.0),
+                      foregroundColor: Colors.white,
+                      textStyle: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    child: Text('Add Item'),
                   ),
                 ),
               ),
