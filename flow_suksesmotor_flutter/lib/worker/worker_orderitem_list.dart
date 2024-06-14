@@ -1,3 +1,4 @@
+import 'package:flow_suksesmotor/worker/OCR_scanner.dart';
 import 'package:flutter/material.dart';
 import 'package:flow_suksesmotor/services/order_services.dart';
 
@@ -78,7 +79,10 @@ class _WorkerOrderListItemsState extends State<WorkerOrderListItems> {
           IconButton(
             icon: Image.asset('images/scanner.png', width: 24),
             onPressed: () {
-              // Handle camera icon press
+              Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => OcrScanner()),
+          );
             },
           ),
         ],

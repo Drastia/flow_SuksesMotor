@@ -8,6 +8,7 @@ import 'package:flow_suksesmotor/admin/list_order.dart';
 import 'package:flow_suksesmotor/admin/order_item.dart';
 import 'package:flow_suksesmotor/admin/registerScreen.dart';
 import 'package:flow_suksesmotor/admin/worker_accountlist.dart';
+import 'package:flow_suksesmotor/worker/OCR_scanner.dart';
 import 'package:flow_suksesmotor/worker/worker_dashboard.dart';
 import 'package:flow_suksesmotor/worker/worker_order_list.dart';
 import 'package:flutter/material.dart';
@@ -55,9 +56,10 @@ class MyApp extends StatelessWidget {
       //home: ListWorker(),
       //home: InitialAccountList(),
       //home: RegisterScreen(),
-      home:AdminDashboard(adminName: 'Rivaldo')
+      //home:AdminDashboard(adminName: 'Rivaldo')
       //home: WorkerDashboard(workerName: 'Demo11')
       //home: WorkerOrderList(workerName: 'Demo11')
+      home: OcrScanner()
       
     );
   }
