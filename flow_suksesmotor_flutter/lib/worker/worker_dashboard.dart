@@ -48,7 +48,7 @@ class WorkerDashboard extends StatelessWidget {
         logo: Icon(Icons.logout, size: 100),
         name: 'Logout',
         onTap: (BuildContext context) {
-          Navigator.push(
+          Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => InitialScreen()),
         );

@@ -50,7 +50,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      //home: SplashScreen(),
+      home: SplashScreen(),
       //home: ListOrders(),
       //home: OrderItem(),
       //home: ListWorker(),
@@ -59,7 +59,7 @@ class MyApp extends StatelessWidget {
       //home:AdminDashboard(adminName: 'Rivaldo')
       //home: WorkerDashboard(workerName: 'Demo11')
       //home: WorkerOrderList(workerName: 'Demo11')
-      home: OcrScanner()
+      //home: OcrScanner(orderId: 1,workerName: 'Demo11',items: [],)
       
     );
   }

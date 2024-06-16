@@ -69,6 +69,7 @@ class _WorkerOrderListItemsState extends State<WorkerOrderListItems> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      
       appBar: AppBar(
         title: Text('Worker order Items'),
         actions: [
@@ -80,9 +81,19 @@ class _WorkerOrderListItemsState extends State<WorkerOrderListItems> {
             icon: Image.asset('images/scanner.png', width: 24),
             onPressed: () {
               Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => OcrScanner()),
-          );
+  context,
+  MaterialPageRoute(
+    builder: (context) => OcrScanner(
+      orderId: widget.orderId,
+      workerName: widget.workerName,
+      items: items,
+    ),
+  ),
+).then((result) {
+  if (result ?? false) {
+    fetchItems(); // Refresh items after successful update
+  }
+});
             },
           ),
         ],
@@ -113,7 +124,7 @@ class _WorkerOrderListItemsState extends State<WorkerOrderListItems> {
               itemCount: items.length,
               itemBuilder: (context, index) {
                 var orderItem = items[index];
-
+                
                 return Card(
                   margin: EdgeInsets.all(8),
                   color: orderItem['ismatch'] == ''
@@ -143,6 +154,9 @@ class _WorkerOrderListItemsState extends State<WorkerOrderListItems> {
                                   onChanged: (value) {
                                     if (value.isNotEmpty) {
                                       setState(() {
+                                        //masih ngebug
+                                        //dk pacak masuki huruf dan simbol jadi bikin exception
+                                        //ini juga berlaku ke semua hal yang harus diisi
                                         orderItem['Incoming_Quantity'] = int.parse(value);
                                       });
                                     }

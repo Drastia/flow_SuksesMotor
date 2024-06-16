@@ -260,6 +260,7 @@ public function searchOrderItem($id,$query){
     $orderListItem = OrderList::where([
         'ID_pemesanan' => $id,
         'custom_id' => $item['custom_id'],
+        'name'=> $item['name'],
     ])->first();
 
     // Update the order list item if found, otherwise return a not found response

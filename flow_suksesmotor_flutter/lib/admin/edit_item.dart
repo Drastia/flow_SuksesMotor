@@ -96,10 +96,12 @@ class _EditItemState extends State<EditItem> {
                   labelText: 'merk barang', hintText: 'harus diisi'),
             ),
             SizedBox(height: 20),
-            ElevatedButton(
+            Center(
+              child: ElevatedButton(
               onPressed: _updateItem,
-              child: Text('Add Item'),
-            ),
+              child: Text('Edit Item'),
+            ),)
+            
           ],
         ),
       ),
