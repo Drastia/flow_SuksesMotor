@@ -82,66 +82,82 @@ class _EditOrderListState extends State<EditOrderList> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Edit Order'),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
+Widget build(BuildContext context) {
+  return Scaffold(
+    appBar: AppBar(
+      title: Text('Edit Order'),
+        backgroundColor: Color(0xFF52E9AA),
+    ),
+    body: Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: SingleChildScrollView(
         child: Center(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              SizedBox(
-                width: 350,
-                child: TextField(
-                  controller: vendorController,
-                  decoration: InputDecoration(
-                    labelText: 'Vendor',
+            children: <Widget>[
+              SizedBox(height: 5.0),
+              TextField(
+                controller: tanggalPemesananController,
+                decoration: InputDecoration(
+                  labelText: "Tanggal Pemesanan",
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.black),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.black, width: 2.0),
+                  ),
+                  suffixIcon: IconButton(
+                    icon: Icon(Icons.calendar_today, color: Color(0xFF52E9AA)),
+                    onPressed: () => _selectDate(context, tanggalPemesananController),
                   ),
                 ),
               ),
-              SizedBox(
-                width: 350,
-                child: TextField(
-                  controller: pemesanController,
-                  decoration: InputDecoration(
-                    labelText: 'Pemesan',
+              SizedBox(height: 16.0),
+              TextField(
+                controller: tanggalSampaiController,
+                decoration: InputDecoration(
+                  labelText: "Tanggal Sampai",
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.black),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.black, width: 2.0),
+                  ),
+                  suffixIcon: IconButton(
+                    icon: Icon(Icons.calendar_today, color: Color(0xFF52E9AA)),
+                    onPressed: () => _selectDate(context, tanggalSampaiController),
                   ),
                 ),
               ),
-              SizedBox(
-                width: 350,
-                child: TextField(
-                  controller: tanggalPemesananController,
-                  readOnly: true,
-                  onTap: () {
-                    _selectDate(context, tanggalPemesananController);
-                  },
-                  decoration: InputDecoration(
-                    labelText: 'Tanggal Pemesanan',
-                    suffixIcon: Icon(Icons.calendar_today),
+              SizedBox(height: 16.0),
+              TextField(
+                controller: vendorController,
+                decoration: InputDecoration(
+                  labelText: "Nama Vendor",
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.black),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.black, width: 2.0),
                   ),
                 ),
               ),
-              SizedBox(
-                width: 350,
-                child: TextField(
-                  controller: tanggalSampaiController,
-                  readOnly: true,
-                  onTap: () {
-                    _selectDate(context, tanggalSampaiController);
-                  },
-                  decoration: InputDecoration(
-                    labelText: 'Tanggal Sampai',
-                    suffixIcon: Icon(Icons.calendar_today),
+              SizedBox(height: 16.0),
+              TextField(
+                controller: pemesanController,
+                decoration: InputDecoration(
+                  labelText: "Nama Pemesan",
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.black),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.black, width: 2.0),
                   ),
                 ),
               ),
               SizedBox(height: 20),
               ElevatedButton(
-                onPressed: _submitEdit, // Call _submitEdit function
+                onPressed: _submitEdit,
                 style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.all<Color>(Colors.green),
                 ),
@@ -150,10 +166,14 @@ class _EditOrderListState extends State<EditOrderList> {
                   style: TextStyle(color: Colors.white),
                 ),
               ),
+              SizedBox(height: 16.0), // Add additional spacing at the bottom
             ],
           ),
         ),
       ),
-    );
-  }
+    ),
+  );
 }
+
+  }
+

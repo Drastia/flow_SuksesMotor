@@ -81,7 +81,8 @@ class _HistoryOrdersState extends State<HistoryOrders> {
     print(orders);
     return Scaffold(
       appBar: AppBar(
-        title: Text('Order List'),
+        title: Text('Order History List'),
+        backgroundColor: Color(0xFF52E9AA),
         actions: [
           IconButton(
             icon: Icon(Icons.refresh),
@@ -128,11 +129,19 @@ class _HistoryOrdersState extends State<HistoryOrders> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          'ID pemesanan : ${orders[index]['ID_pemesanan']}',
-                          style: TextStyle(
-                              fontSize: 20.0, fontWeight: FontWeight.bold),
-                        ),
+                        Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  'ID pemesanan : ${orders[index]['ID_pemesanan']}',
+                                  style: TextStyle(
+                                    fontSize: 20.0,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                _buildCheckIcon(orders[index]),
+                              ],
+                            ),
 
                         // Date centered
                         Row(

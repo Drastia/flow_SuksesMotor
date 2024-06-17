@@ -1,3 +1,4 @@
+import 'package:flow_suksesmotor/services/globals.dart';
 import 'package:flutter/material.dart';
 import 'package:flow_suksesmotor/services/item_services.dart';
 
@@ -57,12 +58,20 @@ class _ChooseItemOrderEditState extends State<ChooseItemOrderEdit> {
               child: Text('Add Item'),
               onPressed: () {
                 if (_quantityController.text.isNotEmpty) {
+                  if (RegExp(r'^\d+$').hasMatch(_quantityController.text)) {
                   setState(() {
                     _selectedItem = Map.from(item);
                     _selectedItem!['Quantity_ordered'] = _quantityController.text;
                   });
                   Navigator.pop(context);
                   Navigator.pop(context, _selectedItem);
+                  }else{
+                     errorSnackBar(context,
+                        'Please enter a valid quantity (whole numbers only)');
+                  }
+                }
+                else{
+                  errorSnackBar(context, 'silahkan isi banyak barangnya');
                 }
               },
             ),
@@ -77,6 +86,7 @@ class _ChooseItemOrderEditState extends State<ChooseItemOrderEdit> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Choose Item'),
+          backgroundColor: Color(0xFF52E9AA),
         actions: [
           IconButton(
             icon: Icon(Icons.refresh),

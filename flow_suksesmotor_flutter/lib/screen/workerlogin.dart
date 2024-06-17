@@ -18,7 +18,7 @@ class _LoginWorkerState extends State<LoginWorker> {
   String _worker_password='';
 
   loginWorkerPressed()async{
-    
+    try{
     if(_worker_username != null && _worker_password != null){
       http.Response response = await AuthServices.loginworker(_worker_username,_worker_password);
       Map responseMap = jsonDecode(response.body);
@@ -50,18 +50,21 @@ class _LoginWorkerState extends State<LoginWorker> {
     }else{
       errorSnackBar(context, "enter all the necessary field");
     }
+    }catch(e){
+      errorSnackBar(context, "an error occured (maybe related to server)");
+     }
   }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.black,
+       backgroundColor: Color(0xFF52E9AA),
         centerTitle: true,
         elevation: 0,
         title: const Text(
           'Login Worker',
           style: TextStyle(
-            fontSize: 10,
+            fontSize: 20,
             fontWeight: FontWeight.bold,
             color: Colors.white, 
           ),
@@ -75,8 +78,14 @@ class _LoginWorkerState extends State<LoginWorker> {
               height: 20,
             ),
             TextField(
-              decoration: const InputDecoration(
+              decoration:  InputDecoration(
                 hintText: 'enter your username',
+                border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  filled: true,
+                  fillColor: Colors.grey[200],
+                  contentPadding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 15.0),
               ),
               onChanged: (value){
                 _worker_username = value;
@@ -87,8 +96,14 @@ class _LoginWorkerState extends State<LoginWorker> {
             ),
             TextField(
               obscureText: true,
-              decoration: const InputDecoration(
+              decoration:  InputDecoration(
                 hintText: 'enter your password',
+                border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  filled: true,
+                  fillColor: Colors.grey[200],
+                  contentPadding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 15.0),
               ),
               onChanged: (value){
                 _worker_password = value;

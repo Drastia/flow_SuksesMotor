@@ -36,7 +36,7 @@ class _AddItemState extends State<AddItem> {
     } else {
       print('Error adding item: ${response.statusCode}');
       errorSnackBar(context,
-          'Item sudah ada karena terdapat kesamaan ID item atau Nama item, ${response.statusCode}');
+          'Barang sudah ada karena terdapat kesamaan ID item atau format pengisian form yang salah, ${response.statusCode}');
     }
   }
 
@@ -114,24 +114,15 @@ class _AddItemState extends State<AddItem> {
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
                     ),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.blueAccent.withOpacity(0.5),
-                        spreadRadius: 5,
-                        blurRadius: 10,
-                        offset: Offset(0, 3),
-                      ),
-                    ],
+                    
                   ),
                   child: ElevatedButton(
                     onPressed: addItem,
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.transparent,
                       shadowColor: Colors.transparent,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30.0),
-                      ),
-                      padding: const EdgeInsets.symmetric(horizontal: 40.0, vertical: 20.0),
+                      
+                 
                       foregroundColor: Colors.white,
                       textStyle: TextStyle(
                         fontSize: 18,

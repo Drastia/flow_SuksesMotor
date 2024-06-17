@@ -64,7 +64,7 @@ class _adminregisterstate extends State<adminregister> {
   Widget build (BuildContext context){
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.black,
+        backgroundColor: Color(0xFF52E9AA),
         centerTitle: true,
         elevation: 0,
         title: const Text(
@@ -84,31 +84,50 @@ class _adminregisterstate extends State<adminregister> {
               height: 20,
             ),
             TextField(
-              decoration: const InputDecoration(
+              decoration:  InputDecoration(
                 hintText: 'Admin Name',
+                
+                border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  filled: true,
+                  fillColor: Colors.grey[200],
+                  contentPadding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 15.0),
               ),
               onChanged: (value){
                 _admin_name = value;
               },
             ),
             const SizedBox(
-              height: 30,
+              height: 20,
             ),
             TextField(
-              decoration: const InputDecoration(
+              decoration:  InputDecoration(
                 hintText: 'Admin Username',
+                border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  filled: true,
+                  fillColor: Colors.grey[200],
+                  contentPadding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 15.0),
               ),
               onChanged: (value){
                 _admin_username = value;
               },
             ),
             const SizedBox(
-              height: 30,
+              height: 20,
             ),
             TextField(
               obscureText: true,
-              decoration: const InputDecoration(
+              decoration:  InputDecoration(
                 hintText: 'Admin Password',
+                border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  filled: true,
+                  fillColor: Colors.grey[200],
+                  contentPadding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 15.0),
               ),
               onChanged: (value){
                 _admin_password = value;

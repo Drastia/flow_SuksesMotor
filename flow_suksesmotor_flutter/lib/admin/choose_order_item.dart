@@ -21,18 +21,18 @@ class _ChooseItemOrderState extends State<ChooseItemOrder> {
     fetchItems(); // Fetch items when the screen is entered
   }
 
- void fetchItems() async {
-  try {
-    var fetchedItems = await _itemServices.fetchItems();
-    if (mounted) {
-      setState(() {
-        _items = fetchedItems.cast<Map<String, dynamic>>();
-      });
+  void fetchItems() async {
+    try {
+      var fetchedItems = await _itemServices.fetchItems();
+      if (mounted) {
+        setState(() {
+          _items = fetchedItems.cast<Map<String, dynamic>>();
+        });
+      }
+    } catch (error) {
+      print('Error fetching items: $error');
     }
-  } catch (error) {
-    print('Error fetching items: $error');
   }
-}
 
   void _showQuantityDialog(Map<String, dynamic> item) {
     showDialog(
@@ -55,14 +55,23 @@ class _ChooseItemOrderState extends State<ChooseItemOrder> {
             TextButton(
               child: Text('Add Item'),
               onPressed: () {
-                // Adding selected item to the AddOrder screen
+        
                 if (_quantityController.text.isNotEmpty) {
-                  setState(() {
-                    _selectedItem = Map.from(item);
-                    _selectedItem!['Quantity_ordered'] = _quantityController.text;
-                  });
-                  Navigator.pop(context);
-                  Navigator.pop(context, _selectedItem);
+                  if (RegExp(r'^\d+$').hasMatch(_quantityController.text)) {
+                    setState(() {
+                      _selectedItem = Map.from(item);
+                      _selectedItem!['Quantity_ordered'] =
+                          _quantityController.text;
+                    });
+                    Navigator.pop(context);
+                    Navigator.pop(context, _selectedItem);
+                  } else {
+           
+                    errorSnackBar(context,
+                        'Please enter a valid quantity (whole numbers only)');
+                  }
+                } else {
+                  errorSnackBar(context, 'silahkan isi banyak barangnya');
                 }
               },
             ),
@@ -77,6 +86,7 @@ class _ChooseItemOrderState extends State<ChooseItemOrder> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Choose Item'),
+          backgroundColor: Color(0xFF52E9AA),
         actions: [
           IconButton(
             icon: Icon(Icons.refresh),

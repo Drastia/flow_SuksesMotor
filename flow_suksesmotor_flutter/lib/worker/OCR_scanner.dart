@@ -1,3 +1,4 @@
+import 'package:flow_suksesmotor/services/globals.dart';
 import 'package:flow_suksesmotor/services/order_services.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart';
@@ -26,6 +27,7 @@ class _OcrScannerState extends State<OcrScanner> {
   late CameraDescription _camera;
   bool _isCameraInitialized = false;
   final TextRecognizer _textRecognizer = TextRecognizer();
+  TextEditingController _quantityController = TextEditingController();
 
   @override
   void initState() {
@@ -192,15 +194,19 @@ class _OcrScannerState extends State<OcrScanner> {
             builder: (context) => AlertDialog(
               title: Text(item['custom_id']+'\n'+item['name']+'\n'+item['Quantity_ordered'].toString()+'\nEnter Quantity Arrived'),
               content: TextField(
-                controller: TextEditingController(
-                  text: item['Incoming_Quantity'].toString(),
-                ),
+                controller: _quantityController,
+                
                 keyboardType: TextInputType.number,
                 onChanged: (value) {
                   if (value.isNotEmpty) {
+                    if (RegExp(r'^\d+$').hasMatch(_quantityController.text)) {
                     setState(() {
                       item['Incoming_Quantity'] = int.parse(value);
                     });
+                    }else{
+                       errorSnackBar(context,
+                        'Please enter a valid quantity (whole numbers only)');
+                    }
                   }
                 },
               ),
@@ -213,6 +219,7 @@ class _OcrScannerState extends State<OcrScanner> {
                 ),
                 TextButton(
                   onPressed: ()async  {
+                    if (RegExp(r'^\d+$').hasMatch(_quantityController.text)) {
                     final itemToUpdate = {
                       'custom_id': item['custom_id'],
                       'name': item['name'],
@@ -225,7 +232,11 @@ class _OcrScannerState extends State<OcrScanner> {
                     await updateQuantityArrived(widget.orderId, itemToUpdate);
                     Navigator.pop(context);
                     Navigator.pop(context, true);  
-                    
+                    }else{
+                       errorSnackBar(context,
+                        'Please enter a valid quantity (whole numbers only)');
+                    }
+
                   },
                   child: Text('Save'),
                 ),
@@ -280,6 +291,7 @@ class _OcrScannerState extends State<OcrScanner> {
     return Scaffold(
       appBar: AppBar(
         title: Text('OCR Scanner'),
+          backgroundColor: Color(0xFF52E9AA),
       ),
       body: _isCameraInitialized
           ? Stack(

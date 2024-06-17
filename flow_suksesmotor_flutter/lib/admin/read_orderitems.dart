@@ -131,6 +131,7 @@ TextEditingController _searchController = TextEditingController();
     return Scaffold(
       appBar: AppBar(
         title: Text('Order Items'),
+          backgroundColor: Color(0xFF52E9AA),
         actions: [
           IconButton(
             icon: Icon(Icons.add),

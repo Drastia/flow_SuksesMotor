@@ -88,6 +88,7 @@ class _ListOrdersState extends State<ListOrders> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Order List'),
+        backgroundColor: Color(0xFF52E9AA),
         actions: [
           IconButton(
             icon: Icon(Icons.refresh),
@@ -134,18 +135,19 @@ class _ListOrdersState extends State<ListOrders> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Row(
-                                children: [
-                                  _buildCheckIcon(orders[index]),
-                                  SizedBox(width: 8),
-                                  Text(
-                                    'ID pemesanan : ${orders[index]['ID_pemesanan']}',
-                                    style: TextStyle(
-                                        fontSize: 20.0,
-                                        fontWeight: FontWeight.bold),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  'ID pemesanan : ${orders[index]['ID_pemesanan']}',
+                                  style: TextStyle(
+                                    fontSize: 20.0,
+                                    fontWeight: FontWeight.bold,
                                   ),
-                                ],
-                              ),
+                                ),
+                                _buildCheckIcon(orders[index]),
+                              ],
+                            ),
                               Row(
                                 children: [
                                   Expanded(

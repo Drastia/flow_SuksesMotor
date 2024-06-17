@@ -59,7 +59,8 @@ class _EditAdminState extends State<EditAdmin> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Add Item'),
+        title: Text('Update Admin'),
+          backgroundColor: Color(0xFF52E9AA),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -69,18 +70,38 @@ class _EditAdminState extends State<EditAdmin> {
             TextField(
               controller: adminnameController,
               decoration: InputDecoration(
-                  labelText: 'Nama Admin', hintText: 'harus diisi'),
+                  labelText: 'Nama Admin', hintText: 'harus diisi',
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  filled: true,
+                  fillColor: Colors.grey[200],
+                  contentPadding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 15.0),),
+                  
             ),
+            SizedBox(height: 20),
             TextField(
               controller: adminusernameController,
               decoration: InputDecoration(
-                  labelText: 'Username Admin', hintText: 'harus diisi'),
+                  labelText: 'Username Admin', hintText: 'harus diisi',
+                  
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  filled: true,
+                  fillColor: Colors.grey[200],
+                  contentPadding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 15.0),),
             ),
             SizedBox(height: 20),
-            ElevatedButton(
+            Center(
+            child: ElevatedButton(
               onPressed: _updateAdmin,
-              child: Text('Update'),
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all<Color>(Colors.green),
+              ),
+              child: Text('Update', style: TextStyle(color: Colors.white)),
             ),
+          ),
           ],
         ),
       ),

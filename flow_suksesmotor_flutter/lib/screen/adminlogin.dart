@@ -20,6 +20,7 @@ class _LoginAdminState extends State<LoginAdmin> {
   String _admin_password='';
 
   loginAdminPressed()async{
+     try {  
     if(_admin_username != null && _admin_password != null){
       http.Response response = await AuthServices.loginadmin(_admin_username,_admin_password);
       Map responseMap = jsonDecode(response.body);
@@ -51,12 +52,15 @@ class _LoginAdminState extends State<LoginAdmin> {
     }else{
       errorSnackBar(context, "enter all the necessary field");
     }
+     }catch(e){
+      errorSnackBar(context, "an error occured (maybe related to server)");
+     }
   }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.black,
+        backgroundColor: Color(0xFF52E9AA),
         centerTitle: true,
         elevation: 0,
         title: const Text(
@@ -75,9 +79,16 @@ class _LoginAdminState extends State<LoginAdmin> {
             const SizedBox(
               height: 0,
             ),
+            SizedBox(height: 20),
             TextField(
-              decoration: const InputDecoration(
+              decoration:  InputDecoration(
                 hintText: 'enter your username',
+                border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  filled: true,
+                  fillColor: Colors.grey[200],
+                  contentPadding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 15.0),
               ),
               onChanged: (value){
                 _admin_username = value;
@@ -88,8 +99,15 @@ class _LoginAdminState extends State<LoginAdmin> {
             ),
             TextField(
               obscureText: true,
-              decoration: const InputDecoration(
+              decoration: InputDecoration(
                 hintText: 'enter your password',
+                border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  filled: true,
+                  fillColor: Colors.grey[200],
+                  contentPadding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 15.0),
+                
               ),
               onChanged: (value){
                 _admin_password = value;
@@ -98,7 +116,11 @@ class _LoginAdminState extends State<LoginAdmin> {
             const SizedBox(
               height: 20,
             ),
-            RoundedButton(btnText: 'Login', onBtnPressed:()=>loginAdminPressed(),)
+            RoundedButton(
+                btnText: 'Login',
+                
+                onBtnPressed: () => loginAdminPressed(),
+              ),
           ],
         ),
         ));

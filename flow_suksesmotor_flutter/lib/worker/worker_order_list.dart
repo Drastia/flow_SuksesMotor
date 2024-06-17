@@ -66,6 +66,7 @@ class _WorkerOrderListState extends State<WorkerOrderList>
     return Scaffold(
       appBar: AppBar(
         title: Text('Worker order List'),
+        backgroundColor: Color(0xFF52E9AA),
         actions: [
           IconButton(
             icon: Icon(Icons.refresh),

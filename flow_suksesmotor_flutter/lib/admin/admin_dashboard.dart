@@ -1,6 +1,5 @@
 import 'package:flow_suksesmotor/admin/add_item.dart';
 import 'package:flow_suksesmotor/admin/add_order.dart';
-import 'package:flow_suksesmotor/admin/checking_history.dart';
 import 'package:flow_suksesmotor/admin/history_order.dart';
 import 'package:flow_suksesmotor/admin/initial_accountlist.dart';
 import 'package:flow_suksesmotor/admin/list_item.dart';

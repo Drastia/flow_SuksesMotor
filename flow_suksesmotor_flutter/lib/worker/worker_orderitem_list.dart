@@ -1,3 +1,4 @@
+import 'package:flow_suksesmotor/services/globals.dart';
 import 'package:flow_suksesmotor/worker/OCR_scanner.dart';
 import 'package:flutter/material.dart';
 import 'package:flow_suksesmotor/services/order_services.dart';
@@ -15,6 +16,7 @@ class WorkerOrderListItems extends StatefulWidget {
 class _WorkerOrderListItemsState extends State<WorkerOrderListItems> {
   List<Map<String, dynamic>> items = [];
   TextEditingController _searchController = TextEditingController();
+  TextEditingController _quantityController = TextEditingController();
 
   @override
   void initState() {
@@ -32,7 +34,8 @@ class _WorkerOrderListItemsState extends State<WorkerOrderListItems> {
 
   void _onSearchChanged() async {
     try {
-      var searchedOrderItem = await OrderServices().searchOrderItem(widget.orderId, _searchController.text);
+      var searchedOrderItem = await OrderServices()
+          .searchOrderItem(widget.orderId, _searchController.text);
       setState(() {
         items = searchedOrderItem;
       });
@@ -48,7 +51,8 @@ class _WorkerOrderListItemsState extends State<WorkerOrderListItems> {
     });
   }
 
-  Future<void> updateQuantityArrived(int orderId, Map<String, dynamic> item) async {
+  Future<void> updateQuantityArrived(
+      int orderId, Map<String, dynamic> item) async {
     var response = await OrderServices().updateQuantityArrived(orderId, item);
 
     if (response.statusCode == 200) {
@@ -69,9 +73,9 @@ class _WorkerOrderListItemsState extends State<WorkerOrderListItems> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      
       appBar: AppBar(
         title: Text('Worker order Items'),
+          backgroundColor: Color(0xFF52E9AA),
         actions: [
           IconButton(
             icon: Icon(Icons.refresh),
@@ -81,19 +85,19 @@ class _WorkerOrderListItemsState extends State<WorkerOrderListItems> {
             icon: Image.asset('images/scanner.png', width: 24),
             onPressed: () {
               Navigator.push(
-  context,
-  MaterialPageRoute(
-    builder: (context) => OcrScanner(
-      orderId: widget.orderId,
-      workerName: widget.workerName,
-      items: items,
-    ),
-  ),
-).then((result) {
-  if (result ?? false) {
-    fetchItems(); // Refresh items after successful update
-  }
-});
+                context,
+                MaterialPageRoute(
+                  builder: (context) => OcrScanner(
+                    orderId: widget.orderId,
+                    workerName: widget.workerName,
+                    items: items,
+                  ),
+                ),
+              ).then((result) {
+                if (result ?? false) {
+                  fetchItems(); // Refresh items after successful update
+                }
+              });
             },
           ),
         ],
@@ -114,7 +118,8 @@ class _WorkerOrderListItemsState extends State<WorkerOrderListItems> {
                   labelText: 'Search',
                   border: InputBorder.none,
                   prefixIcon: Icon(Icons.search),
-                  contentPadding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
+                  contentPadding:
+                      EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
                 ),
               ),
             ),
@@ -124,7 +129,7 @@ class _WorkerOrderListItemsState extends State<WorkerOrderListItems> {
               itemCount: items.length,
               itemBuilder: (context, index) {
                 var orderItem = items[index];
-                
+
                 return Card(
                   margin: EdgeInsets.all(8),
                   color: orderItem['ismatch'] == ''
@@ -147,45 +152,65 @@ class _WorkerOrderListItemsState extends State<WorkerOrderListItems> {
                               builder: (context) => AlertDialog(
                                 title: Text('Enter Quantity Arrived'),
                                 content: TextField(
-                                  controller: TextEditingController(
-                                    text: orderItem['Incoming_Quantity'].toString(),
-                                  ),
+                                  controller: _quantityController,
                                   keyboardType: TextInputType.number,
+                                  decoration:
+                                      InputDecoration(labelText: 'Quantity'),
                                   onChanged: (value) {
                                     if (value.isNotEmpty) {
+                                      if (RegExp(r'^\d+$').hasMatch(_quantityController.text)) {
                                       setState(() {
                                         //masih ngebug
                                         //dk pacak masuki huruf dan simbol jadi bikin exception
                                         //ini juga berlaku ke semua hal yang harus diisi
-                                        orderItem['Incoming_Quantity'] = int.parse(value);
+                                        orderItem['Incoming_Quantity'] =
+                                            int.parse(value);
                                       });
+                                      }else{
+                                        errorSnackBar(context,
+                                              'Please enter a valid quantity (whole numbers only)');
+                                      }
                                     }
                                   },
                                 ),
-                                      actions: [
-                                        TextButton(
-                                          onPressed: () {
-                                            Navigator.pop(context);
-                                          },
-                                          child: Text('Cancel'),
-                                        ),
-                                        TextButton(
-                                          onPressed: () {
-                                            final itemToUpdate = {
-                                              'custom_id': orderItem['custom_id'],
-                                              'name': orderItem['name'],
-                                              'brand': orderItem['brand'],
-                                              'Quantity_ordered': orderItem['Quantity_ordered'],
-                                              'Incoming_Quantity': orderItem['Incoming_Quantity'],
-                                              'checker_barang': widget.workerName,
-                                            };
+                                actions: [
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                    child: Text('Cancel'),
+                                  ),
+                                  TextButton(
+                                    onPressed: () {
+                                      if (_quantityController.text.isNotEmpty) {
+                                        if (RegExp(r'^\d+$').hasMatch(
+                                            _quantityController.text)) {
+                                          final itemToUpdate = {
+                                            'custom_id': orderItem['custom_id'],
+                                            'name': orderItem['name'],
+                                            'brand': orderItem['brand'],
+                                            'Quantity_ordered':
+                                                orderItem['Quantity_ordered'],
+                                            'Incoming_Quantity':
+                                                orderItem['Incoming_Quantity'],
+                                            'checker_barang': widget.workerName,
+                                          };
 
-                                            updateQuantityArrived(widget.orderId, itemToUpdate);
-                                            Navigator.pop(context);
-                                            fetchItems(); // Refresh items after update
-                                          },
-                                          child: Text('Save'),
-                  ),
+                                          updateQuantityArrived(
+                                              widget.orderId, itemToUpdate);
+                                          Navigator.pop(context);
+                                          fetchItems(); // Refresh items after update
+                                        } else {
+                                          errorSnackBar(context,
+                                              'Please enter a valid quantity (whole numbers only)');
+                                        }
+                                      } else {
+                                        errorSnackBar(context,
+                                            'silahkan isi banyak barangnya');
+                                      }
+                                    },
+                                    child: Text('Save'),
+                                  ),
                                 ],
                               ),
                             );

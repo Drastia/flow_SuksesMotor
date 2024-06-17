@@ -14,11 +14,11 @@ import 'package:flutter/material.dart';
 //DONT CHANGE THE :8000/api/ 
 
 //api wifi rumah
-//const String baseURL = "http://192.168.1.4:8000/api/";
+const String baseURL = "http://192.168.1.4:8000/api/";
 
 
 //MDP gedung B
-const String baseURL = "http://192.168.45.219:8000/api/";
+//const String baseURL = "http://192.168.45.219:8000/api/";
 
 const Map<String, String> headers = {"Content-Type" : "application/json", 'Accept' : 'application/json'};
 

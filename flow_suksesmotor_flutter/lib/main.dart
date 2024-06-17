@@ -12,7 +12,6 @@ import 'package:flow_suksesmotor/worker/OCR_scanner.dart';
 import 'package:flow_suksesmotor/worker/worker_dashboard.dart';
 import 'package:flow_suksesmotor/worker/worker_order_list.dart';
 import 'package:flutter/material.dart';
-import 'screen/test.dart';
 import 'screen/splashscreen.dart';
 import 'admin/adminregister.dart';
 import 'admin/workerregister.dart';
@@ -21,7 +20,9 @@ import 'screen/workerlogin.dart';
 
 void main() {
   runApp(const MyApp());
+
 }
+
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -30,6 +31,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+ 
       title: 'Flutter Demo',
       theme: ThemeData(
         // This is the theme of your application.
@@ -50,17 +52,17 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: SplashScreen(),
+      //home: SplashScreen(),
       //home: ListOrders(),
       //home: OrderItem(),
       //home: ListWorker(),
       //home: InitialAccountList(),
       //home: RegisterScreen(),
-      //home:AdminDashboard(adminName: 'Rivaldo')
-      //home: WorkerDashboard(workerName: 'Demo11')
+      home:AdminDashboard(adminName: 'Rivaldo')
+      //home: WorkerDashboard(workerName: 'Demo')
       //home: WorkerOrderList(workerName: 'Demo11')
       //home: OcrScanner(orderId: 1,workerName: 'Demo11',items: [],)
-      
+      //home:AddItem()
     );
   }
 }

@@ -66,6 +66,7 @@ class _EditItemState extends State<EditItem> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Add Item'),
+          backgroundColor: Color(0xFF52E9AA),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -75,7 +76,13 @@ class _EditItemState extends State<EditItem> {
             TextField(
               controller: customIdController,
               decoration: InputDecoration(
-                  labelText: 'ID barang', hintText: 'min 6 huruf/angka'),
+                  labelText: 'ID barang', hintText: 'min 6 huruf/angka',
+                   border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  filled: true,
+                  fillColor: Colors.grey[200],
+                  contentPadding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 15.0),),
               onChanged: (value) {
                 // Convert the value to uppercase and set it back to the controller
                 customIdController.value = customIdController.value.copyWith(
@@ -85,21 +92,38 @@ class _EditItemState extends State<EditItem> {
                 );
               },
             ),
+            SizedBox(height: 20),
             TextField(
               controller: nameController,
               decoration: InputDecoration(
-                  labelText: 'Nama barang', hintText: 'min 6 huruf/angka'),
+                  labelText: 'Nama barang', hintText: 'min 6 huruf/angka',
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  filled: true,
+                  fillColor: Colors.grey[200],
+                  contentPadding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 15.0),),
             ),
+            SizedBox(height: 20),
             TextField(
               controller: brandController,
               decoration: InputDecoration(
-                  labelText: 'merk barang', hintText: 'harus diisi'),
+                  labelText: 'merk barang', hintText: 'harus diisi',
+                   border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  filled: true,
+                  fillColor: Colors.grey[200],
+                  contentPadding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 15.0),),
             ),
             SizedBox(height: 20),
             Center(
               child: ElevatedButton(
               onPressed: _updateItem,
-              child: Text('Edit Item'),
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all<Color>(Colors.green),
+              ),
+              child: Text('Edit Item', style: TextStyle(color: Colors.white)),
             ),)
             
           ],

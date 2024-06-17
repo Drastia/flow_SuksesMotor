@@ -61,11 +61,11 @@ class _workerregisterstate extends State<workerregister> {
   Widget build (BuildContext context){
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.black,
+        backgroundColor: Color(0xFF52E9AA),
         centerTitle: true,
         elevation: 0,
         title: const Text(
-          'worker Registration',
+          'Worker Registration',
           style: TextStyle(
             fontSize: 20, 
             fontWeight: FontWeight.bold,
@@ -81,31 +81,49 @@ class _workerregisterstate extends State<workerregister> {
               height: 20,
             ),
             TextField(
-              decoration: const InputDecoration(
+              decoration:  InputDecoration(
                 hintText: 'worker Name',
+                border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  filled: true,
+                  fillColor: Colors.grey[200],
+                  contentPadding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 15.0),
               ),
               onChanged: (value){
                 _worker_name = value;
               },
             ),
             const SizedBox(
-              height: 30,
+              height: 20,
             ),
             TextField(
-              decoration: const InputDecoration(
+              decoration:  InputDecoration(
                 hintText: 'worker Username',
+                border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  filled: true,
+                  fillColor: Colors.grey[200],
+                  contentPadding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 15.0),
               ),
               onChanged: (value){
                 _worker_username = value;
               },
             ),
             const SizedBox(
-              height: 30,
+              height: 20,
             ),
             TextField(
               obscureText: true,
-              decoration: const InputDecoration(
+              decoration:  InputDecoration(
                 hintText: 'worker Password',
+                border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  filled: true,
+                  fillColor: Colors.grey[200],
+                  contentPadding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 15.0),
               ),
               onChanged: (value){
                 _worker_password = value;

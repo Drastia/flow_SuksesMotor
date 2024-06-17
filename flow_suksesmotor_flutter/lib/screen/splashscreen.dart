@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'test.dart';
+
 import 'initialscreen.dart'; // Import the file containing MyHomePage
 
 class SplashScreen extends StatefulWidget {

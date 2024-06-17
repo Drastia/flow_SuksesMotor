@@ -59,7 +59,8 @@ class _EditWorkerState extends State<EditWorker> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Add Item'),
+        title: Text('Update Worker'),
+          backgroundColor: Color(0xFF52E9AA),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -69,18 +70,37 @@ class _EditWorkerState extends State<EditWorker> {
             TextField(
               controller: workernameController,
               decoration: InputDecoration(
-                  labelText: 'Nama Worker', hintText: 'harus diisi'),
+                  labelText: 'Nama Worker', hintText: 'harus diisi',
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  filled: true,
+                  fillColor: Colors.grey[200],
+                  contentPadding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 15.0),),
+                  
             ),
+            SizedBox(height: 20),
             TextField(
               controller: workerusernameController,
               decoration: InputDecoration(
-                  labelText: 'Username Worker', hintText: 'harus diisi'),
+                  labelText: 'Username Worker', hintText: 'harus diisi',
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  filled: true,
+                  fillColor: Colors.grey[200],
+                  contentPadding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 15.0),),
             ),
             SizedBox(height: 20),
-            ElevatedButton(
+            Center(
+            child: ElevatedButton(
               onPressed: _updateWorker,
-              child: Text('Update'),
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all<Color>(Colors.green),
+              ),
+              child: Text('Update', style: TextStyle(color: Colors.white)),
             ),
+          ),
           ],
         ),
       ),
