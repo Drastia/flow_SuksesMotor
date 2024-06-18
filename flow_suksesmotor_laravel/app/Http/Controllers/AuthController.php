@@ -70,7 +70,7 @@ class AuthController extends Controller
     {
         //validate
         $rules=[
-            'admin_name' =>'required|string|regex:/^[a-zA-Z0-9]+$/',
+            'admin_name' =>'required|string|regex:/^[a-zA-Z0-9 ]+$/',
             'admin_username'=>'required|string|unique:admin_table|regex:/^[a-zA-Z0-9]+$/',
             'admin_password'=>'required|string|min:6|regex:/^[a-zA-Z0-9]+$/'
         ];
@@ -93,7 +93,7 @@ class AuthController extends Controller
     {
         //validate
         $rules=[
-            'worker_name' =>'required|string|regex:/^[a-zA-Z0-9]+$/',
+            'worker_name' =>'required|string|regex:/^[a-zA-Z0-9 ]+$/',
             'worker_username'=>'required|string|unique:workers|regex:/^[a-zA-Z0-9]+$/',
             'worker_password'=>'required|string|min:6|regex:/^[a-zA-Z0-9]+$/'
         ];

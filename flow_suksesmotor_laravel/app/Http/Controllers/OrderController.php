@@ -113,8 +113,8 @@ public function searchOrderItem($id,$query){
         $request->validate([
             'Tanggal_pemesanan' => 'required|regex:/^[a-zA-Z0-9]+$/',
             'Tanggal_sampai' => 'required|regex:/^[a-zA-Z0-9]+$/',
-            'Nama_Vendor' => 'required|regex:/^[a-zA-Z0-9]+$/',
-            'Nama_Pemesan' => 'required|regex:/^[a-zA-Z0-9]+$/',
+            'Nama_Vendor' => 'required|regex:/^[a-zA-Z0-9 ]+$/',
+            'Nama_Pemesan' => 'required|regex:/^[a-zA-Z0-9 ]+$/',
             'items.*.custom_id' => [
                 'required',
                 function ($attribute, $value, $fail) {

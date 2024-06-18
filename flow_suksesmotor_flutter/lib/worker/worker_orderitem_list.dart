@@ -160,9 +160,6 @@ class _WorkerOrderListItemsState extends State<WorkerOrderListItems> {
                                     if (value.isNotEmpty) {
                                       if (RegExp(r'^\d+$').hasMatch(_quantityController.text)) {
                                       setState(() {
-                                        //masih ngebug
-                                        //dk pacak masuki huruf dan simbol jadi bikin exception
-                                        //ini juga berlaku ke semua hal yang harus diisi
                                         orderItem['Incoming_Quantity'] =
                                             int.parse(value);
                                       });
