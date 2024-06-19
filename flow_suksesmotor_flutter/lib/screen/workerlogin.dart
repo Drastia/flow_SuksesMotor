@@ -16,6 +16,7 @@ class LoginWorker extends StatefulWidget {
 class _LoginWorkerState extends State<LoginWorker> {
   String _worker_username='';
   String _worker_password='';
+  bool _isPasswordInvisible= false; 
 
   loginWorkerPressed()async{
     try{
@@ -95,16 +96,29 @@ class _LoginWorkerState extends State<LoginWorker> {
               height: 20,
             ),
             TextField(
-              obscureText: true,
-              decoration:  InputDecoration(
-                hintText: 'enter your password',
-                border: OutlineInputBorder(
+                obscureText: !_isPasswordInvisible,
+                decoration: InputDecoration(
+                  hintText: 'Enter your password',
+                  border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10.0),
                   ),
                   filled: true,
                   fillColor: Colors.grey[200],
-                  contentPadding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 15.0),
-              ),
+                  contentPadding: EdgeInsets.symmetric(
+                      horizontal: 20.0, vertical: 15.0),
+                  suffixIcon: IconButton(
+                    icon: Icon(
+                     _isPasswordInvisible
+                          ? Icons.visibility_off
+                          : Icons.visibility,
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        _isPasswordInvisible = !_isPasswordInvisible;
+                      });
+                    },
+                  ),
+                ),
               onChanged: (value){
                 _worker_password = value;
               },

@@ -20,6 +20,7 @@ class _workerregisterstate extends State<workerregister> {
   String _worker_username='';
   String _worker_password='';
   String _worker_name='';
+  bool _isPasswordInvisible = false;
 
   createWorkerAccountPressed() async{
     bool usernameValid = RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_'{|}~]+").hasMatch(_worker_username);
@@ -115,7 +116,7 @@ class _workerregisterstate extends State<workerregister> {
               height: 20,
             ),
             TextField(
-              obscureText: true,
+              obscureText: !_isPasswordInvisible,
               decoration:  InputDecoration(
                 hintText: 'worker Password',
                 border: OutlineInputBorder(
@@ -124,6 +125,18 @@ class _workerregisterstate extends State<workerregister> {
                   filled: true,
                   fillColor: Colors.grey[200],
                   contentPadding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 15.0),
+                  suffixIcon: IconButton(
+                    icon: Icon(
+                      _isPasswordInvisible
+                          ? Icons.visibility_off
+                          : Icons.visibility,
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        _isPasswordInvisible = !_isPasswordInvisible;
+                      });
+                    },
+                  ),
               ),
               onChanged: (value){
                 _worker_password = value;

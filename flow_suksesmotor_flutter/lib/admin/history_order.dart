@@ -5,6 +5,7 @@ import 'package:flow_suksesmotor/admin/read_orderitems.dart';
 import 'package:flow_suksesmotor/services/globals.dart';
 import 'package:flutter/material.dart';
 import 'package:flow_suksesmotor/services/order_services.dart';
+import 'package:intl/intl.dart';
 
 class HistoryOrders extends StatefulWidget {
   @override
@@ -32,6 +33,29 @@ class _HistoryOrdersState extends State<HistoryOrders> {
     _searchController.removeListener(_onSearchChanged);
     _searchController.dispose();
     super.dispose();
+  }
+
+  Future<void> _selectDate(
+      BuildContext context, TextEditingController controller) async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2024),
+      lastDate: DateTime(2030),
+    );
+    if (picked != null) {
+      // Update the text field with the selected date
+      setState(() {
+        controller.text = DateFormat('yyyy-MM-dd').format(picked);
+      });
+    }
+    if (picked != null && picked != controller.text) {
+      // Update the text field with the selected date
+
+      setState(() {
+        controller.text = DateFormat('yyyy-MM-dd').format(picked);
+      });
+    }
   }
 
   void _onSearchChanged() async {
@@ -108,6 +132,11 @@ class _HistoryOrdersState extends State<HistoryOrders> {
                   prefixIcon: Icon(Icons.search),
                   contentPadding:
                       EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
+                  suffixIcon: IconButton(
+                    icon: Icon(Icons.calendar_today, color: Color(0xFF52E9AA)),
+                    onPressed: () =>
+                        _selectDate(context, _searchController),
+                  ),
                 ),
               ),
             ),
@@ -193,8 +222,36 @@ class _HistoryOrdersState extends State<HistoryOrders> {
                             IconButton(
                               icon: Icon(Icons.delete),
                               onPressed: () {
-                                // Call the deleteOrder method when delete icon is pressed
-                                deleteOrder(orders[index]['ID_pemesanan']);
+                               showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return AlertDialog(
+                                            title: Text('Confirm Delete'),
+                                            content: Text(
+                                                'Are you sure you want to delete order with id ' +
+                                                    orders[index]
+                                                            ['ID_pemesanan']
+                                                        .toString() +
+                                                    '?'),
+                                            actions: <Widget>[
+                                              TextButton(
+                                                child: Text('No'),
+                                                onPressed: () {
+                                                  Navigator.of(context).pop();
+                                                },
+                                              ),
+                                              TextButton(
+                                                child: Text('Yes'),
+                                                onPressed: () {
+                                                  Navigator.of(context).pop();
+                                                  deleteOrder(orders[index]
+                                                      ['ID_pemesanan']);
+                                                },
+                                              ),
+                                            ],
+                                          );
+                                        },
+                                      );
                               },
                             ),
                             IconButton(

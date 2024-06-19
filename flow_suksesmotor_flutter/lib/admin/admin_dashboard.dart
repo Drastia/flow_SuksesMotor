@@ -23,10 +23,15 @@ class GridItemData {
 }
 
 class AdminDashboard extends StatelessWidget {
-  final String adminName; // Add adminName parameter
+  final String adminName; 
   AdminDashboard({Key? key, required this.adminName});
 
-  final List<GridItemData> gridItems = [
+  
+  
+
+  @override
+  Widget build(BuildContext context) {
+    final List<GridItemData> gridItems = [
     GridItemData(
       logo: Image.asset('images/add_user.png', width: 100),
       name: 'Register User',
@@ -74,7 +79,7 @@ class AdminDashboard extends StatelessWidget {
       onTap: (BuildContext context) {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => AddOrder()),
+          MaterialPageRoute(builder: (context) => AddOrder(adminName: adminName)),
         );
       },
     ),
@@ -112,14 +117,11 @@ class AdminDashboard extends StatelessWidget {
    
     // Add more GridItemData objects for additional grid items
   ];
-
-  @override
-  Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(
         children: <Widget>[
           dashBg,
-          content(context), // Pass context to content method
+          content(context, gridItems), // Pass context and gridItems to content method
         ],
       ),
     );
@@ -151,12 +153,12 @@ class AdminDashboard extends StatelessWidget {
         ],
       );
 
-  Widget content(BuildContext context) => Container(
+  Widget content(BuildContext context, List<GridItemData> gridItems) => Container(
         padding: EdgeInsets.only(top: 30),
         child: Column(
           children: <Widget>[
             header,
-            grid(context), // Pass context to grid method
+            grid(context, gridItems), // Pass context and gridItems to grid method
           ],
         ),
       );
@@ -173,37 +175,38 @@ class AdminDashboard extends StatelessWidget {
         ),
       );
 
-  Widget grid(BuildContext context) => Expanded(
+   Widget grid(BuildContext context, List<GridItemData> gridItems) => Expanded(
         child: Container(
           padding: EdgeInsets.only(left: 20, right: 20, bottom: 16),
           child: Padding(
-      padding: EdgeInsets.only(top: 30), 
-      child:GridView.count(
-            crossAxisSpacing: 30,
-            mainAxisSpacing: 30,
-            crossAxisCount: 2,
-            childAspectRatio: .90,
-            children: List.generate(gridItems.length, (index) {
-              return GestureDetector(
-                onTap: () => gridItems[index].onTap(context),
-                child: Card(
-                  elevation: 2,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Center(
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        gridItems[index].logo,
-                        Text(gridItems[index].name),
-                      ],
+            padding: EdgeInsets.only(top: 30),
+            child: GridView.count(
+              crossAxisSpacing: 30,
+              mainAxisSpacing: 30,
+              crossAxisCount: 2,
+              childAspectRatio: .90,
+              children: List.generate(gridItems.length, (index) {
+                return GestureDetector(
+                  onTap: () => gridItems[index].onTap(context),
+                  child: Card(
+                    elevation: 2,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Center(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          gridItems[index].logo,
+                          Text(gridItems[index].name),
+                        ],
+                      ),
                     ),
                   ),
-                ),
-              );
-            }),
+                );
+              }),
+            ),
           ),
         ),
-      ));
+      );
 }

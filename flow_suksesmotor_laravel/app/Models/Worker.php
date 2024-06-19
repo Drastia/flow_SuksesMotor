@@ -31,7 +31,7 @@ class Worker extends Authenticatable
      * @var array<int, string>
      */
     protected $hidden = [
-        'worker_password',
+        //'worker_password',
         'remember_token',
     ];
 

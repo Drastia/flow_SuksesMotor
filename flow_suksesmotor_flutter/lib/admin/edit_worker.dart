@@ -13,13 +13,15 @@ class EditWorker extends StatefulWidget {
 class _EditWorkerState extends State<EditWorker> {
   TextEditingController workernameController = TextEditingController();
   TextEditingController workerusernameController = TextEditingController();
-
+  TextEditingController workerpasswordController = TextEditingController();
+  bool _isPasswordInvisible = false;
    @override
   void initState() {
     super.initState();
     // Set initial values in text fields based on selected item data
     workernameController.text = widget.selectedWorker['worker_name'];
     workerusernameController.text = widget.selectedWorker['worker_username'];
+    workerpasswordController.text = '';
     
   }
 
@@ -29,6 +31,9 @@ class _EditWorkerState extends State<EditWorker> {
     'worker_username': workerusernameController.text,
    
   };
+  if (workerpasswordController.text.isNotEmpty) {
+    updatedData['worker_password'] = workerpasswordController.text;
+  }
 
   try {
     var response = await AuthServices().updateWorker(
@@ -89,7 +94,34 @@ class _EditWorkerState extends State<EditWorker> {
                   ),
                   filled: true,
                   fillColor: Colors.grey[200],
-                  contentPadding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 15.0),),
+                  contentPadding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 15.0),
+                  ),
+            ),
+            SizedBox(height: 20),
+            TextField(
+              controller: workerpasswordController,
+              obscureText: !_isPasswordInvisible, 
+              decoration: InputDecoration(
+                  labelText: 'Password Worker', hintText: 'Leave blank to keep the password',
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  filled: true,
+                  fillColor: Colors.grey[200],
+                  contentPadding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 15.0),
+                   suffixIcon: IconButton(
+                    icon: Icon(
+                      _isPasswordInvisible
+                          ? Icons.visibility_off
+                          : Icons.visibility,
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        _isPasswordInvisible = !_isPasswordInvisible;
+                      });
+                    },
+                  ),
+                  ),
             ),
             SizedBox(height: 20),
             Center(

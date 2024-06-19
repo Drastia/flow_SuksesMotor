@@ -16,7 +16,7 @@ class ItemController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'custom_id' => 'required|unique:items|min:6|regex:/^[a-zA-Z0-9]+$/',
+            'custom_id' => 'required|unique:items|min:6|regex:/^[a-zA-Z0-9-]+$/',
             'name' => 'required|unique:items|min:6|regex:/^[a-zA-Z0-9 ]+$/',
             'brand' => 'required|regex:/^[a-zA-Z0-9 ]+$/',
         ]);

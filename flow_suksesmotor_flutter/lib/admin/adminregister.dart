@@ -22,6 +22,7 @@ class _adminregisterstate extends State<adminregister> {
   String _admin_username='';
   String _admin_password='';
   String _admin_name='';
+  bool _isPasswordInvisible = false;
 
   createAdminAccountPressed() async {
     bool usernameValid = RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_'{|}~]+").hasMatch(_admin_username);
@@ -119,7 +120,7 @@ class _adminregisterstate extends State<adminregister> {
               height: 20,
             ),
             TextField(
-              obscureText: true,
+              obscureText: !_isPasswordInvisible,
               decoration:  InputDecoration(
                 hintText: 'Admin Password',
                 border: OutlineInputBorder(
@@ -128,6 +129,18 @@ class _adminregisterstate extends State<adminregister> {
                   filled: true,
                   fillColor: Colors.grey[200],
                   contentPadding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 15.0),
+                  suffixIcon: IconButton(
+                    icon: Icon(
+                      _isPasswordInvisible
+                          ? Icons.visibility_off
+                          : Icons.visibility,
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        _isPasswordInvisible = !_isPasswordInvisible;
+                      });
+                    },
+                  ),
               ),
               onChanged: (value){
                 _admin_password = value;

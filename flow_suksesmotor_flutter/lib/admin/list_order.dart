@@ -5,6 +5,7 @@ import 'package:flow_suksesmotor/admin/read_orderitems.dart';
 import 'package:flow_suksesmotor/services/globals.dart';
 import 'package:flutter/material.dart';
 import 'package:flow_suksesmotor/services/order_services.dart';
+import 'package:intl/intl.dart';
 
 class ListOrders extends StatefulWidget {
   @override
@@ -19,13 +20,36 @@ class _ListOrdersState extends State<ListOrders> {
   @override
   void initState() {
     super.initState();
-    
+
     _orderServices.fetchOrdersAfterToday().then((data) {
       setState(() {
         orders = data;
       });
     });
     _searchController.addListener(_onSearchChanged);
+  }
+
+  Future<void> _selectDate(
+      BuildContext context, TextEditingController controller) async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2024),
+      lastDate: DateTime(2030),
+    );
+    if (picked != null) {
+      // Update the text field with the selected date
+      setState(() {
+        controller.text = DateFormat('yyyy-MM-dd').format(picked);
+      });
+    }
+    if (picked != null && picked != controller.text) {
+      // Update the text field with the selected date
+
+      setState(() {
+        controller.text = DateFormat('yyyy-MM-dd').format(picked);
+      });
+    }
   }
 
   @override
@@ -36,17 +60,16 @@ class _ListOrdersState extends State<ListOrders> {
   }
 
   void _onSearchChanged() async {
-    
-      try {
-        var searchedOrder = await _orderServices.searchOrder(_searchController.text);
-     
-        setState(() {
-          orders = searchedOrder;
-        });
-      } catch (error) {
-        print('Error searching items: $error');
-      }
-    
+    try {
+      var searchedOrder =
+          await _orderServices.searchOrder(_searchController.text);
+
+      setState(() {
+        orders = searchedOrder;
+      });
+    } catch (error) {
+      print('Error searching items: $error');
+    }
   }
 
   Future<void> fetchOrders() async {
@@ -114,6 +137,11 @@ class _ListOrdersState extends State<ListOrders> {
                   prefixIcon: Icon(Icons.search),
                   contentPadding:
                       EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
+                      suffixIcon: IconButton(
+                    icon: Icon(Icons.calendar_today, color: Color(0xFF52E9AA)),
+                    onPressed: () =>
+                        _selectDate(context, _searchController),
+                  ),
                 ),
               ),
             ),
@@ -135,19 +163,20 @@ class _ListOrdersState extends State<ListOrders> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  'ID pemesanan : ${orders[index]['ID_pemesanan']}',
-                                  style: TextStyle(
-                                    fontSize: 20.0,
-                                    fontWeight: FontWeight.bold,
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    'ID pemesanan : ${orders[index]['ID_pemesanan']}',
+                                    style: TextStyle(
+                                      fontSize: 20.0,
+                                      fontWeight: FontWeight.bold,
+                                    ),
                                   ),
-                                ),
-                                _buildCheckIcon(orders[index]),
-                              ],
-                            ),
+                                  _buildCheckIcon(orders[index]),
+                                ],
+                              ),
                               Row(
                                 children: [
                                   Expanded(
@@ -179,14 +208,14 @@ class _ListOrdersState extends State<ListOrders> {
                                         context,
                                         MaterialPageRoute(
                                           builder: (context) => EditOrderList(
-                                            ID_pemesanan:
-                                                orders[index]['ID_pemesanan'],
+                                            ID_pemesanan: orders[index]
+                                                ['ID_pemesanan'],
                                             Tanggal_pemesanan: orders[index]
                                                 ['tanggal_pemesanan'],
                                             Tanggal_sampai: orders[index]
                                                 ['tanggal_sampai'],
-                                            Nama_Vendor:
-                                                orders[index]['nama_vendor'],
+                                            Nama_Vendor: orders[index]
+                                                ['nama_vendor'],
                                             Nama_Pemesan: orders[index]
                                                 ['nama_pemesan'],
                                           ),
@@ -197,8 +226,36 @@ class _ListOrdersState extends State<ListOrders> {
                                   IconButton(
                                     icon: Icon(Icons.delete),
                                     onPressed: () {
-                                      deleteOrder(
-                                          orders[index]['ID_pemesanan']);
+                                      showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return AlertDialog(
+                                            title: Text('Confirm Delete'),
+                                            content: Text(
+                                                'Are you sure you want to delete order with id ' +
+                                                    orders[index]
+                                                            ['ID_pemesanan']
+                                                        .toString() +
+                                                    '?'),
+                                            actions: <Widget>[
+                                              TextButton(
+                                                child: Text('No'),
+                                                onPressed: () {
+                                                  Navigator.of(context).pop();
+                                                },
+                                              ),
+                                              TextButton(
+                                                child: Text('Yes'),
+                                                onPressed: () {
+                                                  Navigator.of(context).pop();
+                                                  deleteOrder(orders[index]
+                                                      ['ID_pemesanan']);
+                                                },
+                                              ),
+                                            ],
+                                          );
+                                        },
+                                      );
                                     },
                                   ),
                                   IconButton(

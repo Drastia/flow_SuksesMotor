@@ -111,8 +111,8 @@ public function searchOrderItem($id,$query){
     {
         // Validate the incoming request data
         $request->validate([
-            'Tanggal_pemesanan' => 'required|regex:/^[a-zA-Z0-9]+$/',
-            'Tanggal_sampai' => 'required|regex:/^[a-zA-Z0-9]+$/',
+            'Tanggal_pemesanan' => 'required|regex:/^[a-zA-Z0-9-]+$/',
+            'Tanggal_sampai' => 'required|regex:/^[a-zA-Z0-9-]+$/',
             'Nama_Vendor' => 'required|regex:/^[a-zA-Z0-9 ]+$/',
             'Nama_Pemesan' => 'required|regex:/^[a-zA-Z0-9 ]+$/',
             'items.*.custom_id' => [

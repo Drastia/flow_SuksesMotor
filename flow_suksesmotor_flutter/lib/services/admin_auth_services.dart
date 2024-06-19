@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flow_suksesmotor/services/globals.dart';
 import 'package:http/http.dart' as http;
+import 'package:bcrypt/bcrypt.dart';
 
 class AuthServices{
   static Future<http.Response> registeradmin(
@@ -39,9 +40,13 @@ class AuthServices{
   return response;
   }
 
+  
+
   Future<http.Response> updateAdmin(int adminId, Map<String, dynamic> data) async {
+    
   var result = await http.put(Uri.parse(baseURL + 'updateadmin/$adminId'),
-      headers: headers, body: json.encode(data));
+      headers: headers, 
+      body: json.encode(data));
   return result;
 }
   

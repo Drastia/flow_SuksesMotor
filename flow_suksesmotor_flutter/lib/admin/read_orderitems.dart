@@ -174,10 +174,15 @@ TextEditingController _searchController = TextEditingController();
                         var orderItem = serverItems[index];
                         return Card(
                           margin: EdgeInsets.all(8),
+                          color: orderItem['ismatch'] == ''
+                      ? Colors.grey[50]
+                      : orderItem['ismatch'] == 'true'
+                          ? Colors.green[100]
+                          : Colors.red[100],
                           child: ListTile(
                             title: Text('Item: ${orderItem['name']}'),
                             subtitle: Text(
-                                'Quantity: ${orderItem['Quantity_ordered']} \nBrand: ${orderItem['brand']}'),
+                                'Quantity Ordered: ${orderItem['Quantity_ordered']} \nQuantity Arrived: ${orderItem['Incoming_Quantity']}  \nBrand: ${orderItem['brand']}'),
                             trailing: Row(
                               mainAxisSize: MainAxisSize.min,
                               children: [

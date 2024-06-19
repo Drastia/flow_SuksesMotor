@@ -94,7 +94,30 @@ void fetchWorker() async {
                       ),
               ),
               ElevatedButton(
-                onPressed: isworkerSelected ? () => _deleteSelectedworkers() : null,
+                onPressed: isworkerSelected ? () => showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Confirm Delete'),
+          content: Text('Are you sure you want to delete worker account ' + selectedRows[0]['worker_name'] + '?'),
+          actions: <Widget>[
+            TextButton(
+              child: Text('No'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: Text('Yes'),
+              onPressed: () {
+                Navigator.of(context).pop();
+                _deleteSelectedworkers();
+              },
+            ),
+          ],
+        );
+      },
+    ) : null,
                 child: Text('Delete', style: TextStyle(color: Colors.white)),
                 style: isworkerSelected
                     ? ButtonStyle(

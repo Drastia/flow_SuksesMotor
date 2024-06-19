@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flow_suksesmotor/services/admin_auth_services.dart';
 import 'package:flow_suksesmotor/services/globals.dart';
 
+
 class ListAdmin extends StatefulWidget {
   @override
   _ListAdminState createState() => _ListAdminState();
@@ -19,6 +20,7 @@ void fetchAdmin() async {
       var fetchedItems = await AuthServices().fetchAdmin();
       setState(() {
         _admins = fetchedItems.cast<Map<String, dynamic>>();
+        print(_admins);
       });
     } catch (error) {
       print('Error fetching items: $error');
@@ -94,7 +96,31 @@ void fetchAdmin() async {
                       ),
               ),
               ElevatedButton(
-                onPressed: isadminSelected ? () => _deleteSelectedadmins() : null,
+                onPressed: isadminSelected ? () =>  showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Confirm Delete'),
+          content: Text('Are you sure you want to delete admin account ' + selectedRows[0]['admin_name'] + '?'),
+          actions: <Widget>[
+            TextButton(
+              child: Text('No'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: Text('Yes'),
+              onPressed: () {
+                Navigator.of(context).pop();
+                _deleteSelectedadmins();
+              },
+            ),
+          ],
+        );
+      },
+    ) : null,
+                
                 child: Text('Delete', style: TextStyle(color: Colors.white)),
                 style: isadminSelected
                     ? ButtonStyle(
@@ -113,6 +139,8 @@ void fetchAdmin() async {
     );
   }
 
+  
+
   void _handleRowSelection(Map<String, dynamic> admin) {
     setState(() {
       if (selectedRows.contains(admin)) {
@@ -120,6 +148,7 @@ void fetchAdmin() async {
       } else {
         selectedRows.clear();
         selectedRows.add(admin);
+        print(admin);
       }
       isadminSelected = selectedRows.isNotEmpty;
     });

@@ -14,11 +14,31 @@ class _ChooseItemOrderState extends State<ChooseItemOrder> {
   List<Map<String, dynamic>> _items = [];
   Map<String, dynamic>? _selectedItem;
   TextEditingController _quantityController = TextEditingController();
+  TextEditingController _searchController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
-    fetchItems(); // Fetch items when the screen is entered
+    _searchController.addListener(_onSearchChanged);
+    fetchItems();
+  }
+
+  @override
+  void dispose() {
+    _searchController.removeListener(_onSearchChanged);
+    _searchController.dispose();
+    super.dispose();
+  }
+
+  void _onSearchChanged() {
+    _itemServices.searchItems(_searchController.text).then((searchedItems) {
+      setState(() {
+        _items = searchedItems;
+      });
+    }).catchError((error) {
+      print('Error searching items: $error');
+      // Handle error if needed
+    });
   }
 
   void fetchItems() async {
@@ -96,7 +116,30 @@ class _ChooseItemOrderState extends State<ChooseItemOrder> {
           ),
         ],
       ),
-      body: ListView.builder(
+      body:  Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(15.0),
+                color: Colors.grey[200],
+              ),
+              child: TextField(
+                controller: _searchController,
+                decoration: InputDecoration(
+                  labelText: 'Search',
+                  border: InputBorder.none,
+                  prefixIcon: Icon(Icons.search),
+                  contentPadding:
+                      EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
+                ),
+              ),
+            ),
+          ),
+          Expanded(
+            child:ListView.builder(
         itemCount: _items.length,
         itemBuilder: (BuildContext context, int index) {
           var item = _items[index];
@@ -111,6 +154,10 @@ class _ChooseItemOrderState extends State<ChooseItemOrder> {
             ),
           );
         },
+      ),
+    )
+      
+        ],
       ),
     );
   }

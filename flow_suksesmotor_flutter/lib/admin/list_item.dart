@@ -136,7 +136,30 @@ class _ListItemState extends State<ListItem> {
                       ),
               ),
               ElevatedButton(
-                onPressed: isItemSelected ? () => _deleteSelectedItems() : null,
+                onPressed: isItemSelected ? () =>  showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Confirm Delete'),
+          content: Text('Are you sure you want to delete item with name ' + selectedRows[0]['name'] + '?'),
+          actions: <Widget>[
+            TextButton(
+              child: Text('No'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: Text('Yes'),
+              onPressed: () {
+                Navigator.of(context).pop();
+                _deleteSelectedItems();
+              },
+            ),
+          ],
+        );
+      },
+    ) : null,
                 child: Text('Delete', style: TextStyle(color: Colors.white)),
                 style: isItemSelected
                     ? ButtonStyle(
