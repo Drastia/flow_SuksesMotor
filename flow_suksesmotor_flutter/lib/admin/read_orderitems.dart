@@ -17,8 +17,8 @@ class ReadOrderItems extends StatefulWidget {
 class _ReadOrderItemsState extends State<ReadOrderItems> {
   List<Map<String, dynamic>> items = [];
   List<Map<String, dynamic>> serverItems = [];
-TextEditingController _searchController = TextEditingController();
-  
+  TextEditingController _searchController = TextEditingController();
+
   @override
   void initState() {
     super.initState();
@@ -34,17 +34,16 @@ TextEditingController _searchController = TextEditingController();
   }
 
   void _onSearchChanged() async {
-    
-      try {
-        var searchedOrderItem = await OrderServices().searchOrderItem(widget.orderId,_searchController.text);
+    try {
+      var searchedOrderItem = await OrderServices()
+          .searchOrderItem(widget.orderId, _searchController.text);
 
-        setState(() {
-          serverItems = searchedOrderItem;
-        });
-      } catch (error) {
-        print('Error searching items: $error');
-      }
-    
+      setState(() {
+        serverItems = searchedOrderItem;
+      });
+    } catch (error) {
+      print('Error searching items: $error');
+    }
   }
 
   Future<void> fetchItems() async {
@@ -53,8 +52,6 @@ TextEditingController _searchController = TextEditingController();
       serverItems = existingItems.cast<Map<String, dynamic>>();
     });
   }
-
-  
 
   Future<void> refreshItems() async {
     setState(() {});
@@ -131,7 +128,7 @@ TextEditingController _searchController = TextEditingController();
     return Scaffold(
       appBar: AppBar(
         title: Text('Order Items'),
-          backgroundColor: Color(0xFF52E9AA),
+        backgroundColor: Color(0xFF52E9AA),
         actions: [
           IconButton(
             icon: Icon(Icons.add),
@@ -144,7 +141,8 @@ TextEditingController _searchController = TextEditingController();
         ],
       ),
       body: Column(
-        children: [ Padding(
+        children: [
+          Padding(
             padding: const EdgeInsets.all(8.0),
             child: Container(
               decoration: BoxDecoration(
@@ -175,10 +173,10 @@ TextEditingController _searchController = TextEditingController();
                         return Card(
                           margin: EdgeInsets.all(8),
                           color: orderItem['ismatch'] == ''
-                      ? Colors.grey[50]
-                      : orderItem['ismatch'] == 'true'
-                          ? Colors.green[100]
-                          : Colors.red[100],
+                              ? Colors.grey[50]
+                              : orderItem['ismatch'] == 'true'
+                                  ? Colors.green[100]
+                                  : Colors.red[100],
                           child: ListTile(
                             title: Text('Item: ${orderItem['name']}'),
                             subtitle: Text(
@@ -189,7 +187,37 @@ TextEditingController _searchController = TextEditingController();
                                 IconButton(
                                   icon: Icon(Icons.delete),
                                   onPressed: () {
-                                    deleteOrderItem(orderItem['id']);
+                                    showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return AlertDialog(
+                                          title: Text('Confirm Delete'),
+                                          content: Text(
+                                              'Are you sure you want to delete item with name ' +
+                                                  serverItems[index]['name']
+                                                      .toString() +
+                                                  '?'),
+                                          actions: <Widget>[
+                                            TextButton(
+                                              child: Text('No'),
+                                              onPressed: () {
+                                                Navigator.of(context).pop();
+                                              },
+                                            ),
+                                            TextButton(
+                                              child: Text('Yes'),
+                                              onPressed: () {
+                                                Navigator.of(context).pop();
+                                                setState(() {
+                                                  deleteOrderItem(orderItem['id']);
+                                                });
+                                              },
+                                            ),
+                                          ],
+                                        );
+                                      },
+                                    );
+                                    
                                   },
                                 ),
                               ],
@@ -201,7 +229,8 @@ TextEditingController _searchController = TextEditingController();
                         var newItem = items[index - serverItems.length];
                         return Card(
                           margin: EdgeInsets.all(8),
-                          color: Colors.lightGreen[100], // Set the card color to light green
+                          color: Colors.lightGreen[
+                              100], // Set the card color to light green
                           child: ListTile(
                             title: Text('Item: ${newItem['name']}'),
                             subtitle: Text(
@@ -212,9 +241,38 @@ TextEditingController _searchController = TextEditingController();
                                 IconButton(
                                   icon: Icon(Icons.delete),
                                   onPressed: () {
-                                    setState(() {
-                                      items.removeAt(index - serverItems.length);
-                                    });
+                                    showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return AlertDialog(
+                                          title: Text('Confirm Delete'),
+                                          content: Text(
+                                              'Are you sure you want to delete item with name ' +
+                                                  items[index -
+                                                      serverItems.length]['name']
+                                                      .toString() +
+                                                  '?'),
+                                          actions: <Widget>[
+                                            TextButton(
+                                              child: Text('No'),
+                                              onPressed: () {
+                                                Navigator.of(context).pop();
+                                              },
+                                            ),
+                                            TextButton(
+                                              child: Text('Yes'),
+                                              onPressed: () {
+                                                Navigator.of(context).pop();
+                                                setState(() {
+                                                  items.removeAt(index -
+                                                      serverItems.length);
+                                                });
+                                              },
+                                            ),
+                                          ],
+                                        );
+                                      },
+                                    );
                                   },
                                 ),
                               ],
@@ -231,9 +289,11 @@ TextEditingController _searchController = TextEditingController();
               onPressed: updateItems,
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.green,
-                minimumSize: Size(double.infinity, 50), // Make button full-width and height 50
+                minimumSize: Size(double.infinity,
+                    50), // Make button full-width and height 50
               ),
-              child: Text('Update Items', style: TextStyle(color: Colors.white)),
+              child:
+                  Text('Update Items', style: TextStyle(color: Colors.white)),
             ),
           ),
         ],

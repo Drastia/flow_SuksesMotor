@@ -172,7 +172,7 @@ class _HistoryOrdersState extends State<HistoryOrders> {
                               ],
                             ),
 
-                        // Date centered
+                  
                         Row(
                           children: [
                             Expanded(
@@ -257,7 +257,7 @@ class _HistoryOrdersState extends State<HistoryOrders> {
                             IconButton(
                               icon: Icon(Icons.note),
                               onPressed: () {
-                                // Navigate to the OrderItemsScreen to display order items
+                  
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(

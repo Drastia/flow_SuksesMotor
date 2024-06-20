@@ -37,7 +37,7 @@ class _ChooseItemOrderState extends State<ChooseItemOrder> {
       });
     }).catchError((error) {
       print('Error searching items: $error');
-      // Handle error if needed
+      
     });
   }
 
