@@ -5,7 +5,7 @@ import 'package:flow_suksesmotor/admin/choose_order_item.dart';
 import 'package:flow_suksesmotor/admin/initial_accountlist.dart';
 import 'package:flow_suksesmotor/admin/list_item.dart';
 import 'package:flow_suksesmotor/admin/list_order.dart';
-import 'package:flow_suksesmotor/admin/order_item.dart';
+import 'package:flutter/services.dart';
 import 'package:flow_suksesmotor/admin/registerScreen.dart';
 import 'package:flow_suksesmotor/admin/worker_accountlist.dart';
 import 'package:flow_suksesmotor/worker/OCR_scanner.dart';
@@ -20,7 +20,10 @@ import 'screen/workerlogin.dart';
 
 void main() {
   runApp(const MyApp());
-
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]);
 }
 
 

@@ -98,6 +98,7 @@ Widget build(BuildContext context) {
               SizedBox(height: 5.0),
               TextField(
                 controller: tanggalPemesananController,
+                readOnly: true,
                 decoration: InputDecoration(
                   labelText: "Tanggal Pemesanan",
                   enabledBorder: OutlineInputBorder(
@@ -106,10 +107,7 @@ Widget build(BuildContext context) {
                   focusedBorder: OutlineInputBorder(
                     borderSide: BorderSide(color: Colors.black, width: 2.0),
                   ),
-                  suffixIcon: IconButton(
-                    icon: Icon(Icons.calendar_today, color: Color(0xFF52E9AA)),
-                    onPressed: () => _selectDate(context, tanggalPemesananController),
-                  ),
+                  
                 ),
               ),
               SizedBox(height: 16.0),
@@ -145,6 +143,7 @@ Widget build(BuildContext context) {
               SizedBox(height: 16.0),
               TextField(
                 controller: pemesanController,
+                readOnly: true,
                 decoration: InputDecoration(
                   labelText: "Nama Pemesan",
                   enabledBorder: OutlineInputBorder(

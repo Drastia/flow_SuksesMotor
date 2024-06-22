@@ -56,7 +56,7 @@ class _WorkerOrderListItemsState extends State<WorkerOrderListItems> {
     var response = await OrderServices().updateQuantityArrived(orderId, item);
 
     if (response.statusCode == 200) {
-      // Successfully updated
+
       print('Order item updated successfully!');
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Order item updated successfully!')),
@@ -95,7 +95,7 @@ class _WorkerOrderListItemsState extends State<WorkerOrderListItems> {
                 ),
               ).then((result) {
                 if (result ?? false) {
-                  fetchItems(); // Refresh items after successful update
+                  fetchItems(); 
                 }
               });
             },
@@ -196,7 +196,7 @@ class _WorkerOrderListItemsState extends State<WorkerOrderListItems> {
                                           updateQuantityArrived(
                                               widget.orderId, itemToUpdate);
                                           Navigator.pop(context);
-                                          fetchItems(); // Refresh items after update
+                                          fetchItems(); 
                                         } else {
                                           errorSnackBar(context,
                                               'Please enter a valid quantity (whole numbers only)');

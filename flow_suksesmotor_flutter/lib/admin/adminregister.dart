@@ -32,10 +32,10 @@ class _adminregisterstate extends State<adminregister> {
       Map responseMap = jsonDecode(response.body);
       
       if(response.statusCode==200){
-         Navigator.pushReplacement( // Use pushReplacement to replace the current route with the dashboard
+         Navigator.pushReplacement( 
         context, 
         MaterialPageRoute(
-          builder: (BuildContext context) =>  RegisterScreen(),
+          builder: (BuildContext context) =>  adminregister(),
         ),
       ); 
       }else{

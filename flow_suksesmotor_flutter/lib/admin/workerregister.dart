@@ -33,7 +33,7 @@ class _workerregisterstate extends State<workerregister> {
         Navigator.pushReplacement( // Use pushReplacement to replace the current route with the dashboard
         context, 
         MaterialPageRoute(
-          builder: (BuildContext context) =>  RegisterScreen(),
+          builder: (BuildContext context) =>  workerregister(),
         ),); 
       }else{
         if (responseMap != null && responseMap.isNotEmpty) {
