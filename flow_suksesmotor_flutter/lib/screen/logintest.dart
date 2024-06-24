@@ -35,7 +35,7 @@ class _LoginFormState extends State<LoginForm> {
   TextEditingController _passwordController = TextEditingController();
 
   Future<void> loginUser(String username, String password, String userType) async {
-  // Replace 'your_laravel_backend_url' with your actual backend URL
+  
   Uri url = Uri.parse('your_laravel_backend_url/login');
   Map<String, String> headers = {
     'Content-Type': 'application/json',
@@ -48,15 +48,15 @@ class _LoginFormState extends State<LoginForm> {
   try {
     http.Response response = await http.post(url, headers: headers, body: jsonEncode(body));
     if (response.statusCode == 200) {
-      // Login successful
+      
       print('Login successful!');
-      // Navigate to the next screen or perform any other action
+      
     } else {
-      // Login failed
+      
       print('Login failed: ${response.body}');
     }
   } catch (e) {
-    // Exception occurred
+    
     print('Error: $e');
   }
 }
@@ -83,7 +83,7 @@ class _LoginFormState extends State<LoginForm> {
         SizedBox(height: 20),
         ElevatedButton(
           onPressed: () {
-            // Handle login based on userType
+            
             String username = _usernameController.text;
             String password = _passwordController.text;
             loginUser(username, password, widget.userType);

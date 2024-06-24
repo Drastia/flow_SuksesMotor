@@ -14,7 +14,7 @@ import 'package:flutter/material.dart';
 //DONT CHANGE THE :8000/api/ 
 
 //api hostspot HP
-//const String baseURL = "http://192.168.40.23:8000/api/";
+//const String baseURL = "http://192.168.192.23:8000/api/";
 
 
 //api wifi rumah

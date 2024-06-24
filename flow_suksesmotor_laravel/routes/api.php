@@ -20,12 +20,12 @@ Route::get('/worker', [AuthController::class, 'indexWorker']);
 Route::put('/updateworker/{id}', [AuthController::class, 'updateWorker']);
 Route::delete('/deleteworker/{id}', [AuthController::class, 'destroyWorker']);
 
-Route::get('/getitems', [ItemController::class, 'index']); // GET /items
-Route::post('/storeitems', [ItemController::class, 'store']); // POST /items
-Route::get('/searchitem/{item}', [ItemController::class, 'search']); // GET /items/{keywords}
+Route::get('/getitems', [ItemController::class, 'index']); 
+Route::post('/storeitems', [ItemController::class, 'store']); 
+Route::get('/searchitem/{item}', [ItemController::class, 'search']); 
 Route::get('/updateitems/{id}/edit', [ItemController::class, 'edit']);
-Route::put('/updateitems/{id}', [ItemController::class, 'update']); // PUT /items/{id}
-Route::delete('/deleteitems/{id}', [ItemController::class, 'destroy']); // DELETE /items/{id}
+Route::put('/updateitems/{id}', [ItemController::class, 'update']); 
+Route::delete('/deleteitems/{id}', [ItemController::class, 'destroy']); 
 
 Route::prefix('orders')->group(function () {
     Route::get('/IndexAftertoday', [OrderController::class, 'IndexAftertoday']);

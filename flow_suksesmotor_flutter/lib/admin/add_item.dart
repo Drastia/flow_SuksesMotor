@@ -25,7 +25,6 @@ class _AddItemState extends State<AddItem> {
 
     var response = await _itemServices.addItem(data);
     if (response.statusCode == 201) {
-      // Item added successfully
       print('Item added successfully');
       successSnackBar(context, 'Item added successfully');
     } else if (customIdController.text.isEmpty ||

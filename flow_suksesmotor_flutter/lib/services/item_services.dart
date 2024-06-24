@@ -23,7 +23,7 @@ class ItemServices {
     if (data is List) {
       return data.cast<Map<String, dynamic>>();
     } else {
-      return []; // Return an empty list if no items are found
+      return []; 
     }
   } catch (error, stackTrace) {
   print('Error searching items: $error');
@@ -39,7 +39,7 @@ class ItemServices {
 }
   
   Future<http.Response> deleteItem(int itemId) async {
-    // Menggunakan itemId untuk menghapus item dengan ID tertentu
+    
     var result = await http.delete(Uri.parse(baseURL+'deleteitems/$itemId'), headers: headers);
     return result;
   }

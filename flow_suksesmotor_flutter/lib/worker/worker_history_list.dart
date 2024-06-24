@@ -46,13 +46,13 @@ class _WorkerOrderHistoryState extends State<WorkerOrderHistory>
       lastDate: DateTime(2030),
     );
     if (picked != null) {
-      // Update the text field with the selected date
+      
       setState(() {
         controller.text = DateFormat('yyyy-MM-dd').format(picked);
       });
     }
     if (picked != null && picked != controller.text) {
-      // Update the text field with the selected date
+      
 
       setState(() {
         controller.text = DateFormat('yyyy-MM-dd').format(picked);
@@ -169,7 +169,7 @@ class _WorkerOrderHistoryState extends State<WorkerOrderHistory>
                                 _buildCheckIcon(orders[index]),
                               ],
                             ),
-                            // Date centered
+                            
                             Row(
                               children: [
                                 Expanded(
@@ -178,7 +178,7 @@ class _WorkerOrderHistoryState extends State<WorkerOrderHistory>
                                     style: TextStyle(fontSize: 16.0),
                                   ),
                                 ),
-                                Spacer(), // Pushes the text "Pemesan" to the end
+                                Spacer(), 
                                 Text(
                                   'Pemesan: ${orders[index]['nama_pemesan']}',
                                   style: TextStyle(fontSize: 16.0),
@@ -205,7 +205,7 @@ class _WorkerOrderHistoryState extends State<WorkerOrderHistory>
 
   Widget _buildCheckIcon(dynamic order) {
     if (order['checked'] == '') {
-      return SizedBox(width: 24); // Empty space, adjust size as needed
+      return SizedBox(width: 24); 
     } else if (order['checked'] == 'true') {
       return Icon(Icons.check, color: Colors.green);
     } else {

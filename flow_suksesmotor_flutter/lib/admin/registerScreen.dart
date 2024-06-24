@@ -21,8 +21,8 @@ class RegisterScreen extends StatelessWidget {
             ),
             SizedBox(height: 50),
             SizedBox(
-              height: 60, // Decreased button height
-              width: 200, // Increased button width
+              height: 60, 
+              width: 200, 
               child: ElevatedButton(
                 onPressed: () {
                   Navigator.push(
@@ -39,20 +39,20 @@ class RegisterScreen extends StatelessWidget {
                   padding: MaterialStateProperty.all<EdgeInsetsGeometry>(EdgeInsets.all(10)),
                   shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                     RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30.0), // Increased border radius
+                      borderRadius: BorderRadius.circular(30.0), 
                     ),
                   ),
                 ),
                 child: Text(
                   'Admin',
-                  style: TextStyle(fontSize: 20), // Decreased font size
+                  style: TextStyle(fontSize: 20), 
                 ),
               ),
             ),
             SizedBox(height: 20),
             SizedBox(
-              height: 60, // Decreased button height
-              width: 200, // Increased button width
+              height: 60, 
+              width: 200, 
               child: ElevatedButton(
                 onPressed: () {
                   Navigator.push(
@@ -69,13 +69,13 @@ class RegisterScreen extends StatelessWidget {
                   padding: MaterialStateProperty.all<EdgeInsetsGeometry>(EdgeInsets.all(10)),
                   shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                     RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30.0), // Increased border radius
+                      borderRadius: BorderRadius.circular(30.0), 
                     ),
                   ),
                 ),
                 child: Text(
                   'Worker',
-                  style: TextStyle(fontSize: 20), // Decreased font size
+                  style: TextStyle(fontSize: 20), 
                 ),
               ),
             ),

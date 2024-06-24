@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'initialscreen.dart'; // Import the file containing MyHomePage
+import 'initialscreen.dart'; 
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -36,23 +36,23 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
   }
 
   void _navigateToHomePage() async {
-    // Navigate to the MyHomePage
+    
     Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => InitialScreen()));
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white, // Change to your desired background color
+      backgroundColor: Colors.white, 
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             ScaleTransition(
               scale: _scaleAnimation,
-              child: Image.asset('images/flow_logo.png', width: 50), // Replace this with your splash screen content
+              child: Image.asset('images/flow_logo.png', width: 50), 
             ),
-            SizedBox(height: 16), // Add some space between the image and text
+            SizedBox(height: 16), 
             Text(
               'Flow Sukses Motor',
               style: TextStyle(

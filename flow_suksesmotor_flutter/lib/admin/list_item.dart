@@ -36,7 +36,7 @@ class _ListItemState extends State<ListItem> {
       });
     }).catchError((error) {
       print('Error searching items: $error');
-      // Handle error if needed
+      
     });
   }
 

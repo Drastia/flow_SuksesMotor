@@ -2,7 +2,7 @@ import 'package:flow_suksesmotor/services/order_services.dart';
 import 'package:flutter/material.dart';
 import 'package:flow_suksesmotor/services/item_services.dart';
 import 'package:flow_suksesmotor/services/globals.dart';
-import 'choose_order_item.dart'; // Import the ChooseItemOrder screen
+import 'choose_order_item.dart'; 
 import 'package:intl/intl.dart';
 
 class AddOrder extends StatefulWidget {
@@ -25,7 +25,7 @@ class _AddOrderState extends State<AddOrder> {
   @override
   void initState() {
     super.initState();
-    // Initialize tanggalPemesananController with today's date
+
     tanggalPemesananController.text =
         DateFormat('yyyy-MM-dd').format(DateTime.now());
     namaPemesanController.text = widget.adminName;
@@ -40,13 +40,13 @@ class _AddOrderState extends State<AddOrder> {
       lastDate: DateTime(2030),
     );
     if (picked != null) {
-      // Update the text field with the selected date
+
       setState(() {
         controller.text = DateFormat('yyyy-MM-dd').format(picked);
       });
     }
     if (picked != null && picked != controller.text) {
-      // Update the text field with the selected date
+
 
       setState(() {
         controller.text = DateFormat('yyyy-MM-dd').format(picked);
@@ -61,7 +61,7 @@ class _AddOrderState extends State<AddOrder> {
   }
 
   void createOrder() async {
-    // Prepare the order data
+
     Map<String, dynamic> orderData = {
       'Tanggal_pemesanan': tanggalPemesananController.text,
       'Tanggal_sampai': tanggalSampaiController.text,
@@ -70,47 +70,47 @@ class _AddOrderState extends State<AddOrder> {
       'items': items,
     };
 
-    // Check if orderData is empty or items list is empty
+
     if (orderData.values
             .any((element) => element == null || element.toString().isEmpty) ||
         items.isEmpty) {
       print('All fields must be filled and there must be an item');
       errorSnackBar(
-          context, 'All fields must be filled and there must be an item');
+          context, 'Semua kolom harus diisi dan harus ada item');
       return;
     }
 
     print(orderData);
 
-    // Make the API call if the data is valid
+
     var response = await _OrderServices.createOrder(orderData);
     print("Response status code: ${response.statusCode}");
     print("Response body: ${response.body}");
 
     if (response.statusCode == 201) {
-      // Item added successfully
+
       print('Item added successfully');
-      // You can add code here to show a success message or navigate to another screen
-      tanggalPemesananController.clear();
+      
+      
       tanggalSampaiController.clear();
       namaVendorController.clear();
-      namaPemesanController.clear();
+      
       setState(() {
         items.clear();
       });
       successSnackBar(context, 'Item added successfully');
     } else if (response.statusCode == 400) {
-      // Bad request
+
       print('Bad request: ${response.body}');
-      // You can add code here to show an error message or handle the failure
+
     } else if (response.statusCode == 422) {
-      // Unprocessable Entity
+
       print('Unprocessable entity: ${response.body}');
-      // You can add code here to show an error message or handle the failure
+
     } else {
-      // Other error
+
       print('Unexpected error occurred: ${response.body}');
-      // You can add code here to show an error message or handle the failure
+
     }
   }
 

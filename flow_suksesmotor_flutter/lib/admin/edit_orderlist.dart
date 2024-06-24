@@ -1,7 +1,7 @@
 import 'package:flow_suksesmotor/admin/list_order.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:flow_suksesmotor/services/order_services.dart'; // Import your order_services.dart file
+import 'package:flow_suksesmotor/services/order_services.dart'; 
 
 class EditOrderList extends StatefulWidget {
   final int ID_pemesanan;
@@ -32,7 +32,7 @@ class _EditOrderListState extends State<EditOrderList> {
   @override
   void initState() {
     super.initState();
-    // Initialize text controllers with passed values
+    
     vendorController.text = widget.Nama_Vendor;
     pemesanController.text = widget.Nama_Pemesan;
     tanggalPemesananController.text = widget.Tanggal_pemesanan;
@@ -54,7 +54,7 @@ class _EditOrderListState extends State<EditOrderList> {
   }
 
   Future<void> _submitEdit() async {
-    // Prepare order data to update
+    
     Map<String, dynamic> orderData = {
       'Nama_Vendor': vendorController.text,
       'Nama_Pemesan': pemesanController.text,
@@ -62,11 +62,11 @@ class _EditOrderListState extends State<EditOrderList> {
       'Tanggal_sampai': tanggalSampaiController.text,
     };
 
-    // Call the updateOrder function
+    
     try {
       await OrderServices().updateOrder(widget.ID_pemesanan, orderData);
-      // Handle success
-      // For example, navigate back to previous screen
+      
+      
       
       Navigator.pop(context);
       Navigator.pushReplacement(
@@ -75,9 +75,9 @@ class _EditOrderListState extends State<EditOrderList> {
         );
 
     } catch (e) {
-      // Handle error
+      
       print('Error updating order: $e');
-      // Show error dialog or snackbar
+      
     }
   }
 
@@ -165,7 +165,7 @@ Widget build(BuildContext context) {
                   style: TextStyle(color: Colors.white),
                 ),
               ),
-              SizedBox(height: 16.0), // Add additional spacing at the bottom
+              SizedBox(height: 16.0), 
             ],
           ),
         ),

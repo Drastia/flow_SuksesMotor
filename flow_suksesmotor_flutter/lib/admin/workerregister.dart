@@ -30,14 +30,15 @@ class _workerregisterstate extends State<workerregister> {
       Map responseMap = jsonDecode(response.body);
       
       if(response.statusCode==200){
-        Navigator.pushReplacement( // Use pushReplacement to replace the current route with the dashboard
+        successSnackBar(context, "Akun worker berhasil dibuat");
+        Navigator.pushReplacement( 
         context, 
         MaterialPageRoute(
           builder: (BuildContext context) =>  workerregister(),
         ),); 
       }else{
         if (responseMap != null && responseMap.isNotEmpty) {
-        // Display all error messages
+        
         List<String> errorMessages = [];
         responseMap.forEach((key, value) {
           if (value is List) {
@@ -46,10 +47,10 @@ class _workerregisterstate extends State<workerregister> {
             errorMessages.add(value.toString());
           }
         });
-        // Show all errors in a single SnackBar
+        
         errorSnackBar(context, errorMessages.join("\n"));
       } else {
-        // If responseMap is null or empty, show a generic error message
+        
         errorSnackBar(context, "Server error: ${response.statusCode}");
       }
       }
@@ -152,22 +153,22 @@ class _workerregisterstate extends State<workerregister> {
             const SizedBox(
               height: 40,
             ),
-            //ini kayaknyo dksah
-            // GestureDetector(
-            //   onTap: (){
-            //     Navigator.push(
-            //       context, 
-            //       MaterialPageRoute(
-            //         builder: (BuildContext context) => const Loginworker(),
-            //       )); 
-            //   },
-            //   child: const Text(
-            //     'already have an account',
-            //     style: TextStyle(
-            //       decoration: TextDecoration.underline,
-            //     ),
-            //   ),
-            // )
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
           ],
         ),
       ),

@@ -60,7 +60,7 @@ class WorkerDashboard extends StatelessWidget {
       body: Stack(
         children: <Widget>[
           dashBg,
-          content(context, gridItems), // Pass context and gridItems to content method
+          content(context, gridItems), 
         ],
       ),
     );
@@ -97,7 +97,7 @@ class WorkerDashboard extends StatelessWidget {
         child: Column(
           children: <Widget>[
             header,
-            grid(context, gridItems), // Pass context and gridItems to grid method
+            grid(context, gridItems), 
           ],
         ),
       );

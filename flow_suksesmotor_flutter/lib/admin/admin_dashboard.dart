@@ -115,13 +115,13 @@ class AdminDashboard extends StatelessWidget {
     ),
     
    
-    // Add more GridItemData objects for additional grid items
+    
   ];
     return Scaffold(
       body: Stack(
         children: <Widget>[
           dashBg,
-          content(context, gridItems), // Pass context and gridItems to content method
+          content(context, gridItems), 
         ],
       ),
     );
@@ -158,7 +158,7 @@ class AdminDashboard extends StatelessWidget {
         child: Column(
           children: <Widget>[
             header,
-            grid(context, gridItems), // Pass context and gridItems to grid method
+            grid(context, gridItems), 
           ],
         ),
       );

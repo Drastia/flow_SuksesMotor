@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:flow_suksesmotor/admin/choose_order_item.dart';
 import 'package:flow_suksesmotor/services/globals.dart';
 import 'package:flutter/material.dart';
-import 'package:flow_suksesmotor/services/order_services.dart'; // Import the OrderServices class
+import 'package:flow_suksesmotor/services/order_services.dart'; 
 
 class ReadOrderItems extends StatefulWidget {
   final int orderId;
@@ -77,17 +77,17 @@ class _ReadOrderItemsState extends State<ReadOrderItems> {
   Future<void> updateItems() async {
     List<Map<String, dynamic>> allItems = [];
 
-    // Add existing server items
+    
     allItems.addAll(serverItems);
 
-    // Add new items
+    
     allItems.addAll(items);
 
     var orderData = {'items': allItems};
-    print(orderData); // Print orderData to check its structure
+    print(orderData); 
     var response =
         await OrderServices().updateOrderItems(widget.orderId, orderData);
-    print(response.body); // Print the response body received from the server
+    print(response.body); 
     if (response.statusCode == 200) {
 
         successSnackBar(context,'Order items updated successfully!');
@@ -106,13 +106,13 @@ class _ReadOrderItemsState extends State<ReadOrderItems> {
   void deleteOrderItem(int orderItemId) async {
     var response = await OrderServices().deleteOrderItem(orderItemId);
     if (response.statusCode == 204) {
-      // Order item deleted successfully
+      
       setState(() {
-        // Remove the deleted item from the local list
+        
         serverItems.removeWhere((item) => item['id'] == orderItemId);
       });
       successSnackBar(context, 'Delete is successful');
-      // Refresh items after deletion
+      
       await refreshItems();
     } else if (response.statusCode == 404) {
       errorSnackBar(context, 'Order item not found');
@@ -167,7 +167,7 @@ class _ReadOrderItemsState extends State<ReadOrderItems> {
                     itemCount: serverItems.length + items.length,
                     itemBuilder: (context, index) {
                       if (index < serverItems.length) {
-                        // Display items fetched from the server
+                        
                         var orderItem = serverItems[index];
                         return Card(
                           margin: EdgeInsets.all(8),
@@ -224,12 +224,12 @@ class _ReadOrderItemsState extends State<ReadOrderItems> {
                           ),
                         );
                       } else {
-                        // Display items added locally
+                        
                         var newItem = items[index - serverItems.length];
                         return Card(
                           margin: EdgeInsets.all(8),
                           color: Colors.lightGreen[
-                              100], // Set the card color to light green
+                              100], 
                           child: ListTile(
                             title: Text('Item: ${newItem['name']}'),
                             subtitle: Text(
@@ -289,7 +289,7 @@ class _ReadOrderItemsState extends State<ReadOrderItems> {
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.green,
                 minimumSize: Size(double.infinity,
-                    50), // Make button full-width and height 50
+                    50), 
               ),
               child:
                   Text('Update Items', style: TextStyle(color: Colors.white)),

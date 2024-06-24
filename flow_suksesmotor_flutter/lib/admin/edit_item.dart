@@ -26,27 +26,33 @@ class _EditItemState extends State<EditItem> {
     'name': nameController.text,
     'brand': brandController.text,
   };
-
+  if (RegExp(r'^\w{6,}$').hasMatch(customIdController.text)&&RegExp(r'^[\w\s]{6,}$').hasMatch(nameController.text)&&
+  RegExp(r'^[\w\s]+$').hasMatch(brandController.text)) {
+        
+      }else{
+        errorSnackBar(context, 'Tidak boleh menggunakan simbol di semua kolom dan Panjang ID dan nama pengguna harus lebih dari atau sama dengan 6 karakter.');
+        return;
+      }
   try {
     var response = await _itemServices.updateItem(
         widget.selectedItem['id'], updatedData);
 
     if (response.statusCode == 200) {
-      // Item updated successfully
+      
       print('Item updated successfully');
-      // You can add code here to show a success message or navigate to another screen
+      
       successSnackBar(context, 'Item updated successfully');
       Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => ListItem()),
         );
     } else {
-      // Error updating item
+      
       print('Error updating item: ${response.statusCode}');
-      errorSnackBar(context, 'Terdapat duplikasi antara ID Barang atau nama barang sehingga gagal');
+      errorSnackBar(context, 'salah satu field dikosongkan');
     }
   } catch (error) {
-    // Handle error
+    
     print('Error updating item: $error');
     errorSnackBar(context, 'Tidak terhubung ke server atau error yang tidak diketahui');
   }
@@ -55,7 +61,7 @@ class _EditItemState extends State<EditItem> {
    @override
   void initState() {
     super.initState();
-    // Set initial values in text fields based on selected item data
+    
     customIdController.text = widget.selectedItem['custom_id'];
     nameController.text = widget.selectedItem['name'];
     brandController.text = widget.selectedItem['brand'];
@@ -84,11 +90,11 @@ class _EditItemState extends State<EditItem> {
                   fillColor: Colors.grey[200],
                   contentPadding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 15.0),),
               onChanged: (value) {
-                // Convert the value to uppercase and set it back to the controller
+                
                 customIdController.value = customIdController.value.copyWith(
-                  text: value.toUpperCase(), // Convert value to uppercase
+                  text: value.toUpperCase(), 
                   selection: TextSelection.collapsed( 
-                      offset: value.length), // Maintain cursor position
+                      offset: value.length), 
                 );
               },
             ),

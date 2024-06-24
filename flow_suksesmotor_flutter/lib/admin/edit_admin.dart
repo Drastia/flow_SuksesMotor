@@ -20,7 +20,7 @@ class _EditAdminState extends State<EditAdmin> {
   @override
   void initState() {
     super.initState();
-    // Set initial values in text fields based on selected item data
+    
     adminnameController.text = widget.selectedAdmin['admin_name'];
     adminusernameController.text = widget.selectedAdmin['admin_username'];
 
@@ -31,32 +31,42 @@ class _EditAdminState extends State<EditAdmin> {
     Map<String, dynamic> updatedData = {
       'admin_name': adminnameController.text,
       'admin_username': adminusernameController.text,
-      
     };
+      if (RegExp(r'^\w{6,}$').hasMatch(adminusernameController.text)) {
+        
+      }else{
+        errorSnackBar(context, 'Dont use symbols on username or username length is below 6');
+        return;
+      }
      if (adminpasswordController.text.isNotEmpty) {
-    updatedData['admin_password'] = adminpasswordController.text;
+      if (RegExp(r'^\w{6,}$').hasMatch(adminpasswordController.text)) {
+          updatedData['admin_password'] = adminpasswordController.text;
+      }else{
+        errorSnackBar(context, 'Dont use symbols on password or password length is below 6');
+        return;
+      }
   }
     try {
       var response = await AuthServices()
           .updateAdmin(widget.selectedAdmin['id'], updatedData);
 
       if (response.statusCode == 200) {
-        // Item updated successfully
+        
         print('Item updated successfully');
-        // You can add code here to show a success message or navigate to another screen
+        
         successSnackBar(context, 'Item updated successfully');
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => ListAdmin()),
         );
       } else {
-        // Error updating item
+        
         print('Error updating item: ${response.statusCode}');
         errorSnackBar(context,
             'Terdapat duplikasi antara ID Barang atau nama barang sehingga gagal');
       }
     } catch (error) {
-      // Handle error
+      
       print('Error updating item: $error');
       errorSnackBar(
           context, 'Tidak terhubung ke server atau error yang tidak diketahui');
@@ -126,9 +136,11 @@ class _EditAdminState extends State<EditAdmin> {
                           : Icons.visibility,
                     ),
                     onPressed: () {
+                      
                       setState(() {
                         _isPasswordInvisible = !_isPasswordInvisible;
                       });
+                     
                     },
                   ),
               ),
@@ -136,7 +148,8 @@ class _EditAdminState extends State<EditAdmin> {
             SizedBox(height: 20),
             Center(
               child: ElevatedButton(
-                onPressed: _updateAdmin,
+                onPressed:_updateAdmin,
+               
                 style: ButtonStyle(
                   backgroundColor:
                       MaterialStateProperty.all<Color>(Colors.green),

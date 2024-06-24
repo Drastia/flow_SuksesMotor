@@ -16,7 +16,7 @@ class OcrScanner extends StatefulWidget {
   OcrScanner({
     required this.orderId,
     required this.workerName,
-    required this.items, // Required parameter
+    required this.items, 
   });
   @override
   _OcrScannerState createState() => _OcrScannerState();
@@ -78,11 +78,11 @@ class _OcrScannerState extends State<OcrScanner> {
     var response = await OrderServices().updateQuantityArrived(orderId, item);
 
     if (response.statusCode == 200) {
-      // Successfully updated
+      
       print('Order item updated successfully!');
       successSnackBar(context,'Order items updated successfully!');
     } else {
-      // Failed to update
+      
       print('Failed to update order item: ${response.body}');
       errorSnackBar(context,'Failed to update order item.');
     }
@@ -117,7 +117,7 @@ class _OcrScannerState extends State<OcrScanner> {
         return;
       }
 
-      // Load the captured image
+      
       final bytes = await File(image.path).readAsBytes();
       final originalImage = img.decodeImage(bytes);
 
@@ -126,30 +126,30 @@ class _OcrScannerState extends State<OcrScanner> {
         return;
       }
 
-      // Determine the dimensions of the overlay box
+      
 
       final overlayHeight = MediaQuery.of(context).size.height * 0.1;
 
-// Determine the position of the overlay box
+
       final overlayTopMargin = MediaQuery.of(context).size.height * 0.4;
 
-// Calculate crop area based on overlay position and dimensions
-      int cropX =  (originalImage.width * 0.1).toInt();; // Starting X position of crop
-      int cropY = overlayTopMargin.toInt(); // Starting Y position of crop
+
+      int cropX =  (originalImage.width * 0.1).toInt();; 
+      int cropY = overlayTopMargin.toInt(); 
       int cropWidth =
-          (originalImage.width * 0.9).toInt(); // Width of the crop area
+          (originalImage.width * 0.9).toInt(); 
       int cropHeight = (overlayHeight *
               originalImage.height /
               MediaQuery.of(context).size.height)
-          .toInt(); // Height of the crop area
+          .toInt(); 
 
-// Ensure the crop area fits within the image dimensions
+
       cropY = cropY.clamp(
           0,
           originalImage.height -
-              cropHeight); // Clamp Y to stay within image bounds
+              cropHeight); 
 
-// Crop the image
+
       final croppedImage = img.copyCrop(
         originalImage,
         x: cropX,
@@ -158,12 +158,12 @@ class _OcrScannerState extends State<OcrScanner> {
         height: cropHeight,
       );
 
-      // Save the cropped image to a temporary file
+      
       final tempDir = await getTemporaryDirectory();
       final tempPath = '${tempDir.path}/cropped_image.png';
       File(tempPath).writeAsBytesSync(img.encodePng(croppedImage));
 
-      // Create an InputImage from the cropped file
+      
       final inputImage = InputImage.fromFilePath(tempPath);
       final RecognizedText recognizedText =
           await _textRecognizer.processImage(inputImage);
@@ -171,16 +171,16 @@ class _OcrScannerState extends State<OcrScanner> {
       String scannedText = recognizedText.text;
       if (scannedText.isNotEmpty) {
         bool foundMatch = false;
-        int matchIndex = -1; // Initialize with -1 indicating no match
+        int matchIndex = -1; 
         var item = null;
         
-// Check each item in widget.items
+
         for (int i = 0; i < widget.items.length; i++) {
           item = widget.items[i];
           if (scannedText == item['name'] || scannedText == item['custom_id']) {
             foundMatch = true;
-            matchIndex = i; // Store the index of the matching item
-            break; // Exit loop if match found
+            matchIndex = i; 
+            break; 
           }
         }
 
@@ -188,7 +188,9 @@ class _OcrScannerState extends State<OcrScanner> {
           showDialog(
             context: context,
             builder: (context) => AlertDialog(
-              title: Text(item['custom_id']+'\n'+item['name']+'\n'+item['Quantity_ordered'].toString()+'\nEnter Quantity Arrived'),
+              title: Text('ID : '+item['custom_id']+'\n'+'nama : '
+              +item['name']+'\n'+'barang dipesan : '+item['Quantity_ordered'].toString()
+              +'\nEnter Quantity Arrived'),
               content: TextField(
                 controller: _quantityController,
                 
@@ -292,10 +294,8 @@ class _OcrScannerState extends State<OcrScanner> {
       body: _isCameraInitialized
           ? Stack(
               children: [
-                // Camera preview
+ 
                 CameraPreview(_cameraController!),
-
-                // Overlay box
                 Align(
                   alignment: Alignment.topCenter,
                   child: Container(
@@ -314,7 +314,7 @@ class _OcrScannerState extends State<OcrScanner> {
                   ),
                 ),
 
-                // Scan button
+                
                 Positioned(
                   bottom: 50.0,
                   left: 0,

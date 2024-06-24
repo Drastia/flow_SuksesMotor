@@ -47,24 +47,24 @@ class ItemController extends Controller
     }
     public function update(Request $request, $id)
     {
-        // Define validation rules
+        
         $item = Item::find($id);
         $item->update($request->all());
         return response()->json($item, 200);
 
-    // $rules = [
-    //     'brand' => 'required',
-    //     'custom_id' => 'sometimes|required|unique:items,custom_id,' . $item->id,
-    //     'name' => 'sometimes|required|unique:items,name,' . $item->id,
-    // ];
+    
+    
+    
+    
+    
 
-    // // Validate the request data
-    // $request->validate($rules);
+    
+    
 
-    // // Update only the fields present in the request
-    // $item->update($request->only(['custom_id', 'name', 'brand']));
+    
+    
 
-    // return response()->json($item, 200);
+    
     }
 
     public function destroy($id)

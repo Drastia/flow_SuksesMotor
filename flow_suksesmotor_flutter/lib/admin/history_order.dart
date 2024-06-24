@@ -44,13 +44,13 @@ class _HistoryOrdersState extends State<HistoryOrders> {
       lastDate: DateTime(2030),
     );
     if (picked != null) {
-      // Update the text field with the selected date
+      
       setState(() {
         controller.text = DateFormat('yyyy-MM-dd').format(picked);
       });
     }
     if (picked != null && picked != controller.text) {
-      // Update the text field with the selected date
+      
 
       setState(() {
         controller.text = DateFormat('yyyy-MM-dd').format(picked);
@@ -79,21 +79,21 @@ class _HistoryOrdersState extends State<HistoryOrders> {
   }
 
   Future<void> deleteOrder(int orderId) async {
-    // Call the deleteOrder method from OrderServices
+    
     var response = await _orderServices.deleteOrder(orderId);
     if (response.statusCode == 204) {
-      // Order deleted successfully, fetch updated data
+      
       var updatedOrders = await _orderServices.fetchOrdersBeforeToday();
       setState(() {
         orders = updatedOrders;
       });
-      // Show a snackbar or toast message indicating success
+      
       successSnackBar(context, 'Delete is successful');
     } else if (response.statusCode == 404) {
-      // Order not found, show error message
+      
       errorSnackBar(context, 'Order not found');
     } else {
-      // Other error, extract error message from response
+      
       var errorMessage = json.decode(response.body)['message'];
       print(errorMessage);
       errorSnackBar(context, errorMessage ?? 'Failed to delete order');
@@ -181,7 +181,7 @@ class _HistoryOrdersState extends State<HistoryOrders> {
                                 style: TextStyle(fontSize: 16.0),
                               ),
                             ),
-                            Spacer(), // Pushes the text "Pemesan" to the end
+                            Spacer(), 
                             Text(
                               'Pemesan: ${orders[index]['nama_pemesan']}',
                               style: TextStyle(fontSize: 16.0),
@@ -283,7 +283,7 @@ class _HistoryOrdersState extends State<HistoryOrders> {
 
   Widget _buildCheckIcon(dynamic order) {
     if (order['checked'] == null) {
-      return SizedBox(width: 24); // Empty space, adjust size as needed
+      return SizedBox(width: 24); 
     } else if (order['checked'] == 'true') {
       return Icon(Icons.check, color: Colors.green);
     } else {

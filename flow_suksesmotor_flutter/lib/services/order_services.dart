@@ -4,7 +4,7 @@ import 'package:flow_suksesmotor/services/globals.dart';
 
 class OrderServices {
     Future<http.Response> createOrder(Map<String, dynamic> orderData) async {
-    // Make an HTTP POST request to the API endpoint
+    
     var url = Uri.parse(baseURL+'orders/');
    
     var response = await http.post(
@@ -35,7 +35,7 @@ Future<List<dynamic>> searchOrder(String query) async {
         if (data is List) {
           return data;
         } else {
-          return []; // Return an empty list if the response is not a list
+          return []; 
         }
       } else {
         print('Error: ${response.statusCode}');
@@ -57,7 +57,7 @@ Future<List<dynamic>> searchOrderHistory(String query) async {
         if (data is List) {
           return data;
         } else {
-          return []; // Return an empty list if the response is not a list
+          return []; 
         }
       } else {
         print('Error: ${response.statusCode}');
@@ -79,7 +79,7 @@ Future<List<Map<String, dynamic>>> searchOrderItem(int id,String query) async {
         if (data is List) {
           return data.cast<Map<String, dynamic>>();
         } else {
-          return []; // Return an empty list if the response is not a list
+          return []; 
         }
       } else {
         print('Error: ${response.statusCode}');

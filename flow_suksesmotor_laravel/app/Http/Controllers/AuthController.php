@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Hash;
 class AuthController extends Controller
 {
 
-    //
+    
     public function indexAdmin()
     {
         $admin = Admin::all();
@@ -68,7 +68,7 @@ class AuthController extends Controller
 
     public function registeradmin(Request $req)
     {
-        //validate
+        
         $rules=[
             'admin_name' =>'required|string|regex:/^[a-zA-Z0-9 ]+$/',
             'admin_username'=>'required|string|unique:admin_table|regex:/^[a-zA-Z0-9]+$/',
@@ -78,7 +78,7 @@ class AuthController extends Controller
         if($validator->fails()){
             return response()->json($validator->errors(), 400);
         }
-        //create new user in users table
+        
         $admin = Admin::create([
             'admin_name'=>$req->admin_name,
             'admin_username'=>$req->admin_username,
@@ -91,7 +91,7 @@ class AuthController extends Controller
 
     public function registerworker(Request $req)
     {
-        //validate
+        
         $rules=[
             'worker_name' =>'required|string|regex:/^[a-zA-Z0-9 ]+$/',
             'worker_username'=>'required|string|unique:workers|regex:/^[a-zA-Z0-9]+$/',
@@ -101,7 +101,7 @@ class AuthController extends Controller
         if($validator->fails()){
             return response()->json($validator->errors(), 400);
         }
-        //create new user in users table
+        
         $worker = Worker::create([
             'worker_name'=>$req->worker_name,
             'worker_username'=>$req->worker_username,
@@ -114,15 +114,15 @@ class AuthController extends Controller
 
     public function loginadmin(Request $req)
     {
-        //validate results
+        
         $rules = [
             'admin_username' => 'required',
             'admin_password' =>'required|string'
         ];
         $req->validate($rules);
-        //find user email in users table
+        
         $admin = Admin::where('admin_username', $req->admin_username)->first();
-        //if user email found and password is correct
+        
         if($admin && Hash::check($req->admin_password, $admin->admin_password)){
             $token = $admin->createToken('Personal Access Token')->plainTextToken;
             $response = ['admin'=>$admin, 'token'=>$token];
@@ -134,15 +134,15 @@ class AuthController extends Controller
 
     public function loginworker(Request $req)
     {
-        //validate results
+        
         $rules = [
             'worker_username' => 'required',
             'worker_password' =>'required|string'
         ];
         $req->validate($rules);
-        //find user email in users table
+        
         $worker = Worker::where('worker_username', $req->worker_username)->first();
-        //if user email found and password is correct
+        
         if($worker && Hash::check($req->worker_password, $worker->worker_password)){
             $token = $worker->createToken('Personal Access Token')->plainTextToken;
             $response = ['worker'=>$worker, 'token'=>$token];

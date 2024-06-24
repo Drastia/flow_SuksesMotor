@@ -18,7 +18,7 @@ class _EditWorkerState extends State<EditWorker> {
    @override
   void initState() {
     super.initState();
-    // Set initial values in text fields based on selected item data
+    
     workernameController.text = widget.selectedWorker['worker_name'];
     workerusernameController.text = widget.selectedWorker['worker_username'];
     workerpasswordController.text = '';
@@ -31,8 +31,20 @@ class _EditWorkerState extends State<EditWorker> {
     'worker_username': workerusernameController.text,
    
   };
-  if (workerpasswordController.text.isNotEmpty) {
-    updatedData['worker_password'] = workerpasswordController.text;
+  
+   if (RegExp(r'^\w{6,}$').hasMatch(workerusernameController.text)) {
+        
+      }else{
+        errorSnackBar(context, 'Dont use symbols on username or username length is below 6');
+        return;
+      }
+     if (workerpasswordController.text.isNotEmpty) {
+      if (RegExp(r'^\w{6,}$').hasMatch(workerpasswordController.text)) {
+          updatedData['worker_password'] = workerpasswordController.text;
+      }else{
+        errorSnackBar(context, 'Dont use symbols on password or password length is below 6');
+        return;
+      }
   }
 
   try {
@@ -40,21 +52,21 @@ class _EditWorkerState extends State<EditWorker> {
         widget.selectedWorker['id'], updatedData);
 
     if (response.statusCode == 200) {
-      // Item updated successfully
+      
       print('Item updated successfully');
-      // You can add code here to show a success message or navigate to another screen
+      
       successSnackBar(context, 'Item updated successfully');
       Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => ListWorker()),
         );
     } else {
-      // Error updating item
+      
       print('Error updating item: ${response.statusCode}');
       errorSnackBar(context, 'Terdapat duplikasi antara ID Barang atau nama barang sehingga gagal');
     }
   } catch (error) {
-    // Handle error
+    
     print('Error updating item: $error');
     errorSnackBar(context, 'Tidak terhubung ke server atau error yang tidak diketahui');
   }
