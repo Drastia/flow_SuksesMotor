@@ -55,6 +55,7 @@ class _ChooseItemOrderState extends State<ChooseItemOrder> {
   }
 
   void _showQuantityDialog(Map<String, dynamic> item) {
+    _quantityController.clear();
     showDialog(
       context: context,
       builder: (BuildContext context) {

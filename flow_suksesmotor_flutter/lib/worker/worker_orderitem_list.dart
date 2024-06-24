@@ -2,6 +2,7 @@ import 'package:flow_suksesmotor/services/globals.dart';
 import 'package:flow_suksesmotor/worker/OCR_scanner.dart';
 import 'package:flutter/material.dart';
 import 'package:flow_suksesmotor/services/order_services.dart';
+import 'package:intl/intl.dart';
 
 class WorkerOrderListItems extends StatefulWidget {
   final int orderId;
@@ -58,15 +59,11 @@ class _WorkerOrderListItemsState extends State<WorkerOrderListItems> {
     if (response.statusCode == 200) {
 
       print('Order item updated successfully!');
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Order item updated successfully!')),
-      );
+      successSnackBar(context,'Order items updated successfully!');
     } else {
       // Failed to update
       print('Failed to update order item: ${response.body}');
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Failed to update order item.')),
-      );
+      errorSnackBar(context,'Failed to update order item.');
     }
   }
 

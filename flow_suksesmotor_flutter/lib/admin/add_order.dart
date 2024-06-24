@@ -114,7 +114,7 @@ class _AddOrderState extends State<AddOrder> {
     }
   }
 
-  void openItemSelectionScreen() async {
+void openItemSelectionScreen() async {
     final newItem = await Navigator.push(
       context,
       MaterialPageRoute(
@@ -122,7 +122,48 @@ class _AddOrderState extends State<AddOrder> {
       ),
     );
     if (newItem != null) {
-      addItem(newItem as Map<String, dynamic>);
+      String customId = newItem['custom_id'];
+      Map<String, dynamic>? existingItem = items.firstWhere(
+        (item) => item['custom_id'] == customId,
+        orElse: () => {},
+      );
+      print(existingItem);
+
+      if (existingItem.isNotEmpty) {
+        bool shouldReplace = await showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text('Duplicate Item'),
+              content: Text(
+                  'There is the same item in the item list with id "$customId".\nWould you like to change the quantity from ${existingItem['Quantity_ordered']} to ${newItem['Quantity_ordered']}?'),
+              actions: [
+                TextButton(
+                  child: Text('No'),
+                  onPressed: () {
+                    Navigator.of(context).pop(false);
+                  },
+                ),
+                TextButton(
+                  child: Text('Yes'),
+                  onPressed: () {
+                    Navigator.of(context).pop(true);
+                  },
+                ),
+              ],
+            );
+          },
+        );
+
+        if (shouldReplace) {
+          setState(() {
+            items.remove(existingItem);
+            addItem(newItem as Map<String, dynamic>);
+          });
+        }
+      } else {
+        addItem(newItem as Map<String, dynamic>);
+      }
     }
   }
 

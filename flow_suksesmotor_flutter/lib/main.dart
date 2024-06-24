@@ -55,13 +55,13 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: SplashScreen(),
+      //home: SplashScreen(),
       //home: ListOrders(),
       //home: OrderItem(),
       //home: ListWorker(),
       //home: InitialAccountList(),
       //home: RegisterScreen(),
-      //home:AdminDashboard(adminName: 'Rivaldo')
+      home:AdminDashboard(adminName: 'Rivaldo')
       //home: WorkerDashboard(workerName: 'Demo')
       //home: WorkerOrderList(workerName: 'Demo11')
       //home: OcrScanner(orderId: 1,workerName: 'Demo11',items: [],)

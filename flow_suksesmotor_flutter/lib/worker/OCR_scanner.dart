@@ -80,15 +80,11 @@ class _OcrScannerState extends State<OcrScanner> {
     if (response.statusCode == 200) {
       // Successfully updated
       print('Order item updated successfully!');
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Order item updated successfully!')),
-      );
+      successSnackBar(context,'Order items updated successfully!');
     } else {
       // Failed to update
       print('Failed to update order item: ${response.body}');
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Failed to update order item.')),
-      );
+      errorSnackBar(context,'Failed to update order item.');
     }
   }
 

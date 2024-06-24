@@ -65,7 +65,7 @@ class _EditItemState extends State<EditItem> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Add Item'),
+        title: Text('Edit Item'),
           backgroundColor: Color(0xFF52E9AA),
       ),
       body: Padding(

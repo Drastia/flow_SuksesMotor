@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:flow_suksesmotor/admin/choose_order_item.dart';
-import 'package:flow_suksesmotor/admin/choose_order_item_edit.dart';
 import 'package:flow_suksesmotor/services/globals.dart';
 import 'package:flutter/material.dart';
 import 'package:flow_suksesmotor/services/order_services.dart'; // Import the OrderServices class
@@ -67,7 +66,7 @@ class _ReadOrderItemsState extends State<ReadOrderItems> {
     final newItem = await Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => ChooseItemOrderEdit(),
+        builder: (context) => ChooseItemOrder(),
       ),
     );
     if (newItem != null) {
@@ -90,17 +89,17 @@ class _ReadOrderItemsState extends State<ReadOrderItems> {
         await OrderServices().updateOrderItems(widget.orderId, orderData);
     print(response.body); // Print the response body received from the server
     if (response.statusCode == 200) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Order items updated successfully!')),
-      );
+
+        successSnackBar(context,'Order items updated successfully!');
+
       setState(() {
         items.clear();
         fetchItems();
       });
     } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Failed to update order items.')),
-      );
+
+        errorSnackBar(context,'Failed to update order items.');
+      
     }
   }
 
