@@ -282,7 +282,7 @@ class _HistoryOrdersState extends State<HistoryOrders> {
   }
 
   Widget _buildCheckIcon(dynamic order) {
-    if (order['checked'] == null) {
+    if (order['checked'] == '') {
       return SizedBox(width: 24); 
     } else if (order['checked'] == 'true') {
       return Icon(Icons.check, color: Colors.green);

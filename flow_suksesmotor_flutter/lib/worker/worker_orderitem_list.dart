@@ -192,6 +192,7 @@ class _WorkerOrderListItemsState extends State<WorkerOrderListItems> {
 
                                           updateQuantityArrived(
                                               widget.orderId, itemToUpdate);
+                                          _quantityController.clear();
                                           Navigator.pop(context);
                                           fetchItems(); 
                                         } else {
