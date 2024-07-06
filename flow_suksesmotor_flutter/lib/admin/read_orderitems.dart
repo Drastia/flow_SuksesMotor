@@ -49,6 +49,7 @@ class _ReadOrderItemsState extends State<ReadOrderItems> {
     var existingItems = await OrderServices().fetchOrderItems(widget.orderId);
     setState(() {
       serverItems = existingItems.cast<Map<String, dynamic>>();
+      
     });
   }
 
@@ -169,6 +170,13 @@ class _ReadOrderItemsState extends State<ReadOrderItems> {
                       if (index < serverItems.length) {
                         
                         var orderItem = serverItems[index];
+                        if(orderItem['Quantity_ordered'] == orderItem['Incoming_Quantity']){
+                          orderItem['ismatch'] = 'true';
+                        }else if((orderItem['Quantity_ordered'] != orderItem['Incoming_Quantity']) & orderItem['checker_barang'].isNotEmpty){
+                          orderItem['ismatch'] = 'false';
+                        }else if(orderItem['checker_barang'].isEmpty){
+                          orderItem['ismatch'] = '';
+                        }
                         return Card(
                           margin: EdgeInsets.all(8),
                           color: orderItem['ismatch'] == ''
@@ -179,7 +187,7 @@ class _ReadOrderItemsState extends State<ReadOrderItems> {
                           child: ListTile(
                             title: Text('Item: ${orderItem['name']}'),
                             subtitle: Text(
-                                'Quantity Ordered: ${orderItem['Quantity_ordered']} \nQuantity Arrived: ${orderItem['Incoming_Quantity']}  \nBrand: ${orderItem['brand']}'),
+                                'Quantity Ordered: ${orderItem['Quantity_ordered']} \nQuantity Arrived: ${orderItem['Incoming_Quantity']}  \nBrand: ${orderItem['brand']}  \nChecker Barang: ${orderItem['checker_barang']}'),
                             trailing: Row(
                               mainAxisSize: MainAxisSize.min,
                               children: [
@@ -233,7 +241,7 @@ class _ReadOrderItemsState extends State<ReadOrderItems> {
                           child: ListTile(
                             title: Text('Item: ${newItem['name']}'),
                             subtitle: Text(
-                                'Quantity: ${newItem['Quantity_ordered']} \nBrand: ${newItem['brand']}'),
+                                'Quantity Ordered: ${newItem['Quantity_ordered']} \nQuantity Arrived: ${newItem['Incoming_Quantity']} \nBrand: ${newItem['brand']}'),
                             trailing: Row(
                               mainAxisSize: MainAxisSize.min,
                               children: [

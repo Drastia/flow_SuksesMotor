@@ -49,7 +49,7 @@ class _EditItemState extends State<EditItem> {
     } else {
       
       print('Error updating item: ${response.statusCode}');
-      errorSnackBar(context, 'salah satu field dikosongkan');
+      errorSnackBar(context, 'salah satu field dikosongkan atau ID dan Nama barang ada yang sama');
     }
   } catch (error) {
     

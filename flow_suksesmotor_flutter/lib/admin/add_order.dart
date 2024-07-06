@@ -102,15 +102,15 @@ class _AddOrderState extends State<AddOrder> {
     } else if (response.statusCode == 400) {
 
       print('Bad request: ${response.body}');
-
+      errorSnackBar(context, 'Bad request: ${response.body}');
     } else if (response.statusCode == 422) {
 
       print('Unprocessable entity: ${response.body}');
-
+      errorSnackBar(context, 'The nama vendor field format is invalid');
     } else {
 
       print('Unexpected error occurred: ${response.body}');
-
+      errorSnackBar(context, 'Unexpected error occurred: ${response.body}');
     }
   }
 

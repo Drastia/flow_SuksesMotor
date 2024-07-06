@@ -83,6 +83,7 @@ class AuthController extends Controller
             'admin_name'=>$req->admin_name,
             'admin_username'=>$req->admin_username,
             'admin_password'=>Hash::make($req->admin_password)
+            
         ]);
         $token = $admin->createToken('Personal Access Token')->plainTextToken;
         $response = ['admin'=>$admin, 'token'=>$token];

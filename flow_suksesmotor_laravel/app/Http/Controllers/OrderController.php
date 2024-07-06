@@ -27,25 +27,17 @@ class OrderController extends Controller
     return response()->json($orders);
     }
 
-    public function indexOrderList($id): JsonResponse
-{
-    
+    public function indexOrderList($id): JsonResponse{
     $orderlist = OrderList::where('ID_pemesanan', $id)->get();
-    
-    
     if($orderlist->isEmpty()) {
         return response()->json(['message' => 'No order list found for the provided order ID.'], 404);
     }
-
-    
     return response()->json($orderlist);
-}
+    }
 
 public function searchOrder($query)
 {
     $today = Carbon::today();
-
-    
     $order = Order::where('tanggal_sampai', '>=', $today)
         ->where(function($queryBuilder) use ($query) {
             $queryBuilder->where('ID_pemesanan', 'like', "%$query%")
@@ -56,7 +48,6 @@ public function searchOrder($query)
         })
         ->get();
 
-    
     if ($order->isEmpty()) {
         return response()->json(['message' => 'Order not found'], 404);
     }
@@ -214,7 +205,7 @@ public function searchOrderItem($id,$query){
                 $orderListItem->update([
                     'name' => $item['name'],
                     'brand' => $item['brand'],
-                    'Quantity_ordered' => $item['Quantity_ordered']
+                    'Quantity_ordered' => $item['Quantity_ordered'],
                 ]);
             } else {
                 OrderList::create([

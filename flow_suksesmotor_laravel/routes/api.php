@@ -23,7 +23,6 @@ Route::delete('/deleteworker/{id}', [AuthController::class, 'destroyWorker']);
 Route::get('/getitems', [ItemController::class, 'index']); 
 Route::post('/storeitems', [ItemController::class, 'store']); 
 Route::get('/searchitem/{item}', [ItemController::class, 'search']); 
-Route::get('/updateitems/{id}/edit', [ItemController::class, 'edit']);
 Route::put('/updateitems/{id}', [ItemController::class, 'update']); 
 Route::delete('/deleteitems/{id}', [ItemController::class, 'destroy']); 
 

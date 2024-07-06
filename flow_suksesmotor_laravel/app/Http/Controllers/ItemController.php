@@ -37,34 +37,15 @@ class ItemController extends Controller
             return response()->json(['message' => 'Item not found'], 404);
             }
 
-         return response()->json($item);
-    }
-
-    public function edit($id){
-        $item = Item::find($id);
         return response()->json($item);
-
     }
+
+
     public function update(Request $request, $id)
     {
-        
         $item = Item::find($id);
         $item->update($request->all());
         return response()->json($item, 200);
-
-    
-    
-    
-    
-    
-
-    
-    
-
-    
-    
-
-    
     }
 
     public function destroy($id)
