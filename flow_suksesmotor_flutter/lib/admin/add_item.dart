@@ -44,9 +44,6 @@ class _AddItemState extends State<AddItem> {
     return  Scaffold(
         appBar: AppBar(
           title: Text('Add Item'),
-
-          automaticallyImplyLeading: true,
-
           backgroundColor: Color(0xFF52E9AA),
           elevation: 0,
 
@@ -109,7 +106,7 @@ class _AddItemState extends State<AddItem> {
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(30.0),
                     gradient: LinearGradient(
-                      colors: [Colors.blue, Colors.blueAccent],
+                      colors: [Color(0xFF52E9AA), Color.fromARGB(255, 128, 247, 197)],
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
                     ),
@@ -122,10 +119,10 @@ class _AddItemState extends State<AddItem> {
                       shadowColor: Colors.transparent,
                       
                  
-                      foregroundColor: Colors.white,
+                      foregroundColor: Colors. white,
                       textStyle: TextStyle(
                         fontSize: 18,
-                        fontWeight: FontWeight.bold,
+                        
                       ),
                     ),
                     child: Text('Add Item'),

@@ -26,9 +26,6 @@ class AdminDashboard extends StatelessWidget {
   final String adminName; 
   AdminDashboard({Key? key, required this.adminName});
 
-  
-  
-
   @override
   Widget build(BuildContext context) {
     final List<GridItemData> gridItems = [
@@ -118,6 +115,7 @@ class AdminDashboard extends StatelessWidget {
     
   ];
     return Scaffold(
+      //backgroundColor: Colors.amber,
       body: Stack(
         children: <Widget>[
           dashBg,
@@ -189,6 +187,7 @@ class AdminDashboard extends StatelessWidget {
                 return GestureDetector(
                   onTap: () => gridItems[index].onTap(context),
                   child: Card(
+                    //color: Colors.blue,
                     elevation: 2,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8),

@@ -136,18 +136,12 @@ class _OcrScannerState extends State<OcrScanner> {
 
       int cropX =  (originalImage.width * 0.1).toInt();; 
       int cropY = overlayTopMargin.toInt(); 
-      int cropWidth =
-          (originalImage.width * 0.9).toInt(); 
-      int cropHeight = (overlayHeight *
-              originalImage.height /
-              MediaQuery.of(context).size.height)
+      int cropWidth = (originalImage.width * 0.9).toInt(); 
+      int cropHeight = (overlayHeight * originalImage.height / MediaQuery.of(context).size.height)
           .toInt(); 
 
 
-      cropY = cropY.clamp(
-          0,
-          originalImage.height -
-              cropHeight); 
+      cropY = cropY.clamp(0, originalImage.height - cropHeight); 
 
 
       final croppedImage = img.copyCrop(
@@ -313,8 +307,6 @@ class _OcrScannerState extends State<OcrScanner> {
                     ),
                   ),
                 ),
-
-                
                 Positioned(
                   bottom: 50.0,
                   left: 0,

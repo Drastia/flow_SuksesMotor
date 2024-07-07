@@ -27,7 +27,7 @@ class _WorkerOrderHistoryState extends State<WorkerOrderHistory>
     super.initState();
     WidgetsBinding.instance.addObserver(this);
     fetchOrders();
-     _searchController.addListener(_onSearchChanged);
+    _searchController.addListener(_onSearchChanged);
   }
 
   @override
@@ -37,6 +37,7 @@ class _WorkerOrderHistoryState extends State<WorkerOrderHistory>
     _searchController.dispose();
     super.dispose();
   }
+  
   Future<void> _selectDate(
       BuildContext context, TextEditingController controller) async {
     final DateTime? picked = await showDatePicker(
@@ -59,21 +60,18 @@ class _WorkerOrderHistoryState extends State<WorkerOrderHistory>
       });
     }
   }
+
   void _onSearchChanged() async {
-    
       try {
         var searchedOrder = await _orderServices.searchOrderHistory(_searchController.text);
-     
         setState(() {
           orders = searchedOrder;
         });
       } catch (error) {
         print('Error searching items: $error');
       }
-    
   }
   
-
   Future<void> fetchOrders() async {
     var existingOrders = await OrderServices().fetchOrdersBeforeToday();
     setState(() {
@@ -96,6 +94,7 @@ class _WorkerOrderHistoryState extends State<WorkerOrderHistory>
           ),
         ],
       ),
+
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
@@ -137,6 +136,7 @@ class _WorkerOrderHistoryState extends State<WorkerOrderHistory>
                 return Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: InkWell(
+                    
                     onTap: () {
                       Navigator.push(
                         context,

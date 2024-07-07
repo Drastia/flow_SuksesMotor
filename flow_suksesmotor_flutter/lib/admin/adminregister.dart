@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:flow_suksesmotor/admin/admin_dashboard.dart';
 import 'package:flow_suksesmotor/admin/registerScreen.dart';
 import 'package:flow_suksesmotor/screen/adminlogin.dart';
-import 'package:flow_suksesmotor/screen/logintest.dart';
 import 'package:flow_suksesmotor/services/admin_auth_services.dart';
 import 'package:flow_suksesmotor/services/globals.dart';
 import 'package:flutter/material.dart';
@@ -25,7 +24,7 @@ class _adminregisterstate extends State<adminregister> {
   bool _isPasswordInvisible = false;
 
   createAdminAccountPressed() async {
-    bool usernameValid = RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_'{|}~]+").hasMatch(_admin_username);
+    bool usernameValid = RegExp(r"^[a-zA-Z0-9]+$").hasMatch(_admin_username);
     if(usernameValid){
       http.Response response = await AuthServices.registeradmin(_admin_name, _admin_username, _admin_password);
       

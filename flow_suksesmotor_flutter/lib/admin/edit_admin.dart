@@ -23,7 +23,6 @@ class _EditAdminState extends State<EditAdmin> {
     
     adminnameController.text = widget.selectedAdmin['admin_name'];
     adminusernameController.text = widget.selectedAdmin['admin_username'];
-
     adminpasswordController.text = '';
   }
 
@@ -32,14 +31,14 @@ class _EditAdminState extends State<EditAdmin> {
       'admin_name': adminnameController.text,
       'admin_username': adminusernameController.text,
     };
-      if (RegExp(r'^\w{6,}$').hasMatch(adminusernameController.text)) {
+      if (RegExp(r'^[a-zA-Z0-9]{6,}$').hasMatch(adminusernameController.text)) {
         
       }else{
         errorSnackBar(context, 'Dont use symbols on username or username length is below 6');
         return;
       }
      if (adminpasswordController.text.isNotEmpty) {
-      if (RegExp(r'^\w{6,}$').hasMatch(adminpasswordController.text)) {
+      if (RegExp(r'^[a-zA-Z0-9]{6,}$').hasMatch(adminpasswordController.text)) {
           updatedData['admin_password'] = adminpasswordController.text;
       }else{
         errorSnackBar(context, 'Dont use symbols on password or password length is below 6');
@@ -81,6 +80,7 @@ class _EditAdminState extends State<EditAdmin> {
         title: Text('Update Admin'),
         backgroundColor: Color(0xFF52E9AA),
       ),
+      //backgroundColor: Color(0xFF52E9AA),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(

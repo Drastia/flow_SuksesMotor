@@ -49,7 +49,6 @@ class _ReadOrderItemsState extends State<ReadOrderItems> {
     var existingItems = await OrderServices().fetchOrderItems(widget.orderId);
     setState(() {
       serverItems = existingItems.cast<Map<String, dynamic>>();
-      
     });
   }
 
@@ -167,6 +166,8 @@ class _ReadOrderItemsState extends State<ReadOrderItems> {
                 : ListView.builder(
                     itemCount: serverItems.length + items.length,
                     itemBuilder: (context, index) {
+                      print(index);
+                      print(serverItems.length);
                       if (index < serverItems.length) {
                         
                         var orderItem = serverItems[index];

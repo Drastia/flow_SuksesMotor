@@ -175,6 +175,7 @@ void openItemSelectionScreen() async {
         backgroundColor: Color(0xFF52E9AA),
         elevation: 0,
       ),
+      //backgroundColor: Colors.amber,
       body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.all(16.0),
@@ -222,6 +223,7 @@ void openItemSelectionScreen() async {
               TextField(
                 controller: namaVendorController,
                 decoration: InputDecoration(
+                  
                   labelText: "Nama Vendor",
                   enabledBorder: OutlineInputBorder(
                     borderSide: BorderSide(color: Colors.black),

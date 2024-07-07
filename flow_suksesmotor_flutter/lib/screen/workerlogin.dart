@@ -32,7 +32,7 @@ class _LoginWorkerState extends State<LoginWorker> {
                    )); 
       }else{
         if (responseMap != null && responseMap.isNotEmpty) {
-        // Display all error messages
+
         List<String> errorMessages = [];
         responseMap.forEach((key, value) {
           if (value is List) {
@@ -41,10 +41,10 @@ class _LoginWorkerState extends State<LoginWorker> {
             errorMessages.add(value.toString());
           }
         });
-        // Show all errors in a single SnackBar
+      
         errorSnackBar(context, errorMessages.join("\n"));
         } else {
-        // If responseMap is null or empty, show a generic error message
+
           errorSnackBar(context, "Server error: ${response.statusCode}");
         }
       }

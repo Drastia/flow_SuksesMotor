@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'workerlogin.dart';
 import 'adminlogin.dart';
-import 'logintest.dart';
+
 
 class InitialScreen extends StatelessWidget {
   @override
@@ -9,7 +9,9 @@ class InitialScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: SizedBox.shrink(),
+        //backgroundColor: ,
       ),
+        //backgroundColor: Colors.lightBlue,
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,

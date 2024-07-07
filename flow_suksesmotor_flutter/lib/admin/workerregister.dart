@@ -1,6 +1,5 @@
 import 'package:flow_suksesmotor/admin/registerScreen.dart';
 import 'package:flow_suksesmotor/screen/workerlogin.dart';
-import 'package:flow_suksesmotor/screen/logintest.dart';
 import 'package:flow_suksesmotor/worker/worker_dashboard.dart';
 import 'package:flow_suksesmotor/services/worker_auth_services.dart';
 import 'package:flow_suksesmotor/services/globals.dart';
@@ -23,7 +22,7 @@ class _workerregisterstate extends State<workerregister> {
   bool _isPasswordInvisible = false;
 
   createWorkerAccountPressed() async{
-    bool usernameValid = RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_'{|}~]+").hasMatch(_worker_username);
+    bool usernameValid = RegExp(r"^[a-zA-Z0-9]+$").hasMatch(_worker_username);
     if(usernameValid){
       http.Response response = await AuthServices.registerworker(_worker_name, _worker_username, _worker_password);
       
@@ -152,23 +151,7 @@ class _workerregisterstate extends State<workerregister> {
             ),
             const SizedBox(
               height: 40,
-            ),
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
+            ),       
           ],
         ),
       ),

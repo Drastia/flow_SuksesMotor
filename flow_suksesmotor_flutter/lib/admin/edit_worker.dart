@@ -32,14 +32,14 @@ class _EditWorkerState extends State<EditWorker> {
    
   };
   
-   if (RegExp(r'^\w{6,}$').hasMatch(workerusernameController.text)) {
+   if (RegExp(r'^[a-zA-Z0-9]{6,}$').hasMatch(workerusernameController.text)) {
         
       }else{
         errorSnackBar(context, 'Dont use symbols on username or username length is below 6');
         return;
       }
      if (workerpasswordController.text.isNotEmpty) {
-      if (RegExp(r'^\w{6,}$').hasMatch(workerpasswordController.text)) {
+      if (RegExp(r'^[a-zA-Z0-9]{6,}$').hasMatch(workerpasswordController.text)) {
           updatedData['worker_password'] = workerpasswordController.text;
       }else{
         errorSnackBar(context, 'Dont use symbols on password or password length is below 6');
