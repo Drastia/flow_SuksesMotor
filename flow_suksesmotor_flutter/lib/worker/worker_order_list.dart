@@ -153,7 +153,9 @@ class _WorkerOrderListState extends State<WorkerOrderList>
                       });
                     },
                     child: Card(
+                      //color: ,
                       child: Padding(
+                        
                         padding: const EdgeInsets.all(10.0),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -171,7 +173,6 @@ class _WorkerOrderListState extends State<WorkerOrderList>
                                 _buildCheckIcon(orders[index]),
                               ],
                             ),
-                      
                             Row(
                               children: [
                                 Expanded(

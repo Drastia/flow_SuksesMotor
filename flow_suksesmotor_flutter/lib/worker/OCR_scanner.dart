@@ -159,6 +159,7 @@ class _OcrScannerState extends State<OcrScanner> {
 
       
       final inputImage = InputImage.fromFilePath(tempPath);
+      
       final RecognizedText recognizedText =
           await _textRecognizer.processImage(inputImage);
 

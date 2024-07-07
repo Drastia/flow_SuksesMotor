@@ -2,6 +2,7 @@ import 'package:flow_suksesmotor/admin/list_order.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:flow_suksesmotor/services/order_services.dart'; 
+import 'package:flow_suksesmotor/services/globals.dart';
 
 class EditOrderList extends StatefulWidget {
   final int ID_pemesanan;
@@ -62,7 +63,12 @@ class _EditOrderListState extends State<EditOrderList> {
       'Tanggal_sampai': tanggalSampaiController.text,
     };
 
-    
+    if (RegExp(r'^[a-zA-Z0-9]+$').hasMatch(vendorController.text)) {
+        
+      }else{
+        errorSnackBar(context, 'Dont use symbols on Vendor Name');
+        return;
+      }
     try {
       await OrderServices().updateOrder(widget.ID_pemesanan, orderData);
       

@@ -169,7 +169,6 @@ class _ReadOrderItemsState extends State<ReadOrderItems> {
                       print(index);
                       print(serverItems.length);
                       if (index < serverItems.length) {
-                        
                         var orderItem = serverItems[index];
                         if(orderItem['Quantity_ordered'] == orderItem['Incoming_Quantity']){
                           orderItem['ismatch'] = 'true';
