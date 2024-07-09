@@ -13,7 +13,7 @@ class AdminSeeder extends Seeder
         Admin::create([
             'admin_name' => 'Orlando',
             'admin_username' => 'Orlando123',
-            'admin_password' => bcrypt('Orlando123'),
+            'admin_password' => 'Orlando123',
         ]);
     }
 }

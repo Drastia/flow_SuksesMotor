@@ -5,10 +5,12 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Order;
 use App\Models\OrderList;
+use App\Models\AuditEdit;
 use App\Models\Item;
 use App\Models\Worker;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 use Illuminate\Http\JsonResponse;
 
@@ -58,9 +60,6 @@ public function searchOrder($query)
 public function searchOrderHistory($query)
 {
     $today = Carbon::today();
-
-    
-  
         $order = Order::where('tanggal_sampai', '<', $today)
             ->where(function($queryBuilder) use ($query) {
                 $queryBuilder->where('ID_pemesanan', 'like', "%$query%")
@@ -91,7 +90,7 @@ public function searchOrderItem($id,$query){
     ->get();
 
     if (!$orderitem) {
-        return response()->json(['message' => 'Oreer item not found'], 404);
+        return response()->json(['message' => 'Order item not found'], 404);
         }
 
      return response()->json($orderitem);
@@ -145,7 +144,7 @@ public function searchOrderItem($id,$query){
 
 
 
-    public function updateOrder(Request $request, $id): JsonResponse
+    public function updateOrder(Request $request, $id,$adminName): JsonResponse
 {
     
     $request->validate([
@@ -156,11 +155,52 @@ public function searchOrderItem($id,$query){
     ]);
 
     
-    $order = Order::findOrFail($id);
-
+    $order = Order::find($id);
     
-    $order->update($request->only(['Tanggal_pemesanan', 'Tanggal_sampai', 'Nama_Vendor', 'Nama_Pemesan']));
+    Log::info("$order");
+    $oldTanggalSampai = $order['tanggal_sampai'];
+    $oldNamaVendor = $order['nama_vendor'];
 
+    Log::info("Old Tanggal_sampai: $oldTanggalSampai");
+    Log::info("Old Nama_Vendor: $oldNamaVendor");
+
+    $order->update($request->only(['Tanggal_pemesanan', 'Tanggal_sampai', 'Nama_Vendor', 'Nama_Pemesan']));
+    $order->touch();
+    Log::info("$order");
+    $newTanggalSampai = $order['Tanggal_sampai'];
+    $newNamaVendor = $order['Nama_Vendor'];
+ 
+    Log::info("Old Tanggal_sampai: $oldTanggalSampai");
+    Log::info("Old Nama_Vendor: $oldNamaVendor");
+    Log::info("New Tanggal_sampai: $newTanggalSampai");
+    Log::info("New Nama_Vendor: $newNamaVendor");
+
+     // Compare old and new values for 'Tanggal_sampai'
+     if ($oldTanggalSampai != $newTanggalSampai) {
+        AuditEdit::create([
+            'table_name' => 'orders',
+            'field_name' => 'Tanggal_sampai',
+            'old_value' => $oldTanggalSampai,
+            'new_value' => $newTanggalSampai,
+            'changed_by' => $adminName,
+            'role' => 'Admin'
+        ]);
+    }
+
+    // Compare old and new values for 'Nama_Vendor'
+    if ($oldNamaVendor != $newNamaVendor) {
+        AuditEdit::create([
+            'table_name' => 'orders',
+            'field_name' => 'Nama_Vendor',
+            'old_value' => $oldNamaVendor,
+            'new_value' => $newNamaVendor,
+            'changed_by' => $adminName,
+            'role' => 'Admin'
+        ]);
+    }
+
+
+   
     
     return response()->json(['message' => 'Order updated successfully.'], 200);
 }
@@ -170,7 +210,7 @@ public function searchOrderItem($id,$query){
 
     
     
-    public function updateOrderListItems(Request $request, $id): JsonResponse
+    public function updateOrderListItems(Request $request, $id, $adminName): JsonResponse
     {
         
         $request->validate([
@@ -199,14 +239,29 @@ public function searchOrderItem($id,$query){
                 'ID_pemesanan' => $order->ID_pemesanan,
                 'custom_id' => $item['custom_id'],
             ])->first();
+
+            
     
             
             if ($orderListItem) {
+                $oldQuantity = $orderListItem->Quantity_ordered;
+                $newQuantity = $item['Quantity_ordered'];
                 $orderListItem->update([
                     'name' => $item['name'],
                     'brand' => $item['brand'],
-                    'Quantity_ordered' => $item['Quantity_ordered'],
+                    'Quantity_ordered' => $newQuantity,
                 ]);
+                if ($oldQuantity != $newQuantity){
+                AuditEdit::create([
+                    'table_name' => 'order_list',
+                    'field_name' => 'Quantity_ordered',
+                    'old_value' => $oldQuantity,
+                    'new_value' => $item['Quantity_ordered'],
+                    'changed_by' => $adminName,
+                    'role' => 'Admin'
+
+                ]);
+            }
             } else {
                 OrderList::create([
                     'ID_pemesanan' => $order->ID_pemesanan,
@@ -217,19 +272,19 @@ public function searchOrderItem($id,$query){
                 ]);
             }
         }
-    
+        $order->touch();
         
         return response()->json(['message' => 'Order list items updated successfully.'], 200);
     }
     
-    public function updateQuantityArrived(Request $request, $id): JsonResponse
+    public function updateQuantityArrived(Request $request, $id, $workerName): JsonResponse
 {
     $request->validate([
         'items' => 'required|array|size:1',
         'items.*.custom_id' => [
             'required',
             function ($attribute, $value, $fail) {
-                $itemExists = Item::where('custom_id', $value)->exists();
+                $itemExists = OrderList::where('custom_id', $value)->exists();
                 if (!$itemExists) {
                     $fail("The $attribute does not exist in the items table.");
                 }
@@ -256,10 +311,20 @@ public function searchOrderItem($id,$query){
 
     
     if ($orderListItem) {
+        $oldQuantity = $orderListItem->Incoming_Quantity;
         $orderListItem->update([
             'Incoming_Quantity' => $item['Incoming_Quantity'],
             'ismatch' => $item['Incoming_Quantity'] == $item['Quantity_ordered'] ? 'true' : 'false',
             'checker_barang' => $item['checker_barang']
+        ]);
+        AuditEdit::create([
+            'table_name' => 'order_list',
+            'field_name' => 'Incoming_Quantity',
+            'old_value' => $oldQuantity,
+            'new_value' => $item['Incoming_Quantity'],
+            'changed_by' => $workerName,
+            'role' => 'Worker'
+
         ]);
 
         
@@ -277,6 +342,9 @@ public function searchOrderItem($id,$query){
         else{
             Order::where('ID_pemesanan', $id)->update(['checked' => 'false']);
         }
+
+        $order = Order::findOrFail($id);
+        $order->touch();
 
         return response()->json(['message' => 'Order item updated successfully!']);
     } else {

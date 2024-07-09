@@ -4,8 +4,9 @@ import 'package:flow_suksesmotor/services/globals.dart';
 import 'package:flutter/material.dart';
 
 class EditWorker extends StatefulWidget {
+   final String adminName;
   final Map<String, dynamic> selectedWorker;
-  const EditWorker({Key? key, required this.selectedWorker}) : super(key: key);
+  const EditWorker({Key? key, required this.selectedWorker,required this.adminName}) : super(key: key);
   @override
   State<EditWorker> createState() => _EditWorkerState();
 }
@@ -49,7 +50,7 @@ class _EditWorkerState extends State<EditWorker> {
 
   try {
     var response = await AuthServices().updateWorker(
-        widget.selectedWorker['id'], updatedData);
+        widget.selectedWorker['id'], updatedData, widget.adminName);
 
     if (response.statusCode == 200) {
       
@@ -58,7 +59,7 @@ class _EditWorkerState extends State<EditWorker> {
       successSnackBar(context, 'Item updated successfully');
       Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => ListWorker()),
+          MaterialPageRoute(builder: (context) => ListWorker(adminName: widget.adminName,)),
         );
     } else {
       

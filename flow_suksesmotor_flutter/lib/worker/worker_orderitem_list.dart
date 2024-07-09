@@ -54,7 +54,7 @@ class _WorkerOrderListItemsState extends State<WorkerOrderListItems> {
 
   Future<void> updateQuantityArrived(
       int orderId, Map<String, dynamic> item) async {
-    var response = await OrderServices().updateQuantityArrived(orderId, item);
+    var response = await OrderServices().updateQuantityArrived(orderId, item, widget.workerName);
 
     if (response.statusCode == 200) {
 

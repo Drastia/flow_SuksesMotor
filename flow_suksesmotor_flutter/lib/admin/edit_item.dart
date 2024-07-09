@@ -4,8 +4,10 @@ import 'package:flow_suksesmotor/services/item_services.dart';
 import 'package:flow_suksesmotor/services/globals.dart';
 
 class EditItem extends StatefulWidget {
+  final String adminName;
+
   final Map<String, dynamic> selectedItem;
-  const EditItem({Key? key, required this.selectedItem}) : super(key: key);
+   EditItem({Key? key, required this.selectedItem,required this.adminName}) : super(key: key);
 
   @override
   _EditItemState createState() => _EditItemState();
@@ -34,7 +36,7 @@ class _EditItemState extends State<EditItem> {
     }
     try {
       var response = await _itemServices.updateItem(
-          widget.selectedItem['id'], updatedData);
+          widget.selectedItem['id'], updatedData, widget.adminName);
 
       if (response.statusCode == 200) {
         print('Item updated successfully');
@@ -42,7 +44,7 @@ class _EditItemState extends State<EditItem> {
         successSnackBar(context, 'Item updated successfully');
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => ListItem()),
+          MaterialPageRoute(builder: (context) => ListItem(adminName: widget.adminName,)),
         );
       } else {
         print('Error updating item: ${response.statusCode}');

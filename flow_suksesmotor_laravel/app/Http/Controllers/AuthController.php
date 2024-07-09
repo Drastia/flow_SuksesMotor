@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use App\Models\Worker;
 use App\Models\Admin;
+use App\Models\AuditEdit;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -11,9 +12,11 @@ use Illuminate\Support\Facades\Hash;
 class AuthController extends Controller
 {
 
-    
+
+
     public function indexAdmin()
     {
+        
         $admin = Admin::all();
         return response()->json($admin);
     }
@@ -24,19 +27,77 @@ class AuthController extends Controller
     }
 
 
-    public function updateAdmin(Request $request, $id)
+    public function updateAdmin(Request $request, $id,$adminName)
     {
         
         $admin = Admin::find($id);
-        $admin->update($request->all());
-        return response()->json($admin, 200);
+        $oldValues = [
+            'admin_name' => $admin->admin_name,
+            'admin_username' => $admin->admin_username,
+            'admin_password' => $admin->admin_password,
+        ];
+        $admin->update($request->only(['admin_name', 'admin_username', 'admin_password']));
+        $admin->touch();
+        $admin->refresh(); 
+    $newValues = [
+        'admin_name' => $admin->admin_name,
+        'admin_username' => $admin->admin_username,
+        'admin_password' => $admin->admin_password,
+    ];
+
+
+    foreach ($oldValues as $field => $oldValue) {
+        $newValue = $newValues[$field];
+
+
+        if ($oldValue !== $newValue) {
+
+            AuditEdit::create([
+                'table_name' => 'admin_table',
+                'field_name' => $field,
+                'old_value' => $oldValue,
+                'new_value' => $newValue,
+                'changed_by' => $adminName, 
+                'role' => 'Admin', 
+            ]);
+        }
+    }
+    return response()->json($admin, 200);
     }
 
-    public function updateWorker(Request $request, $id)
+    public function updateWorker(Request $request, $id, $adminName)
     {
         
         $worker = Worker::find($id);
-        $worker->update($request->all());
+        $oldValues = [
+            'worker_name' => $worker->worker_name,
+            'worker_username' => $worker->worker_username,
+            'worker_password' => $worker->worker_password,
+        ];
+        $worker->update($request->only(['worker_name', 'worker_username', 'worker_password']));
+        $worker->touch();
+        $worker->refresh(); 
+    $newValues = [
+        'worker_name' => $worker->worker_name,
+        'worker_username' => $worker->worker_username,
+        'worker_password' => $worker->worker_password,
+    ];
+    foreach ($oldValues as $field => $oldValue) {
+        $newValue = $newValues[$field];
+
+
+        if ($oldValue !== $newValue) {
+
+            AuditEdit::create([
+                'table_name' => 'worker_table',
+                'field_name' => $field,
+                'old_value' => $oldValue,
+                'new_value' => $newValue,
+                'changed_by' => $adminName, 
+                'role' => 'Admin', 
+            ]);
+        }
+    }
         return response()->json($worker, 200);
     }
 

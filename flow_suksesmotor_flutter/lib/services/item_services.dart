@@ -32,8 +32,8 @@ class ItemServices {
 }
 }
 
-  Future<http.Response> updateItem(int id, Map<String, dynamic> data) async {
-  var result = await http.put(Uri.parse(baseURL + 'updateitems/$id'),
+  Future<http.Response> updateItem(int id, Map<String, dynamic> data, String adminName) async {
+  var result = await http.put(Uri.parse(baseURL + 'updateitems/$id/$adminName'),
       headers: headers, body: json.encode(data));
   return result;
 }

@@ -42,9 +42,9 @@ class AuthServices{
 
   
 
-  Future<http.Response> updateAdmin(int adminId, Map<String, dynamic> data) async {
+  Future<http.Response> updateAdmin(int adminId, Map<String, dynamic> data,String adminName) async {
     
-  var result = await http.put(Uri.parse(baseURL + 'updateadmin/$adminId'),
+  var result = await http.put(Uri.parse(baseURL + 'updateadmin/$adminId/$adminName'),
       headers: headers, 
       body: json.encode(data));
   return result;

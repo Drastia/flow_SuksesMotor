@@ -1,5 +1,6 @@
 import 'package:flow_suksesmotor/admin/add_item.dart';
 import 'package:flow_suksesmotor/admin/add_order.dart';
+import 'package:flow_suksesmotor/admin/generate_report.dart';
 import 'package:flow_suksesmotor/admin/history_order.dart';
 import 'package:flow_suksesmotor/admin/initial_accountlist.dart';
 import 'package:flow_suksesmotor/admin/list_item.dart';
@@ -45,7 +46,7 @@ class AdminDashboard extends StatelessWidget {
       onTap: (BuildContext context) {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => InitialAccountList()),
+          MaterialPageRoute(builder: (context) => InitialAccountList(adminName: adminName,)),
         );
       },
     ),
@@ -66,7 +67,7 @@ class AdminDashboard extends StatelessWidget {
       onTap: (BuildContext context) {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => ListItem()),
+          MaterialPageRoute(builder: (context) => ListItem(adminName: adminName,)),
         );
       },
     ),
@@ -86,7 +87,7 @@ class AdminDashboard extends StatelessWidget {
       onTap: (BuildContext context) {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => ListOrders()),
+          MaterialPageRoute(builder: (context) => ListOrders(adminName: adminName)),
         );
       },
     ),
@@ -96,10 +97,18 @@ class AdminDashboard extends StatelessWidget {
       onTap: (BuildContext context) {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => HistoryOrders()),
+          MaterialPageRoute(builder: (context) => HistoryOrders(adminName: adminName)),
         );
       },
     ),
+    GridItemData(
+        logo: Image.asset('images/make_report.png', width: 100),
+        name: 'Make Report',
+        onTap: (BuildContext context) async {
+          
+          await ReportGenerator.generateReport();
+        },
+      ),
     GridItemData(
       logo: Icon(Icons.logout, size: 100),
       name: 'Logout',

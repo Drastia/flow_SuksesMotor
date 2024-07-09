@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Item;
-
+use App\Models\AuditEdit;
 class ItemController extends Controller
 {
     public function index()
@@ -41,11 +41,48 @@ class ItemController extends Controller
     }
 
 
-    public function update(Request $request, $id)
+    public function update(Request $request, $id,$adminName)
     {
-        $item = Item::find($id);
-        $item->update($request->all());
-        return response()->json($item, 200);
+      
+    $item = Item::find($id);
+
+   
+    $oldValues = [
+        'custom_id' => $item->custom_id,
+        'name' => $item->name,
+        'brand' => $item->brand,
+    ];
+
+
+    $item->update($request->only(['custom_id', 'name', 'brand']));
+    $item->touch();
+
+
+    $item->refresh(); 
+    $newValues = [
+        'custom_id' => $item->custom_id,
+        'name' => $item->name,
+        'brand' => $item->brand,
+    ];
+
+
+    foreach ($oldValues as $field => $oldValue) {
+        $newValue = $newValues[$field];
+
+
+        if ($oldValue !== $newValue) {
+
+            AuditEdit::create([
+                'table_name' => 'items',
+                'field_name' => $field,
+                'old_value' => $oldValue,
+                'new_value' => $newValue,
+                'changed_by' => $adminName, 
+                'role' => 'Admin', 
+            ]);
+        }
+    }
+    return response()->json($item, 200);
     }
 
     public function destroy($id)

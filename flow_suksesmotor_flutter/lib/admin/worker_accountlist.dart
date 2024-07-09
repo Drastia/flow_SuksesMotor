@@ -4,6 +4,8 @@ import 'package:flow_suksesmotor/services/worker_auth_services.dart';
 import 'package:flow_suksesmotor/services/globals.dart';
 
 class ListWorker extends StatefulWidget {
+  final String adminName;
+  ListWorker({Key? key,required this.adminName}) : super(key: key);
   @override
   _ListWorkerState createState() => _ListWorkerState();
 }
@@ -78,7 +80,7 @@ void fetchWorker() async {
                           context,
                           MaterialPageRoute(
                               builder: (context) =>
-                                  EditWorker(selectedWorker: selectedRows.first)),
+                                  EditWorker(selectedWorker: selectedRows.first,adminName: widget.adminName,)),
                         );
                       }
                     : null,
@@ -162,7 +164,7 @@ void fetchWorker() async {
     fetchWorker();
     Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => ListWorker()),
+          MaterialPageRoute(builder: (context) => ListWorker(adminName: widget.adminName,)),
         );
     setState(() {
       selectedRows.clear();

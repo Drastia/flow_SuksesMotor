@@ -8,6 +8,8 @@ import 'package:flow_suksesmotor/services/order_services.dart';
 import 'package:intl/intl.dart';
 
 class ListOrders extends StatefulWidget {
+  final String adminName;
+  ListOrders({ required this.adminName});
   @override
   _ListOrdersState createState() => _ListOrdersState();
 }
@@ -208,6 +210,7 @@ class _ListOrdersState extends State<ListOrders> {
                                         context,
                                         MaterialPageRoute(
                                           builder: (context) => EditOrderList(
+                                            adminName: widget.adminName,
                                             ID_pemesanan: orders[index]
                                                 ['ID_pemesanan'],
                                             Tanggal_pemesanan: orders[index]
@@ -220,7 +223,11 @@ class _ListOrdersState extends State<ListOrders> {
                                                 ['nama_pemesan'],
                                           ),
                                         ),
-                                      );
+                                      ).then((result) {
+  if (result != null ) {
+    fetchOrders(); 
+  }
+});
                                     },
                                   ),
                                   IconButton(
@@ -266,7 +273,7 @@ class _ListOrdersState extends State<ListOrders> {
                                         MaterialPageRoute(
                                           builder: (context) => ReadOrderItems(
                                               orderId: orders[index]
-                                                  ['ID_pemesanan']),
+                                                  ['ID_pemesanan'], adminName: widget.adminName),
                                         ),
                                       );
                                     },

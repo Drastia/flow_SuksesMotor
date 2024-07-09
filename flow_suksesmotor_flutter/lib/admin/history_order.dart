@@ -8,6 +8,9 @@ import 'package:flow_suksesmotor/services/order_services.dart';
 import 'package:intl/intl.dart';
 
 class HistoryOrders extends StatefulWidget {
+  final String adminName;
+  HistoryOrders({ required this.adminName});
+
   @override
   _HistoryOrdersState createState() => _HistoryOrdersState();
 }
@@ -20,6 +23,7 @@ class _HistoryOrdersState extends State<HistoryOrders> {
   @override
   void initState() {
     super.initState();
+    
     _orderServices.fetchOrdersBeforeToday().then((data) {
       setState(() {
         orders = data;
@@ -150,6 +154,7 @@ class _HistoryOrdersState extends State<HistoryOrders> {
               ),
             )
           : ListView.builder(
+            
               itemCount: orders.length,
               itemBuilder: (context, index) {
                 return Card(
@@ -205,6 +210,7 @@ class _HistoryOrdersState extends State<HistoryOrders> {
                                   context,
                                   MaterialPageRoute(
                                     builder: (context) => EditOrderList(
+                                      adminName: widget.adminName,
                                       ID_pemesanan: orders[index]
                                           ['ID_pemesanan'],
                                       Tanggal_pemesanan: orders[index]
@@ -216,7 +222,11 @@ class _HistoryOrdersState extends State<HistoryOrders> {
                                           ['nama_pemesan'],
                                     ),
                                   ),
-                                );
+                                ).then((result) {
+  if (result != null ) {
+    fetchOrders();
+  }
+});
                               },
                             ),
                             IconButton(
@@ -262,7 +272,7 @@ class _HistoryOrdersState extends State<HistoryOrders> {
                                   context,
                                   MaterialPageRoute(
                                     builder: (context) => ReadOrderItems(
-                                        orderId: orders[index]['ID_pemesanan']),
+                                        orderId: orders[index]['ID_pemesanan'],adminName: widget.adminName,),
                                   ),
                                 );
                               },

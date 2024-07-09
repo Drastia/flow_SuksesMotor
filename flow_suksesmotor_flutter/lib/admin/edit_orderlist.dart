@@ -5,6 +5,7 @@ import 'package:flow_suksesmotor/services/order_services.dart';
 import 'package:flow_suksesmotor/services/globals.dart';
 
 class EditOrderList extends StatefulWidget {
+  final String adminName;
   final int ID_pemesanan;
   final String Nama_Vendor;
   final String Nama_Pemesan;
@@ -12,6 +13,7 @@ class EditOrderList extends StatefulWidget {
   final String Tanggal_sampai;
 
   EditOrderList({
+    required this.adminName,
     required this.ID_pemesanan,
     required this.Nama_Vendor,
     required this.Nama_Pemesan,
@@ -70,15 +72,12 @@ class _EditOrderListState extends State<EditOrderList> {
         return;
       }
     try {
-      await OrderServices().updateOrder(widget.ID_pemesanan, orderData);
+      await OrderServices().updateOrder(widget.ID_pemesanan, orderData, widget.adminName);
       
       
       
-      Navigator.pop(context);
-      Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => ListOrders()),
-        );
+      Navigator.pop(context, widget.adminName);
+      
 
     } catch (e) {
       
@@ -119,8 +118,10 @@ Widget build(BuildContext context) {
               SizedBox(height: 16.0),
               TextField(
                 controller: tanggalSampaiController,
+                readOnly: true, 
                 decoration: InputDecoration(
                   labelText: "Tanggal Sampai",
+
                   enabledBorder: OutlineInputBorder(
                     borderSide: BorderSide(color: Colors.black),
                   ),

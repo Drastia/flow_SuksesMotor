@@ -7,7 +7,8 @@ import 'package:flow_suksesmotor/services/order_services.dart';
 
 class ReadOrderItems extends StatefulWidget {
   final int orderId;
-  ReadOrderItems({required this.orderId});
+  final String adminName;
+  ReadOrderItems({required this.orderId, required this.adminName});
 
   @override
   _ReadOrderItemsState createState() => _ReadOrderItemsState();
@@ -86,7 +87,7 @@ class _ReadOrderItemsState extends State<ReadOrderItems> {
     var orderData = {'items': allItems};
     print(orderData); 
     var response =
-        await OrderServices().updateOrderItems(widget.orderId, orderData);
+        await OrderServices().updateOrderItems(widget.orderId, orderData, widget.adminName);
     print(response.body); 
     if (response.statusCode == 200) {
 

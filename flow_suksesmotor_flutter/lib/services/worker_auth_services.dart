@@ -39,8 +39,8 @@ class AuthServices{
   return response;
   }
 
-    Future<http.Response> updateWorker(int workerId, Map<String, dynamic> data) async {
-  var result = await http.put(Uri.parse(baseURL + 'updateworker/$workerId'),
+    Future<http.Response> updateWorker(int workerId, Map<String, dynamic> data, String adminName) async {
+  var result = await http.put(Uri.parse(baseURL + 'updateworker/$workerId/$adminName'),
       headers: headers, body: json.encode(data));
   return result;
 }

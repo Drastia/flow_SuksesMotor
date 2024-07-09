@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 
 
 class InitialAccountList extends StatelessWidget {
+  final String adminName;
+  InitialAccountList({Key? key,required this.adminName}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,7 +32,7 @@ class InitialAccountList extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => ListAdmin(),
+                      builder: (context) => ListAdmin(adminName: adminName),
                     ),
                   );
                 },
@@ -60,7 +62,7 @@ class InitialAccountList extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => ListWorker(),
+                      builder: (context) => ListWorker(adminName: adminName,),
                     ),
                   );
                 },

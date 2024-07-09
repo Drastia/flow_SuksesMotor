@@ -4,6 +4,8 @@ import 'package:flow_suksesmotor/services/item_services.dart';
 import 'package:flow_suksesmotor/services/globals.dart';
 
 class ListItem extends StatefulWidget {
+   final String adminName;
+   ListItem({Key? key, required this.adminName}) : super(key: key);
   @override
   _ListItemState createState() => _ListItemState();
 }
@@ -118,7 +120,7 @@ class _ListItemState extends State<ListItem> {
                           context,
                           MaterialPageRoute(
                               builder: (context) =>
-                                  EditItem(selectedItem: selectedRows.first)),
+                                  EditItem(selectedItem: selectedRows.first, adminName: widget.adminName,)),
                         );
                       }
                     : null,
@@ -207,7 +209,7 @@ class _ListItemState extends State<ListItem> {
     fetchItems();
     Navigator.pushReplacement(
       context,
-      MaterialPageRoute(builder: (context) => ListItem()),
+      MaterialPageRoute(builder: (context) => ListItem(adminName: widget.adminName,)),
     );
     setState(() {
       selectedRows.clear();

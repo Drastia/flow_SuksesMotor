@@ -4,6 +4,8 @@ import 'package:flow_suksesmotor/services/admin_auth_services.dart';
 import 'package:flow_suksesmotor/services/globals.dart';
 
 class ListAdmin extends StatefulWidget {
+  final String adminName;
+  ListAdmin({Key? key,required this.adminName}) : super(key: key);
   @override
   _ListAdminState createState() => _ListAdminState();
 }
@@ -78,7 +80,7 @@ class _ListAdminState extends State<ListAdmin> {
                           context,
                           MaterialPageRoute(
                               builder: (context) =>
-                                  EditAdmin(selectedAdmin: selectedRows.first)),
+                                  EditAdmin(selectedAdmin: selectedRows.first,adminName: widget.adminName,)),
                         );
                       }
                     : null,
@@ -166,7 +168,7 @@ class _ListAdminState extends State<ListAdmin> {
     fetchAdmin();
     Navigator.pushReplacement(
       context,
-      MaterialPageRoute(builder: (context) => ListAdmin()),
+      MaterialPageRoute(builder: (context) => ListAdmin(adminName: widget.adminName,)),
     );
     setState(() {
       selectedRows.clear();

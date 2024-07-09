@@ -5,8 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:bcrypt/bcrypt.dart';
 
 class EditAdmin extends StatefulWidget {
+   final String adminName;
   final Map<String, dynamic> selectedAdmin;
-  const EditAdmin({Key? key, required this.selectedAdmin}) : super(key: key);
+  const EditAdmin({Key? key, required this.selectedAdmin,required this.adminName}) : super(key: key);
   @override
   State<EditAdmin> createState() => _EditAdminState();
 }
@@ -47,7 +48,7 @@ class _EditAdminState extends State<EditAdmin> {
   }
     try {
       var response = await AuthServices()
-          .updateAdmin(widget.selectedAdmin['id'], updatedData);
+          .updateAdmin(widget.selectedAdmin['id'], updatedData,widget.adminName);
 
       if (response.statusCode == 200) {
         
@@ -56,7 +57,7 @@ class _EditAdminState extends State<EditAdmin> {
         successSnackBar(context, 'Item updated successfully');
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => ListAdmin()),
+          MaterialPageRoute(builder: (context) => ListAdmin(adminName: widget.adminName,)),
         );
       } else {
         

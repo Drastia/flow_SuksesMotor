@@ -93,20 +93,20 @@ Future<List<Map<String, dynamic>>> searchOrderItem(int id,String query) async {
 
 }
 
-  Future<http.Response> updateOrder(int orderId, Map<String, dynamic> orderData) async {
-  var result = await http.put(Uri.parse(baseURL + 'orders/$orderId'),
+  Future<http.Response> updateOrder(int orderId, Map<String, dynamic> orderData, String adminName) async {
+  var result = await http.put(Uri.parse(baseURL + 'orders/$orderId/$adminName'),
       headers: headers, body: json.encode(orderData));
   return result;
 }
 
-   Future<http.Response> updateOrderItems(int orderId, Map<String, dynamic> orderData) async {
-  var result = await http.put(Uri.parse(baseURL + 'orders/$orderId/items'),
+   Future<http.Response> updateOrderItems(int orderId, Map<String, dynamic> orderData, String adminName) async {
+  var result = await http.put(Uri.parse(baseURL + 'orders/$orderId/$adminName/items'),
       headers: headers, body: json.encode(orderData));
   return result;
 }
 
-  Future<http.Response> updateQuantityArrived(int orderId, Map<String, dynamic> item) async {
-  var result = await http.put(Uri.parse(baseURL+ 'orders/$orderId/quantity-item'),
+  Future<http.Response> updateQuantityArrived(int orderId, Map<String, dynamic> item, String workerName) async {
+  var result = await http.put(Uri.parse(baseURL+ 'orders/$orderId/$workerName/quantity-item'),
     headers: headers,body: json.encode({'items': [item]}));
     return result;
 }
