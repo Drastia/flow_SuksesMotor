@@ -63,22 +63,12 @@ class ReportGenerator {
 
     contentWidgets.addAll(_buildAuditEditSection('Perubahan Detail Database', data['audit_edit'] ?? []));
 
-    int itemsPerPage = 20; // Adjust as needed
-    int pageCount = (contentWidgets.length / itemsPerPage).ceil();
-
-    for (int i = 1; i <= pageCount; i++) {
-      pdf.addPage(
-        pw.Page(
-          build: (pw.Context context) {
-            return pw.Column(
-              children: [
-                ...contentWidgets.skip((i - 1) * itemsPerPage).take(itemsPerPage),
-              ],
-            );
-          },
-        ),
-      );
-    }
+    // Add pages
+    pdf.addPage(
+      pw.MultiPage(
+        build: (context) => contentWidgets,
+      ),
+    );
 
     try {
       Directory? directory;
@@ -90,7 +80,7 @@ class ReportGenerator {
 
       if (directory != null) {
         String reportPath = '${directory.path}/Report';
-        String filePath = '$reportPath/Report_'+_formatDate(DateTime.now())+'.pdf';
+        String filePath = '$reportPath/Report_${_formatDate(DateTime.now())}.pdf';
 
         // Create the Report directory if it doesn't exist
         Directory reportDir = Directory(reportPath);
@@ -99,9 +89,7 @@ class ReportGenerator {
         }
 
         final file = File(filePath);
-        print(file);
         await file.writeAsBytes(await pdf.save());
-
 
         await openFile(file.path);
       } else {
@@ -112,267 +100,230 @@ class ReportGenerator {
     }
   }
 
-static List<pw.Widget> _buildAuditEditSection(String title, List<dynamic>? AuditEditList) {
-  if (AuditEditList == null || AuditEditList.isEmpty) {
-    return [
+  static List<pw.Widget> _buildAuditEditSection(String title, List<dynamic>? AuditEditList) {
+    if (AuditEditList == null || AuditEditList.isEmpty) {
+      return [
+        pw.Text(title, style: pw.TextStyle(fontSize: 18)),
+        pw.SizedBox(height: 15),
+        pw.Text('Tidak ada Perubahan'),
+        pw.SizedBox(height: 25),
+      ];
+    }
+
+    List<pw.Widget> widgets = [
       pw.Text(title, style: pw.TextStyle(fontSize: 18)),
       pw.SizedBox(height: 15),
-      pw.Text('Tidak ada Perubahan'),
-      pw.SizedBox(height: 25),
     ];
+
+    List<List<String>> tableData = [
+      ['ID', 'table_name', 'field_name', 'old_value', 'new_value', 'changed_by', 'role'],
+    ];
+
+    for (var audit in AuditEditList) {
+      tableData.add([
+        audit['id'].toString(),
+        audit['table_name'].toString(),
+        audit['field_name'].toString(),
+        audit['old_value'].toString(),
+        audit['new_value'].toString(),
+        audit['changed_by'].toString(),
+        audit['role'].toString(),
+      ]);
+    }
+
+    widgets.addAll(_paginateTableData(tableData));
+
+    widgets.add(pw.SizedBox(height: 20));
+
+    return widgets;
   }
 
-  List<pw.Widget> widgets = [
-    pw.Text(title, style: pw.TextStyle(fontSize: 18)),
-    pw.SizedBox(height: 15)
-  ];
-
- 
-
-  List<List<String>> tableData = [
-    ['ID','table_name' ,'field_name', 'old_value', 'new_value','changed_by', 'role']
-  ];
-
-  for (var audit in AuditEditList) {
-    tableData.add([
-      audit['id'].toString(),
-      audit['table_name'].toString(),
-      audit['field_name'].toString(),
-      audit['old_value'].toString(),
-      audit['new_value'].toString(),
-      audit['changed_by'].toString(),
-      audit['role'].toString(),
-    ]);
-  }
-
-  widgets.add(
-    pw.Table.fromTextArray(
-      context: null,
-      headerCount: 1,
-      data: tableData,
-      border: pw.TableBorder.all(width: 1.0, color: PdfColors.grey),
-      headerStyle: pw.TextStyle(fontWeight: pw.FontWeight.bold, fontSize: 10),
-      cellStyle: pw.TextStyle(fontSize: 10),
-      cellAlignment: pw.Alignment.center,
-    ),
-  );
-
-  widgets.add(pw.SizedBox(height: 20));
-
-  return widgets;
-}
   static List<pw.Widget> _buildAdminAccountsSection(String title, List<dynamic>? adminAccounts) {
-  if (adminAccounts == null || adminAccounts.isEmpty) {
-    return [
+    if (adminAccounts == null || adminAccounts.isEmpty) {
+      return [
+        pw.Text(title, style: pw.TextStyle(fontSize: 18)),
+        pw.SizedBox(height: 15),
+        pw.Text('Tidak ada Perubahan'),
+        pw.SizedBox(height: 25),
+      ];
+    }
+
+    List<pw.Widget> widgets = [
       pw.Text(title, style: pw.TextStyle(fontSize: 18)),
       pw.SizedBox(height: 15),
-      pw.Text('Tidak ada Perubahan'),
-      pw.SizedBox(height: 25),
     ];
+
+    List<List<String>> tableData = [
+      ['ID', 'Nama Admin', 'Username'],
+    ];
+
+    for (var admin in adminAccounts) {
+      tableData.add([
+        admin['id'].toString(),
+        admin['admin_name'].toString(),
+        admin['admin_username'].toString(),
+      ]);
+    }
+
+    widgets.addAll(_paginateTableData(tableData));
+
+    widgets.add(pw.SizedBox(height: 20));
+
+    return widgets;
   }
 
-  List<pw.Widget> widgets = [
-    pw.Text(title, style: pw.TextStyle(fontSize: 18)),
-    pw.SizedBox(height: 15)
-  ];
+  static List<pw.Widget> _buildWorkerAccountsSection(String title, List<dynamic>? workerAccounts) {
+    if (workerAccounts == null || workerAccounts.isEmpty) {
+      return [
+        pw.Text(title, style: pw.TextStyle(fontSize: 18)),
+        pw.SizedBox(height: 15),
+        pw.Text('Tidak ada Perubahan'),
+        pw.SizedBox(height: 25),
+      ];
+    }
 
- 
-
-  List<List<String>> tableData = [
-    ['ID', 'Nama Admin', 'Username']
-  ];
-
-  for (var admin in adminAccounts) {
-    tableData.add([
-      admin['id'].toString(),
-      admin['admin_name'].toString(),
-      admin['admin_username'].toString(),
-    ]);
-  }
-
-  widgets.add(
-    pw.Table.fromTextArray(
-      context: null,
-      headerCount: 1,
-      data: tableData,
-      border: pw.TableBorder.all(width: 1.0, color: PdfColors.grey),
-      headerStyle: pw.TextStyle(fontWeight: pw.FontWeight.bold, fontSize: 10),
-      cellStyle: pw.TextStyle(fontSize: 10),
-      cellAlignment: pw.Alignment.center,
-    ),
-  );
-
-  widgets.add(pw.SizedBox(height: 20));
-
-  return widgets;
-}
-static List<pw.Widget> _buildWorkerAccountsSection(String title, List<dynamic>? workerAccounts) {
-  if (workerAccounts == null || workerAccounts.isEmpty) {
-    return [
+    List<pw.Widget> widgets = [
       pw.Text(title, style: pw.TextStyle(fontSize: 18)),
       pw.SizedBox(height: 15),
-      pw.Text('Tidak ada Perubahan'),
-      pw.SizedBox(height: 25),
     ];
+
+    List<List<String>> tableData = [
+      ['ID', 'Nama Worker', 'Username'],
+    ];
+
+    for (var worker in workerAccounts) {
+      tableData.add([
+        worker['id'].toString(),
+        worker['worker_name'].toString(),
+        worker['worker_username'].toString(),
+      ]);
+    }
+
+    widgets.addAll(_paginateTableData(tableData));
+
+    widgets.add(pw.SizedBox(height: 20));
+
+    return widgets;
   }
 
-  List<pw.Widget> widgets = [
-    pw.Text(title, style: pw.TextStyle(fontSize: 18)),
-    pw.SizedBox(height: 15)
-  ];
- 
-  List<List<String>> tableData = [
-    ['ID', 'Nama Worker', 'Username']
-  ];
+  static List<pw.Widget> _buildItemCreationSection(String title, List<dynamic>? items) {
+    if (items == null || items.isEmpty) {
+      return [
+        pw.Text(title, style: pw.TextStyle(fontSize: 18)),
+        pw.SizedBox(height: 15),
+        pw.Text('Tidak ada Perubahan'),
+        pw.SizedBox(height: 25),
+      ];
+    }
 
-  for (var worker in workerAccounts ) {
-    tableData.add([
-      worker['id'].toString(),
-      worker['worker_name'].toString(),
-      worker['worker_username'].toString(),
-    ]);
-  }
-
-  widgets.add(
-    pw.Table.fromTextArray(
-      context: null,
-      headerCount: 1,
-      data: tableData,
-      border: pw.TableBorder.all(width: 1.0, color: PdfColors.grey),
-      headerStyle: pw.TextStyle(fontWeight: pw.FontWeight.bold, fontSize: 10),
-      cellStyle: pw.TextStyle(fontSize: 10),
-      cellAlignment: pw.Alignment.center,
-    ),
-  );
-
-  widgets.add(pw.SizedBox(height: 20));
-
-  return widgets;
-}
-
-static List<pw.Widget> _buildItemCreationSection(String title, List<dynamic>? items) {
-  if (items == null || items.isEmpty) {
-    return [
+    List<pw.Widget> widgets = [
       pw.Text(title, style: pw.TextStyle(fontSize: 18)),
       pw.SizedBox(height: 15),
-      pw.Text('Tidak ada Perubahan'),
-      pw.SizedBox(height: 25),
-    ];
-  }
-
-  List<pw.Widget> widgets = [
-    pw.Text(title, style: pw.TextStyle(fontSize: 18)),
-    pw.SizedBox(height: 15)
-  ];
-   
-  List<List<String>> tableData = [
-    ['ID', 'Nama Barang','Brand']
-  ];
-
-  for (var item in items) {
-    tableData.add([
-      item['custom_id'].toString(),
-      item['name'].toString(),
-      item['brand'].toString(),
-    ]);
-  }
-
-  widgets.add(
-    pw.Table.fromTextArray(
-      context: null,
-      headerCount: 1,
-      data: tableData,
-      border: pw.TableBorder.all(width: 1.0, color: PdfColors.grey),
-      headerStyle: pw.TextStyle(fontWeight: pw.FontWeight.bold, fontSize: 10),
-      cellStyle: pw.TextStyle(fontSize: 10),
-      cellAlignment: pw.Alignment.center,
-    ),
-  );
-
-  widgets.add(pw.SizedBox(height: 20));
-
-  return widgets;
-}
-
-
-  static List<pw.Widget> _buildOrdersSection(String title, List<dynamic>? orders, List<dynamic>? orderList) {
-  if ((orders == null || orders.isEmpty) && (orderList == null || orderList.isEmpty)) {
-    return [
-      pw.Text(title, style: pw.TextStyle(fontSize: 18)),
-      pw.SizedBox(height: 15),
-      pw.Text('tidak ada perubahan pada hari ini'),
-      pw.SizedBox(height: 25),
-    ];
-  }
-
-  List<pw.Widget> orderWidgets = [
-    pw.Text(title, style: pw.TextStyle(fontSize: 18)),
-    pw.SizedBox(height: 15)
-  ];
-   
-  for (var order in orders ?? []) {
-    List<List<String>> orderTableData = [
-      ['Order', 'tanggal_pemesanan', 'tanggal_sampai', 'nama_vendor', 'nama_pemesan', 'checked']
     ];
 
-    orderTableData.add([
-      order['ID_pemesanan'].toString(),
-      order['tanggal_pemesanan'].toString(),
-      order['tanggal_sampai'].toString(),
-      order['nama_vendor'].toString(),
-      order['nama_pemesan'].toString(),
-      order['checked'].toString(),
-    ]);
-
-    orderWidgets.add(
-      pw.Table.fromTextArray(
-        context: null,
-        headerCount: 1,
-        data: orderTableData,
-        border: pw.TableBorder.all(width: 1.0, color: PdfColors.grey), 
-        headerStyle: pw.TextStyle(fontWeight: pw.FontWeight.bold, fontSize: 10), 
-        cellStyle: pw.TextStyle(fontSize: 10), 
-        cellAlignment: pw.Alignment.center,
-      ),
-    );
-
-    List<dynamic> orderItems = orderList?.where((item) => item['ID_pemesanan'] == order['ID_pemesanan']).toList() ?? [];
-    if(orderItems.isNotEmpty){
-    List<List<String>> orderItemList = [
-      ['Item', 'name', 'brand', 'Quantity_ordered', 'Incoming_Quantity', 'checker_barang', 'ismatch']
+    List<List<String>> tableData = [
+      ['ID', 'Nama Barang', 'Brand'],
     ];
 
-    for (var item in orderItems) {
-      orderItemList.add([
+    for (var item in items) {
+      tableData.add([
         item['custom_id'].toString(),
         item['name'].toString(),
         item['brand'].toString(),
-        item['Quantity_ordered'].toString(),
-        item['Incoming_Quantity'].toString(),
-        item['checker_barang'].toString(),
-        item['ismatch'].toString(),
       ]);
     }
-    
-    orderWidgets.add(
-      pw.Table.fromTextArray(
-        context: null,
-        headerCount: 1,
-        data: orderItemList,
-        border: pw.TableBorder.all(width: 1.0, color: PdfColors.grey), 
-        headerStyle: pw.TextStyle(fontWeight: pw.FontWeight.bold, fontSize: 10), 
-        cellStyle: pw.TextStyle(fontSize: 10), 
-        cellAlignment: pw.Alignment.center,
-      ),
-    );
-    }
-    
-    orderWidgets.add(pw.SizedBox(height: 15));
+
+    widgets.addAll(_paginateTableData(tableData));
+
+    widgets.add(pw.SizedBox(height: 20));
+
+    return widgets;
   }
 
-  orderWidgets.add(pw.SizedBox(height: 20));
+  static List<pw.Widget> _buildOrdersSection(String title, List<dynamic>? orders, List<dynamic>? orderList) {
+    if ((orders == null || orders.isEmpty) && (orderList == null || orderList.isEmpty)) {
+      return [
+        pw.Text(title, style: pw.TextStyle(fontSize: 18)),
+        pw.SizedBox(height: 15),
+        pw.Text('Tidak ada Perubahan pada hari ini'),
+        pw.SizedBox(height: 25),
+      ];
+    }
 
-  return orderWidgets;
+    List<pw.Widget> orderWidgets = [
+      pw.Text(title, style: pw.TextStyle(fontSize: 18)),
+      pw.SizedBox(height: 15),
+    ];
+
+    for (var order in orders ?? []) {
+      List<List<String>> orderTableData = [
+        ['Order', 'tanggal_pemesanan', 'tanggal_sampai', 'nama_vendor', 'nama_pemesan', 'checked'],
+      ];
+
+      orderTableData.add([
+        order['ID_pemesanan'].toString(),
+        order['tanggal_pemesanan'].toString(),
+        order['tanggal_sampai'].toString(),
+        order['nama_vendor'].toString(),
+        order['nama_pemesan'].toString(),
+        order['checked'].toString(),
+      ]);
+
+      orderWidgets.addAll(_paginateTableData(orderTableData));
+
+      List<dynamic> orderItems = orderList?.where((item) => item['ID_pemesanan'] == order['ID_pemesanan']).toList() ?? [];
+      if (orderItems.isNotEmpty) {
+        List<List<String>> orderItemList = [
+          ['Item', 'name', 'brand', 'Quantity_ordered', 'Incoming_Quantity', 'checker_barang', 'ismatch'],
+        ];
+
+        for (var item in orderItems) {
+          orderItemList.add([
+            item['custom_id'].toString(),
+            item['name'].toString(),
+            item['brand'].toString(),
+            item['Quantity_ordered'].toString(),
+            item['Incoming_Quantity'].toString(),
+            item['checker_barang'].toString(),
+            item['ismatch'].toString(),
+          ]);
+        }
+
+        orderWidgets.addAll(_paginateTableData(orderItemList));
+      }
+
+      orderWidgets.add(pw.SizedBox(height: 15));
+    }
+
+    orderWidgets.add(pw.SizedBox(height: 20));
+
+    return orderWidgets;
+  }
+
+  static List<pw.Widget> _paginateTableData(List<List<String>> tableData) {
+    List<pw.Widget> paginatedWidgets = [];
+    int rowsPerPage = 20; // Adjust the number of rows per page as needed
+    List<String> headerRow = tableData[0]; // Store the header row
+
+    for (int i = 1; i < tableData.length; i += rowsPerPage) {
+        paginatedWidgets.add(
+            pw.Table.fromTextArray(
+                context: null,
+                headerCount: 1, // Include header for each paginated section
+                data: [
+                    headerRow,
+                    ...tableData.sublist(i, i + rowsPerPage > tableData.length ? tableData.length : i + rowsPerPage)
+                ],
+                border: pw.TableBorder.all(width: 1.0, color: PdfColors.grey),
+                headerStyle: pw.TextStyle(fontWeight: pw.FontWeight.bold, fontSize: 10),
+                cellStyle: pw.TextStyle(fontSize: 10),
+                cellAlignment: pw.Alignment.center,
+            ),
+        );
+        paginatedWidgets.add(pw.SizedBox(height: 10));
+    }
+
+    return paginatedWidgets;
 }
 
   static Future<void> openFile(String path) async {
