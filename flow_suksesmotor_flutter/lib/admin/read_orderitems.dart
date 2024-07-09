@@ -161,7 +161,13 @@ class _ReadOrderItemsState extends State<ReadOrderItems> {
               ),
             ),
           ),
-          Expanded(
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              'ID Pemesan: ${widget.orderId}',
+              style: TextStyle(fontSize: 16.0),
+            ),
+          ),Expanded(
             child: serverItems.isEmpty && items.isEmpty
                 ? Center(child: Text('No items found.'))
                 : ListView.builder(
