@@ -115,7 +115,7 @@ class AdminDashboard extends StatelessWidget {
       },
     ),
     GridItemData(
-        logo: Image.asset('images/make_report.png', width: 100),
+        logo: Image.asset('images/pdf_report.png', width: 100),
         name: 'Make Report',
         onTap: (BuildContext context) async {
           

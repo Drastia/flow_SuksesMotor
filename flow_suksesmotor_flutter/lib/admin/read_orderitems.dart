@@ -192,9 +192,9 @@ class _ReadOrderItemsState extends State<ReadOrderItems> {
                                   ? Colors.green[100]
                                   : Colors.red[100],
                           child: ListTile(
-                            title: Text('Item: ${orderItem['name']}'),
+                            title: Text('ID Barang: ${orderItem['custom_id']}'),
                             subtitle: Text(
-                                'Quantity Ordered: ${orderItem['Quantity_ordered']} \nQuantity Arrived: ${orderItem['Incoming_Quantity']}  \nBrand: ${orderItem['brand']}  \nChecker Barang: ${orderItem['checker_barang']}'),
+                                'Item: ${orderItem['name']}\nQuantity Ordered: ${orderItem['Quantity_ordered']} \nQuantity Arrived: ${orderItem['Incoming_Quantity']}  \nBrand: ${orderItem['brand']}  \nChecker Barang: ${orderItem['checker_barang']}'),
                             trailing: Row(
                               mainAxisSize: MainAxisSize.min,
                               children: [
