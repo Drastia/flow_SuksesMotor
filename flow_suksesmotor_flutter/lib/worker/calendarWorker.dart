@@ -93,13 +93,13 @@ class _CalendarPageState extends State<CalendarPage> {
   Future<void> _fetchEvents() async {
     try {
       final response =
-          await http.get(Uri.parse(baseURL + 'orders/countOrdersByDate'));
+          await http.get(Uri.parse(baseURL + 'orders/countOrdersByDateWorker'));
       if (response.statusCode == 200) {
         Iterable data = json.decode(response.body);
         print('Fetched data: $data');
         List<Event> events = data.map((e) => Event.fromMap(e)).toList();
         print('Parsed events: $events');
-        // Convert the list of events into a map grouping by DateTime
+        
         Map<DateTime, List<Event>> eventsMap = {};
         events.forEach((event) {
           DateTime dateWithoutTime =
@@ -127,7 +127,7 @@ class _CalendarPageState extends State<CalendarPage> {
       final formattedDate =
           "${selectedDay.year}-${selectedDay.month.toString().padLeft(2, '0')}-${selectedDay.day.toString().padLeft(2, '0')}";
       final response = await http
-          .get(Uri.parse(baseURL + 'orders/getOrdersByDate/$formattedDate'));
+          .get(Uri.parse(baseURL + 'orders/getOrdersByDateWorker/$formattedDate'));
       if (response.statusCode == 200) {
         Iterable data = json.decode(response.body);
         print('Fetched orders for selected day: $data');

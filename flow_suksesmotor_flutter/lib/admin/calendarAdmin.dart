@@ -303,6 +303,9 @@ class _CalendarPageState extends State<CalendarPage> {
             if (DateFormat('yyyy-MM-dd').format(order.tanggalSampai) == DateFormat('yyyy-MM-dd').format(_selectedDay!)) {
               boxColor = const Color.fromARGB(255, 188, 225, 255); // Tanggal Sampai matches the selected day
             }
+            if (DateFormat('yyyy-MM-dd').format(order.tanggalSampai) == DateFormat('yyyy-MM-dd').format(order.tanggalPemesanan)) {
+              boxColor = Color.fromARGB(255, 114, 255, 189); // Tanggal Sampai matches the selected day
+            }
 
             return Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),

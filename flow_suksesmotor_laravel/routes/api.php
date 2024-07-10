@@ -34,7 +34,9 @@ Route::prefix('orders')->group(function () {
     Route::get('/IndexAftertoday', [OrderController::class, 'IndexAftertoday']);
     Route::get('/IndexBeforetoday', [OrderController::class, 'IndexBeforetoday']);
     Route::get('/countOrdersByDate', [OrderController::class, 'countOrdersByDate']);
+    Route::get('/countOrdersByDateWorker', [OrderController::class, 'countOrdersByDateWorker']);
     Route::get('/getOrdersByDate/{date}', [OrderController::class, 'getOrdersByDate']);
+    Route::get('/getOrdersByDateWorker/{date}', [OrderController::class, 'getOrdersByDateWorker']);
     Route::post('/', [OrderController::class, 'store']);
     Route::get('/list/{id}', [OrderController::class, 'indexOrderList']);
     Route::get('/searchOrder/{order}', [OrderController::class, 'searchOrder']);

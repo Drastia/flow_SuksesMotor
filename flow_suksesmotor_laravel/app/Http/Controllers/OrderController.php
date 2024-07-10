@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Models\Order;
 use App\Models\OrderList;
@@ -19,9 +19,13 @@ class OrderController extends Controller
 
     public function IndexAftertoday(): JsonResponse
 {
-    $today = Carbon::today(); 
-    $orders = Order::where('tanggal_sampai', '>=', $today)->get();
-    return response()->json($orders);
+    try {
+        $today = Carbon::today(); 
+        $orders = Order::where('tanggal_sampai', '>=', $today)->get();
+        return response()->json($orders);
+    } catch (\Exception $e) {
+        return response()->json(['error' => $e->getMessage()], 500);
+    }
 }
     public function IndexBeforetoday(){
         $today = Carbon::today(); 
@@ -43,9 +47,22 @@ class OrderController extends Controller
         ->groupBy('date')
         ->union(
             Order::selectRaw('DATE(tanggal_pemesanan) as date, COUNT(*) as count')
+                ->whereRaw('DATE(tanggal_pemesanan) != DATE(tanggal_sampai)')
                 ->groupBy('date')
         )
         ->get();
+
+
+    return response()->json($ordersCount);
+}
+
+public function countOrdersByDateWorker()
+{
+    $ordersCount = Order::selectRaw('DATE(tanggal_sampai) as date, COUNT(*) as count')
+        ->groupBy('date')
+        
+        ->get();
+
 
     return response()->json($ordersCount);
 }
@@ -54,6 +71,14 @@ public function getOrdersByDate($date)
 {
     $orders = Order::whereDate('tanggal_sampai', '=', $date)
                    ->orWhereDate('tanggal_pemesanan', '=', $date)
+                   ->get();
+    
+    return response()->json($orders);
+}
+public function getOrdersByDateWorker($date)
+{
+    $orders = Order::whereDate('tanggal_sampai', '=', $date)
+                   
                    ->get();
     
     return response()->json($orders);

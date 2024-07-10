@@ -18,9 +18,19 @@ class OrderServices {
   
   }
 
-  Future<List<dynamic>> fetchOrdersAfterToday() async {
-    var result = await http.get(Uri.parse(baseURL+' /IndexAftertoday'));
-    return json.decode(result.body);
+ Future<List<dynamic>> fetchOrdersAfterToday() async {
+    try {
+      var result = await http.get(Uri.parse(baseURL+'orders/IndexAftertoday'));
+      if (result.statusCode == 200) {
+        return json.decode(result.body);
+      } else {
+        print('Error fetching orders: ${result.statusCode}');
+        return [];
+      }
+    } catch (error) {
+      print('Error fetching orders: $error');
+      return [];
+    }
   }
   Future<List<dynamic>> fetchOrdersBeforeToday() async {
     var result = await http.get(Uri.parse(baseURL+'orders/IndexBeforetoday'));
