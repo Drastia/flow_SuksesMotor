@@ -186,10 +186,16 @@ class _WorkerOrderHistoryState extends State<WorkerOrderHistory>
                               ],
                             ),
                             Center(
-                              child: Text(
-                                '${orders[index]['tanggal_pemesanan']} -> ${orders[index]['tanggal_sampai']}',
-                                style: TextStyle(fontSize: 16.0),
+                                child: Text(
+                                  'Tanggal Pemesanan: ${orders[index]['tanggal_pemesanan']}',
+                                  style: TextStyle(fontSize: 16.0),
+                                ),
                               ),
+                              Center(
+                                child: Text(
+                                  'Tanggal Sampai: ${orders[index]['tanggal_sampai']}',
+                                  style: TextStyle(fontSize: 16.0),
+                                ),
                             ),
                           ],
                         ),
@@ -204,12 +210,6 @@ class _WorkerOrderHistoryState extends State<WorkerOrderHistory>
   }
 
   Widget _buildCheckIcon(dynamic order) {
-    if (order['checked'] == '') {
-      return SizedBox(width: 24); 
-    } else if (order['checked'] == 'true') {
-      return Icon(Icons.check, color: Colors.green);
-    } else {
-      return Icon(Icons.clear, color: Colors.red);
-    }
+    return SizedBox(width: 24);
   }
 }
