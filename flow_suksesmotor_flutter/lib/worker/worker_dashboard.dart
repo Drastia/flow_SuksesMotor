@@ -1,3 +1,4 @@
+import 'package:flow_suksesmotor/worker/calendarWorker.dart';
 import 'package:flow_suksesmotor/screen/initialscreen.dart';
 import 'package:flow_suksesmotor/worker/worker_history_list.dart';
 import 'package:flow_suksesmotor/worker/worker_order_list.dart';
@@ -23,7 +24,16 @@ class WorkerDashboard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final List<GridItemData> gridItems = [
-      
+      GridItemData(
+        logo:  Image.asset('images/calendar_order.png', width: 100),
+        name: 'Order Calendar',
+        onTap: (BuildContext context) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => CalendarPage(workerName: workerName)),
+          );
+        },
+      ),
       GridItemData(
         logo:  Image.asset('images/list_order.png', width: 100),
         name: 'Order list',

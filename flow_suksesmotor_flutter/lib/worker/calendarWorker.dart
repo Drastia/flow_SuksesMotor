@@ -1,5 +1,6 @@
 import 'package:flow_suksesmotor/admin/read_orderitems.dart';
 import 'package:flow_suksesmotor/services/globals.dart';
+import 'package:flow_suksesmotor/worker/worker_orderitem_list.dart';
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'dart:convert';
@@ -7,8 +8,8 @@ import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 
 class CalendarPage extends StatefulWidget {
-  final String adminName;
-  CalendarPage({ required this.adminName});
+  final String workerName;
+  CalendarPage({required this.workerName});
   @override
   _CalendarPageState createState() => _CalendarPageState();
 }
@@ -288,75 +289,87 @@ class _CalendarPageState extends State<CalendarPage> {
                 titleCentered: true,
               ),
             ),
-           Expanded(
-  child: SingleChildScrollView(
-    child: Column(
-      children: [
-        SizedBox(height: 8.0),
-        ..._ordersForSelectedDay.map(
-          (order) {
-            // Determine the box color based on the conditions
-            Color boxColor = Colors.white;
-            if (DateFormat('yyyy-MM-dd').format(order.tanggalPemesanan) == DateFormat('yyyy-MM-dd').format(_selectedDay!)) {
-              boxColor = Color.fromARGB(255, 255, 246, 161); // Tanggal Pemesanan matches the selected day
-            }
-            if (DateFormat('yyyy-MM-dd').format(order.tanggalSampai) == DateFormat('yyyy-MM-dd').format(_selectedDay!)) {
-              boxColor = const Color.fromARGB(255, 188, 225, 255); // Tanggal Sampai matches the selected day
-            }
+            Expanded(
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    SizedBox(height: 8.0),
+                    ..._ordersForSelectedDay.map(
+                      (order) {
+                        // Determine the box color based on the conditions
+                        Color boxColor = Colors.white;
+                        if (DateFormat('yyyy-MM-dd')
+                                .format(order.tanggalPemesanan) ==
+                            DateFormat('yyyy-MM-dd').format(_selectedDay!)) {
+                          boxColor = Color.fromARGB(255, 255, 246,
+                              161); // Tanggal Pemesanan matches the selected day
+                        }
+                        if (DateFormat('yyyy-MM-dd')
+                                .format(order.tanggalSampai) ==
+                            DateFormat('yyyy-MM-dd').format(_selectedDay!)) {
+                          boxColor = const Color.fromARGB(255, 188, 225,
+                              255); // Tanggal Sampai matches the selected day
+                        }
 
-            return Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
-              child: InkWell(
-                onTap: () {
-                  Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => ReadOrderItems(
-                                              orderId: order.id, adminName: widget.adminName),
-                                        ),
-                                      );
-                },
-                child: Container(
-                  decoration: BoxDecoration(
-                    border: Border.all(),
-                    borderRadius: BorderRadius.circular(12.0),
-                    color: boxColor,
-                  ),
-                  child: ListTile(
-                    title: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          'ID pemesanan : ${order.id}',
-                          style: TextStyle(
-                            fontSize: 20.0,
-                            fontWeight: FontWeight.bold,
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 8.0, vertical: 4.0),
+                          child: InkWell(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => WorkerOrderListItems(
+                                          orderId: order.id,
+                                          workerName: widget.workerName,
+                                        )),
+                              );
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                border: Border.all(),
+                                borderRadius: BorderRadius.circular(12.0),
+                                color: boxColor,
+                              ),
+                              child: ListTile(
+                                title: 
+                                    Text(
+                                      'ID pemesanan : ${order.id}',
+                                      style: TextStyle(
+                                        fontSize: 20.0,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  
+                                subtitle: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    if (DateFormat('yyyy-MM-dd')
+                                            .format(order.tanggalPemesanan) ==
+                                        DateFormat('yyyy-MM-dd')
+                                            .format(_selectedDay!))
+                                      Text(
+                                          'Tanggal Sampai: ${DateFormat('dd-MM-yyy').format(order.tanggalSampai)}'),
+                                    if (DateFormat('yyyy-MM-dd')
+                                            .format(order.tanggalSampai) ==
+                                        DateFormat('yyyy-MM-dd')
+                                            .format(_selectedDay!))
+                                      Text(
+                                          'Tanggal Pemesanan: ${DateFormat('dd-MM-yyy').format(order.tanggalPemesanan)}'),
+                                    Text('Nama Vendor: ${order.namaVendor}'),
+                                    Text('Nama Pemesan: ${order.namaPemesan}'),
+                                  ],
+                                ),
+                              ),
+                            ),
                           ),
-                        ),
-                        _buildCheckIcon(order),
-                      ],
+                        );
+                      },
                     ),
-                    subtitle: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        if (DateFormat('yyyy-MM-dd').format(order.tanggalPemesanan) == DateFormat('yyyy-MM-dd').format(_selectedDay!))
-                          Text('Tanggal Sampai: ${DateFormat('dd-MM-yyy').format(order.tanggalSampai)}'),
-                        if (DateFormat('yyyy-MM-dd').format(order.tanggalSampai) == DateFormat('yyyy-MM-dd').format(_selectedDay!))
-                          Text('Tanggal Pemesanan: ${DateFormat('dd-MM-yyy').format(order.tanggalPemesanan)}'),
-                        Text('Nama Vendor: ${order.namaVendor}'),
-                        Text('Nama Pemesan: ${order.namaPemesan}'),
-                      ],
-                    ),
-                  ),
+                  ],
                 ),
               ),
-            );
-          },
-        ),
-      ],
-    ),
-  ),
-),
+            ),
           ],
         ));
   }

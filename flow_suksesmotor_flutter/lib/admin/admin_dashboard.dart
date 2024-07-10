@@ -72,16 +72,7 @@ class AdminDashboard extends StatelessWidget {
         );
       },
     ),
-    GridItemData(
-      logo: Image.asset('images/list_item.png', width: 100),
-      name: 'Order Calendar',
-      onTap: (BuildContext context) {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => CalendarPage()),
-        );
-      },
-    ),
+    
     GridItemData(
       logo: Image.asset('images/add_order.png', width: 100),
       name: 'Add Order',
@@ -89,6 +80,17 @@ class AdminDashboard extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => AddOrder(adminName: adminName)),
+        );
+      },
+    ),
+    GridItemData(
+      logo: Image.asset('images/calendar_order.png', width: 90),
+      
+      name: 'Order Calendar',
+      onTap: (BuildContext context) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => CalendarPage(adminName: adminName,)),
         );
       },
     ),
