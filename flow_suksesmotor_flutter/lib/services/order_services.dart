@@ -19,13 +19,14 @@ class OrderServices {
   }
 
   Future<List<dynamic>> fetchOrdersAfterToday() async {
-    var result = await http.get(Uri.parse(baseURL+'orders/IndexAftertoday'));
+    var result = await http.get(Uri.parse(baseURL+' /IndexAftertoday'));
     return json.decode(result.body);
   }
   Future<List<dynamic>> fetchOrdersBeforeToday() async {
     var result = await http.get(Uri.parse(baseURL+'orders/IndexBeforetoday'));
     return json.decode(result.body);
   }
+  
 
 Future<List<dynamic>> searchOrder(String query) async {
   try {

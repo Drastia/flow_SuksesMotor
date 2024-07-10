@@ -1,5 +1,6 @@
 import 'package:flow_suksesmotor/admin/add_item.dart';
 import 'package:flow_suksesmotor/admin/add_order.dart';
+import 'package:flow_suksesmotor/admin/calendarAdmin.dart';
 import 'package:flow_suksesmotor/admin/generate_report.dart';
 import 'package:flow_suksesmotor/admin/history_order.dart';
 import 'package:flow_suksesmotor/admin/initial_accountlist.dart';
@@ -68,6 +69,16 @@ class AdminDashboard extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => ListItem(adminName: adminName,)),
+        );
+      },
+    ),
+    GridItemData(
+      logo: Image.asset('images/list_item.png', width: 100),
+      name: 'Order Calendar',
+      onTap: (BuildContext context) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => CalendarPage()),
         );
       },
     ),

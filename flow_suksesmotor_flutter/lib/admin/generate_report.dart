@@ -39,7 +39,7 @@ class ReportGenerator {
         style: pw.TextStyle(fontSize: 24),
         textAlign: pw.TextAlign.center,
       ),
-      pw.SizedBox(height: 10), // Add space between the title and the date
+      pw.SizedBox(height: 10), 
       pw.Text(
        'Tanggal : ${_formatDate(DateTime.now())}',
       ),
@@ -48,6 +48,13 @@ class ReportGenerator {
   pw.SizedBox(height: 20),
 ];
 
+    contentWidgets.addAll(_buildOrdersSection('Pembuatan Order dan Order List', data['orders'] ?? [], data['order_list'] ?? []));
+    contentWidgets.addAll(_buildOrdersSection('Edit Order dan Order List', data['orders_edit'] ?? [], data['order_list_edit'] ?? []));
+
+    contentWidgets.addAll(_buildAuditEditSection('Perubahan Detail Database', data['audit_edit'] ?? []));
+
+    contentWidgets.addAll(_buildItemCreationSection('Pembuatan jenis barang', data['items'] ?? []));
+    contentWidgets.addAll(_buildItemCreationSection('Edit jenis barang', data['items_edit'] ?? []));
 
     contentWidgets.addAll(_buildAdminAccountsSection('Pembuatan akun Admin', data['admin_table'] ?? []));
     contentWidgets.addAll(_buildWorkerAccountsSection('Pembuatan akun Worker', data['workers'] ?? []));
@@ -55,13 +62,9 @@ class ReportGenerator {
     contentWidgets.addAll(_buildAdminAccountsSection('Edit akun Admin', data['admin_table_edit'] ?? []));
     contentWidgets.addAll(_buildWorkerAccountsSection('Edit akun Worker', data['workers_edit'] ?? []));
  
-    contentWidgets.addAll(_buildItemCreationSection('Pembuatan jenis barang', data['items'] ?? []));
-    contentWidgets.addAll(_buildItemCreationSection('Edit jenis barang', data['items_edit'] ?? []));
     
-    contentWidgets.addAll(_buildOrdersSection('Pembuatan Order dan Order List', data['orders'] ?? [], data['order_list'] ?? []));
-    contentWidgets.addAll(_buildOrdersSection('Edit Order dan Order List', data['orders_edit'] ?? [], data['order_list_edit'] ?? []));
-
-    contentWidgets.addAll(_buildAuditEditSection('Perubahan Detail Database', data['audit_edit'] ?? []));
+    
+    
 
     // Add pages
     pdf.addPage(
@@ -82,7 +85,7 @@ class ReportGenerator {
         String reportPath = '${directory.path}/Report';
         String filePath = '$reportPath/Report_${_formatDate(DateTime.now())}.pdf';
 
-        // Create the Report directory if it doesn't exist
+        
         Directory reportDir = Directory(reportPath);
         if (!await reportDir.exists()) {
           await reportDir.create(recursive: true);
@@ -302,14 +305,14 @@ class ReportGenerator {
 
   static List<pw.Widget> _paginateTableData(List<List<String>> tableData) {
     List<pw.Widget> paginatedWidgets = [];
-    int rowsPerPage = 20; // Adjust the number of rows per page as needed
-    List<String> headerRow = tableData[0]; // Store the header row
+    int rowsPerPage = 20; 
+    List<String> headerRow = tableData[0]; 
 
     for (int i = 1; i < tableData.length; i += rowsPerPage) {
         paginatedWidgets.add(
             pw.Table.fromTextArray(
                 context: null,
-                headerCount: 1, // Include header for each paginated section
+                headerCount: 1, 
                 data: [
                     headerRow,
                     ...tableData.sublist(i, i + rowsPerPage > tableData.length ? tableData.length : i + rowsPerPage)

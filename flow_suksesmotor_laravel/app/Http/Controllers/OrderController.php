@@ -37,6 +37,28 @@ class OrderController extends Controller
     return response()->json($orderlist);
     }
 
+    public function countOrdersByDate()
+{
+    $ordersCount = Order::selectRaw('DATE(tanggal_sampai) as date, COUNT(*) as count')
+        ->groupBy('date')
+        ->union(
+            Order::selectRaw('DATE(tanggal_pemesanan) as date, COUNT(*) as count')
+                ->groupBy('date')
+        )
+        ->get();
+
+    return response()->json($ordersCount);
+}
+
+public function getOrdersByDate($date)
+{
+    $orders = Order::whereDate('tanggal_sampai', '=', $date)
+                   ->orWhereDate('tanggal_pemesanan', '=', $date)
+                   ->get();
+    
+    return response()->json($orders);
+}
+
 public function searchOrder($query)
 {
     $today = Carbon::today();

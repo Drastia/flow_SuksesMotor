@@ -33,6 +33,8 @@ Route::delete('/deleteitems/{id}', [ItemController::class, 'destroy']);
 Route::prefix('orders')->group(function () {
     Route::get('/IndexAftertoday', [OrderController::class, 'IndexAftertoday']);
     Route::get('/IndexBeforetoday', [OrderController::class, 'IndexBeforetoday']);
+    Route::get('/countOrdersByDate', [OrderController::class, 'countOrdersByDate']);
+    Route::get('/getOrdersByDate/{date}', [OrderController::class, 'getOrdersByDate']);
     Route::post('/', [OrderController::class, 'store']);
     Route::get('/list/{id}', [OrderController::class, 'indexOrderList']);
     Route::get('/searchOrder/{order}', [OrderController::class, 'searchOrder']);
@@ -41,6 +43,7 @@ Route::prefix('orders')->group(function () {
     Route::put('/{id}/{adminName}', [OrderController::class, 'updateOrder']);
     Route::put('/{id}/{adminName}/items', [OrderController::class, 'updateOrderListItems']);
     Route::put('/{id}/{workerName}/quantity-item', [OrderController::class, 'updateQuantityArrived']);
+    
     Route::delete('/{id}', [OrderController::class, 'destroy']);
     Route::delete('/{id}/items', [OrderController::class, 'destroyItem']);
 

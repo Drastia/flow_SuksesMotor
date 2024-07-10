@@ -185,12 +185,18 @@ class _WorkerOrderHistoryState extends State<WorkerOrderHistory>
                                 ),
                               ],
                             ),
-                            Center(
-                              child: Text(
-                                '${orders[index]['tanggal_pemesanan']} -> ${orders[index]['tanggal_sampai']}',
-                                style: TextStyle(fontSize: 16.0),
+                             Center(
+                                child: Text(
+                                  'Tanggal Pemesanan: ${orders[index]['tanggal_pemesanan']}',
+                                  style: TextStyle(fontSize: 16.0),
+                                ),
                               ),
-                            ),
+                              Center(
+                                child: Text(
+                                  'Tanggal Sampai: ${orders[index]['tanggal_sampai']}',
+                                  style: TextStyle(fontSize: 16.0),
+                                ),
+                              ),
                           ],
                         ),
                       ),

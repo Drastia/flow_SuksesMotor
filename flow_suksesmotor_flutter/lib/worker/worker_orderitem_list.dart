@@ -123,11 +123,13 @@ class _WorkerOrderListItemsState extends State<WorkerOrderListItems> {
           ),
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Text(
-              'ID Pemesan: ${widget.orderId}',
-              style: TextStyle(fontSize: 16.0),
-            ),
-          ),
+            child: Center(
+    child: Text(
+      'ID Pemesan: ${widget.orderId}',
+      style: TextStyle(fontSize: 16.0),
+    ),
+  ),
+),
           Expanded(
             child: ListView.builder(
               itemCount: items.length,
@@ -142,9 +144,9 @@ class _WorkerOrderListItemsState extends State<WorkerOrderListItems> {
                           ? Colors.grey[50]
                           : Colors.grey[50],
                   child: ListTile(
-                    title: Text('Item: ${orderItem['name']}'),
+                    title: Text('ID: ${orderItem['custom_id']}'),
                     subtitle: Text(
-                      'Brand: ${orderItem['brand']} \nQuantity Arrived: ${orderItem['Incoming_Quantity']} \nChecker Barang: ${orderItem['checker_barang']}',
+                      'Item: ${orderItem['name']}\nBrand: ${orderItem['brand']} \nQuantity Arrived: ${orderItem['Incoming_Quantity']} \nChecker Barang: ${orderItem['checker_barang']}',
                     ),
                     trailing: Wrap(
                       children: [
