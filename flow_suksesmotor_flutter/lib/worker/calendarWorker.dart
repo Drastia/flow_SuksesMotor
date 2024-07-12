@@ -154,11 +154,11 @@ class _CalendarPageState extends State<CalendarPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('Order Calendar'),
+          title: Text('Worker Order Calendar'),
           backgroundColor: Color(0xFF52E9AA),
            actions: [
           IconButton(
-              icon: Icon(Icons.info),
+              icon: Icon(Icons.info_outline),
               onPressed: () {
                 showDialog(
                   context: context,
