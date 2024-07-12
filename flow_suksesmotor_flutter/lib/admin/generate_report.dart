@@ -124,7 +124,7 @@ class ReportGenerator {
 
     for (var audit in AuditEditList) {
       tableData.add([
-        audit['id'].toString(),
+        
         audit['table_name'].toString(),
         audit['field_name'].toString(),
         audit['old_value'].toString(),
