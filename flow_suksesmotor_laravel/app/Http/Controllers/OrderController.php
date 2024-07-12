@@ -222,7 +222,7 @@ public function searchOrderItem($id,$query){
     Log::info("New Tanggal_sampai: $newTanggalSampai");
     Log::info("New Nama_Vendor: $newNamaVendor");
 
-     // Compare old and new values for 'Tanggal_sampai'
+
      if ($oldTanggalSampai != $newTanggalSampai) {
         AuditEdit::create([
             'table_name' => 'orders',
@@ -234,7 +234,6 @@ public function searchOrderItem($id,$query){
         ]);
     }
 
-    // Compare old and new values for 'Nama_Vendor'
     if ($oldNamaVendor != $newNamaVendor) {
         AuditEdit::create([
             'table_name' => 'orders',
@@ -308,6 +307,7 @@ public function searchOrderItem($id,$query){
                     'role' => 'Admin'
 
                 ]);
+                $order->touch();
             }
             } else {
                 OrderList::create([
@@ -317,9 +317,12 @@ public function searchOrderItem($id,$query){
                     'brand' => $item['brand'],
                     'Quantity_ordered' => $item['Quantity_ordered']
                 ]);
+                $order->updated_at = now();
+                $order->created_at = now();
+                $order->save();
+        
             }
         }
-        $order->touch();
         
         return response()->json(['message' => 'Order list items updated successfully.'], 200);
     }

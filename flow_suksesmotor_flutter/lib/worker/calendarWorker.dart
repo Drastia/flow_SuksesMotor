@@ -156,6 +156,49 @@ class _CalendarPageState extends State<CalendarPage> {
         appBar: AppBar(
           title: Text('Order Calendar'),
           backgroundColor: Color(0xFF52E9AA),
+           actions: [
+          IconButton(
+              icon: Icon(Icons.info),
+              onPressed: () {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: Text('Arti warna kotak list pesanan barang'),
+                      content: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          
+                          
+                          Row(
+                            children: [
+                              Container(
+                                width: 20,
+                                height: 20,
+                                color: Color.fromARGB(255, 188, 225, 255),
+                              ),
+                              SizedBox(width: 10),
+                              Text('Artinya tanggal tersebut \npesanan sampai'),
+                            ],
+                          ),
+                          
+                        ],
+                      ),
+                      actions: <Widget>[
+                        TextButton(
+                          child: Text('Close'),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                        ),
+                      ],
+                    );
+                  },
+                );
+              },
+            ),
+        ],
         ),
         body: Column(
           children: [
