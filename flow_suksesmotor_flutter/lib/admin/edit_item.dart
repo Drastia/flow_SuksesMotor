@@ -26,7 +26,7 @@ class _EditItemState extends State<EditItem> {
       'name': nameController.text,
       'brand': brandController.text,
     };
-    if (RegExp(r'^[a-zA-Z0-9]{6,}$').hasMatch(customIdController.text) &&
+    if (RegExp(r'^[a-zA-Z0-9-]{6,}$').hasMatch(customIdController.text) &&
         RegExp(r'^[a-zA-Z0-9 ]{6,}$').hasMatch(nameController.text) &&
         RegExp(r'^[a-zA-Z0-9 ]+$').hasMatch(brandController.text)) {
     } else {

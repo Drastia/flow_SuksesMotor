@@ -65,7 +65,7 @@ class _EditOrderListState extends State<EditOrderList> {
       'Tanggal_sampai': tanggalSampaiController.text,
     };
 
-    if (RegExp(r'^[a-zA-Z0-9]+$').hasMatch(vendorController.text)) {
+    if (RegExp(r'^[a-zA-Z0-9- ]+$').hasMatch(vendorController.text)) {
         
       }else{
         errorSnackBar(context, 'Dont use symbols on Vendor Name');
