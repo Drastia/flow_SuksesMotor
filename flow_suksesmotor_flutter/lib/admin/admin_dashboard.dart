@@ -118,8 +118,11 @@ class AdminDashboard extends StatelessWidget {
         logo: Image.asset('images/pdf_report.png', width: 100),
         name: 'Make Report',
         onTap: (BuildContext context) async {
-          
-          await ReportGenerator.generateReport();
+          Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => ReportGenerator()),
+        );
+      
         },
       ),
     GridItemData(

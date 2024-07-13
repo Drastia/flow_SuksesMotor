@@ -9,10 +9,45 @@ import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:path_provider/path_provider.dart';
 import 'package:open_filex/open_filex.dart';
+class ReportGenerator extends StatefulWidget {
+  @override
+  ReportGeneratorState createState() => ReportGeneratorState();
+}
 
-class ReportGenerator {
-  static Future<Map<String, dynamic>> fetchReportData() async {
-    final response = await http.get(Uri.parse(baseURL + 'report-data'));
+class ReportGeneratorState extends State<ReportGenerator> {
+
+  DateTime? _dateFrom;
+  DateTime? _dateTo;
+  Future<void> _selectDate(BuildContext context, bool isFrom) async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2101),
+    );
+    if (picked != null && picked != (isFrom ? _dateFrom : _dateTo)) {
+      setState(() {
+        if (isFrom) {
+        _dateFrom = picked;
+        if (_dateTo != null && _dateTo!.isBefore(_dateFrom!)) {
+          _dateTo = _dateFrom;
+        }
+      } else {
+        if (_dateFrom == null) {
+          errorSnackBar(context, 'Please select a start date first');
+        } else if (picked.isBefore(_dateFrom!)) {
+          errorSnackBar(context, 'End date cannot be before start date');
+        } else {
+          _dateTo = picked;
+        }
+      }
+      });
+    }
+  }
+  Future<Map<String, dynamic>> fetchReportData(DateTime? _dateFrom,  DateTime? _dateTo) async {
+    print(_dateFrom);
+     print(_dateTo);
+    final response = await http.get(Uri.parse(baseURL + 'report-data/$_dateFrom/$_dateTo'));
 
     if (response.statusCode == 200) {
       try {
@@ -24,11 +59,12 @@ class ReportGenerator {
       throw Exception('Failed to load report data: ${response.body}');
     }
   }
+  
   static String _formatDate(DateTime date) {
   final DateFormat formatter = DateFormat('yyyy-MM-dd');
   return formatter.format(date);
 }
-  static Future<void> createPdf(Map<String, dynamic> data) async {
+  Future<void> createPdf(Map<String, dynamic> data) async {
     final pdf = pw.Document();
 
     final List<pw.Widget> contentWidgets = [
@@ -41,7 +77,7 @@ class ReportGenerator {
       ),
       pw.SizedBox(height: 10), 
       pw.Text(
-       'Tanggal : ${_formatDate(DateTime.now())}',
+       'Tanggal : ${_dateFrom}-${_dateTo}',
       ),
     ],
   ),
@@ -83,7 +119,7 @@ class ReportGenerator {
 
       if (directory != null) {
         String reportPath = '${directory.path}/Report';
-        String filePath = '$reportPath/Report_${_formatDate(DateTime.now())}.pdf';
+        String filePath = '$reportPath/Report_${_dateFrom}-${_dateTo}.pdf';
 
         
         Directory reportDir = Directory(reportPath);
@@ -333,10 +369,10 @@ class ReportGenerator {
     await OpenFilex.open(path);
   }
 
-  static Future<void> generateReport() async {
+   Future<void> generateReport() async {
     try {
       print('Fetching report data...');
-      final data = await fetchReportData();
+      final data = await fetchReportData(_dateFrom, _dateTo);
       print('Data fetched: $data');
       print('Creating PDF...');
       await createPdf(data);
@@ -346,4 +382,90 @@ class ReportGenerator {
     
     }
   }
+  
+@override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Generate Report'),
+        backgroundColor: Color(0xFF52E9AA),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Text(
+              'Select Date Range',
+              style: TextStyle(fontSize: 18),
+            ),
+            SizedBox(height: 16),
+            Row(
+              children: [
+                Expanded(
+                  child: GestureDetector(
+                    onTap: () => _selectDate(context, true),
+                    child: Container(
+                      padding: EdgeInsets.symmetric(vertical: 16),
+                      decoration: BoxDecoration(
+                        
+                        border: Border.all(color: Colors.grey),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: Center(
+                        child: Text(
+                          _dateFrom == null
+                              ? 'Select Start Date'
+                              : DateFormat('yyyy-MM-dd').format(_dateFrom!),
+                        ),
+                      ),
+                    ),
+                  ),
+                  
+                ),
+                SizedBox(width: 16),
+                Expanded(
+                  child: GestureDetector(
+                    onTap: () => _selectDate(context, false),
+                    child: Container(
+                      padding: EdgeInsets.symmetric(vertical: 16),
+                      decoration: BoxDecoration(
+                        border: Border.all(color: Colors.grey),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: Center(
+                        child: Text(
+                          _dateTo == null
+                              ? 'Select End Date'
+                              : DateFormat('yyyy-MM-dd').format(_dateTo!),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            
+            
+            SizedBox(height: 20),
+            
+                  Center(
+              child: ElevatedButton(
+                onPressed: generateReport,
+                style: ButtonStyle(
+                  backgroundColor:
+                      MaterialStateProperty.all<Color>(Colors.green),
+                ),
+                child: Text('Generate Report', style: TextStyle(color: Colors.white)),
+              ),
+            )
+            
+          ],
+        ),
+      ),
+    );
+  }
 }
+
+
+

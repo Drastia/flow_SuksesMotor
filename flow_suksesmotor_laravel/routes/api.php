@@ -51,7 +51,7 @@ Route::prefix('orders')->group(function () {
 
 });
 
-Route::get('/report-data', [ReportController::class, 'getReportData']);
+Route::get('/report-data/{dateFrom}/{dateTo}', [ReportController::class, 'getReportData']);
 
 Route::middleware('auth:sactum')->get('/user',function (Request $request){
     return $request->user();
